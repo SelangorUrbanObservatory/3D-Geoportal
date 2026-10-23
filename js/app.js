@@ -1,3 +1,4 @@
+import { sync3DBuildings } from "./3d-buildings.js";
 import { BASEMAPS } from "./config.js";
 import {
   addPortalLayers,
@@ -290,6 +291,7 @@ map.on("style.load", async () => {
   try {
     await addPortalLayers(map);
     applyLayerRenderOrder(map);
+    sync3DBuildings(map, { enabled: layerState.buildings, mode: viewMode, basemap: document.getElementById("basemapSelect")?.value || "standard" });
 
     if (deepLinkPreset && !deepLinkApplied) {
       deepLinkApplied = true;
@@ -470,6 +472,8 @@ function setViewMode(mode) {
     );
   } catch (_) {}
 
+  sync3DBuildings(map, { enabled: layerState.buildings, mode, basemap: document.getElementById("basemapSelect")?.value || "standard" });
+
   document.getElementById("view2DBtn").classList.toggle("active", !is3D);
   document.getElementById("view3DBtn").classList.toggle("active", is3D);
   document.getElementById("left2DBtn").classList.toggle("active", !is3D);
@@ -629,6 +633,7 @@ document.getElementById("buildingToggle").addEventListener("change", (event) => 
     );
   } catch (_) {}
 
+  sync3DBuildings(map, { enabled: layerState.buildings, mode: viewMode, basemap: document.getElementById("basemapSelect")?.value || "standard" });
   updateLayerCount();
 });
 
