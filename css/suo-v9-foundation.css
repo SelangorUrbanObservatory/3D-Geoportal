@@ -181,3 +181,15 @@ html,body { color:var(--suo-ink); }
 .layer-catalog-filter-row button { min-width:36px; min-height:36px; border:1px solid var(--suo-border); border-radius:8px; background:var(--suo-surface-alt); color:var(--suo-brand-red); }
 .layer-catalog-filter small { display:block; margin-top:6px; color:var(--suo-ink-muted); }
 .enterprise-layer-list > .layer-category[hidden] { display:none !important; }
+
+/* v9.0.2 — visible layer-search entry point and unified SUO brand hierarchy */
+.brand-wrap { gap:12px; }
+.brand-wrap .eyebrow { color:#a6373b; font-size:10px; font-weight:800; letter-spacing:.105em; }
+.brand-wrap h1 { color:#332b27; font-weight:800; letter-spacing:-.025em; }
+.brand-wrap .geo-version { display:inline-block; padding:3px 7px; border:1px solid #e6d6c3; border-radius:999px; background:#fff5e5; color:#925036; font-size:11px; font-weight:700; vertical-align:middle; letter-spacing:0; }
+.brand-mark { background:#f4bd32; color:#4a310e; border-radius:12px; box-shadow:none; }
+#findLayersBtn { background:#fff1d9; border:1px solid #d9bc86; color:#863236; font-weight:750; }
+#findLayersBtn:hover { background:#f4bd32; color:#392b16; }
+.layer-catalog-filter { background:#fff4e4; border:1px solid #e6d6c3; border-radius:10px; padding:12px; margin:0 0 12px; }
+.layer-catalog-filter label { font-size:13px; }
+@media(max-width:760px) { #findLayersBtn { font-size:12px; } .brand-wrap h1 { font-size:17px; } }
