@@ -1,0 +1,44 @@
+/* SUO GeoPortal v9 Phase 1 — non-destructive visual foundation.
+   This file intentionally loads after styles.css and only changes interface
+   surfaces, typography, contrast and focus. GIS canvas symbology untouched. */
+:root {
+  --suo-canvas:#fff9f2;
+  --suo-surface:#fffdf9;
+  --suo-surface-alt:#fff4e4;
+  --suo-border:#e6d6c3;
+  --suo-ink:#302b29;
+  --suo-ink-muted:#625953;
+  --suo-brand-red:#a6373b;
+  --suo-brand-yellow:#f4bd32;
+  --suo-focus:#a6373b;
+}
+html,body { color:var(--suo-ink); }
+.sidebar { background:var(--suo-canvas); }
+.panel { background:var(--suo-surface); border-color:var(--suo-border); }
+.panel h2,.panel h3,.panel strong,.layer-copy strong { color:var(--suo-ink); }
+.muted,.layer-copy small,.panel small { color:var(--suo-ink-muted); }
+.section-label,.eyebrow { color:var(--suo-brand-red); }
+.sidebar-collapse-bar,.left-collapse-bar,.right-collapse-bar {
+  background:var(--suo-surface-alt) !important;
+  border-color:var(--suo-border) !important;
+  color:var(--suo-brand-red) !important;
+}
+.sidebar-collapse-bar span,.sidebar-collapse-bar button {
+  color:var(--suo-brand-red) !important;
+}
+:is(.left-sidebar,.right-sidebar) :is(input:not([type="checkbox"]),select,textarea) {
+  color:var(--suo-ink) !important;
+  background:var(--suo-surface) !important;
+  border-color:var(--suo-border) !important;
+}
+:is(.left-sidebar,.right-sidebar) input::placeholder { color:#796e66; opacity:1; }
+:is(button,input,select,textarea,a):focus-visible {
+  outline:3px solid var(--suo-focus) !important;
+  outline-offset:2px;
+}
+:is(.left-sidebar,.right-sidebar) :is(button,a) {
+  text-underline-offset:3px;
+}
+@media (prefers-reduced-motion:reduce) {
+  .panel,button,.sidebar,.loading-screen { transition-duration:0.01ms !important; }
+}
