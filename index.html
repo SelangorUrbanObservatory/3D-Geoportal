@@ -78,6 +78,11 @@
 </div>
 <button class="mini-btn" id="toggleAllLayers" type="button">Semua</button>
 </div>
+<div class="layer-catalog-filter">
+<label for="layerFilterInput">Tapis kategori layer</label>
+<div class="layer-catalog-filter-row"><input id="layerFilterInput" type="search" autocomplete="off" placeholder="Contoh: pendidikan, banjir, rel..." aria-describedby="layerFilterStatus"/><button id="layerFilterClear" type="button" hidden aria-label="Kosongkan tapisan layer">✕</button></div>
+<small id="layerFilterStatus" role="status" aria-live="polite"></small>
+</div>
 <div class="layer-list enterprise-layer-list">
 <section class="layer-category">
 <button aria-expanded="true" class="layer-category-header" data-layer-category="urbanHierarchy" type="button">
@@ -1456,5 +1461,6 @@
   );
 })();
 </script>
+<script defer src="js/layer-catalog-filter.js?v=9.0.1"></script>
 </body>
 </html>
