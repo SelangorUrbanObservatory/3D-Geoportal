@@ -89,3 +89,86 @@ html,body { color:var(--suo-ink); }
   .header-actions .header-btn { min-height:40px; }
   .sidebar .panel { margin-bottom:10px; }
 }
+
+/* Phase 1C: Flood & Weather Intelligence — full light surface and contrast.
+   Scoped to intelligence UI; map layers, hazard levels and live-data logic unchanged. */
+:is(.flood-panel,.weather-panel){
+  background:#fffaf3 !important;
+  color:#302b29 !important;
+  border:1px solid #e4d3bd !important;
+  box-shadow:0 18px 55px rgba(65,45,30,.17) !important;
+}
+:is(.flood-panel-header,.weather-panel-header){
+  background:#fff1d9 !important;
+  border-bottom:1px solid #e5d2b6 !important;
+  color:#302b29 !important;
+}
+:is(.flood-panel-header,.weather-panel-header) :is(h2,p),
+:is(.flood-panel,.weather-panel) :is(h2,h3,h4,strong,b){
+  color:#302b29 !important;
+}
+:is(.flood-panel,.weather-panel) :is(p,small,.flood-source-note,.weather-source-note){
+  color:#665b52 !important;
+}
+:is(.flood-panel-actions,.weather-panel-actions) button{
+  background:#fffdf9 !important;
+  color:#8c3337 !important;
+  border:1px solid #dcc7ac !important;
+}
+:is(.flood-panel-actions,.weather-panel-actions) button:hover{
+  background:#f4bd32 !important;
+  color:#392b16 !important;
+}
+:is(.flood-summary-card,.flood-section,.flood-rain-row,.flood-warning-card,
+    .flood-resource-card,.flood-static-placeholder,.flood-disclaimer,
+    .weather-current-card,.weather-section,.weather-hour-card,.weather-day-card,
+    .weather-radar-card,.weather-warning-card,.weather-warning-empty){
+  background:#fffdf9 !important;
+  border-color:#e5d5c1 !important;
+  color:#302b29 !important;
+}
+:is(.flood-summary-card,.flood-section,.flood-rain-row,.flood-warning-card,
+    .flood-resource-card,.flood-static-placeholder,.flood-disclaimer,
+    .weather-current-card,.weather-section,.weather-hour-card,.weather-day-card,
+    .weather-radar-card,.weather-warning-card,.weather-warning-empty)
+    :is(span,small,p,em){
+  color:#665b52 !important;
+}
+:is(.flood-section-heading,.weather-section-heading){
+  border-bottom-color:#e9d9c6 !important;
+}
+:is(.flood-section-heading,.weather-section-heading) h3{
+  color:#9b373b !important;
+}
+:is(.flood-section-heading,.weather-section-heading) > span{
+  color:#75695e !important;
+}
+:is(.flood-rain-ranking,.weather-hourly-list,.weather-daily-list,
+    .flood-warning-list,.weather-warning-list){
+  scrollbar-color:#c9ae87 #fff5e7;
+}
+.flood-rain-rank{background:#e3f2fb !important;color:#164b69 !important}
+.flood-rain-value b,.weather-current-main strong,.weather-current-grid strong{
+  color:#302b29 !important;
+}
+:is(.flood-loading,.flood-error,.weather-loading,.weather-error,
+    .flood-warning-empty,.flood-source-note,.weather-source-note){
+  background:#fff6e8 !important;
+  border-color:#e5d5c1 !important;
+  color:#665b52 !important;
+}
+:is(.flood-resource-actions a,.weather-radar-card a,
+    .weather-parameter-grid button){
+  background:#fff1d9 !important;
+  color:#8c3337 !important;
+  border-color:#e4ca9d !important;
+}
+.weather-parameter-grid button.active,.weather-parameter-grid button:hover{
+  background:#f4bd32 !important;
+  color:#392b16 !important;
+}
+:is(.flood-panel,.weather-panel) :is(input,select,textarea){
+  background:#fffdf9 !important;
+  color:#302b29 !important;
+  border-color:#dcc7ac !important;
+}
