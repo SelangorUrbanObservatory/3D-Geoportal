@@ -1,0 +1,174 @@
+/* SUO GeoPortal v9 Phase 1 — non-destructive visual foundation.
+   This file intentionally loads after styles.css and only changes interface
+   surfaces, typography, contrast and focus. GIS canvas symbology untouched. */
+:root {
+  --suo-canvas:#fff9f2;
+  --suo-surface:#fffdf9;
+  --suo-surface-alt:#fff4e4;
+  --suo-border:#e6d6c3;
+  --suo-ink:#302b29;
+  --suo-ink-muted:#625953;
+  --suo-brand-red:#a6373b;
+  --suo-brand-yellow:#f4bd32;
+  --suo-focus:#a6373b;
+}
+html,body { color:var(--suo-ink); }
+.sidebar { background:var(--suo-canvas); }
+.panel { background:var(--suo-surface); border-color:var(--suo-border); }
+.panel h2,.panel h3,.panel strong,.layer-copy strong { color:var(--suo-ink); }
+.muted,.layer-copy small,.panel small { color:var(--suo-ink-muted); }
+.section-label,.eyebrow { color:var(--suo-brand-red); }
+.sidebar-collapse-bar,.left-collapse-bar,.right-collapse-bar {
+  background:var(--suo-surface-alt) !important;
+  border-color:var(--suo-border) !important;
+  color:var(--suo-brand-red) !important;
+}
+.sidebar-collapse-bar span,.sidebar-collapse-bar button {
+  color:var(--suo-brand-red) !important;
+}
+:is(.left-sidebar,.right-sidebar) :is(input:not([type="checkbox"]),select,textarea) {
+  color:var(--suo-ink) !important;
+  background:var(--suo-surface) !important;
+  border-color:var(--suo-border) !important;
+}
+:is(.left-sidebar,.right-sidebar) input::placeholder { color:#796e66; opacity:1; }
+:is(button,input,select,textarea,a):focus-visible {
+  outline:3px solid var(--suo-focus) !important;
+  outline-offset:2px;
+}
+:is(.left-sidebar,.right-sidebar) :is(button,a) {
+  text-underline-offset:3px;
+}
+@media (prefers-reduced-motion:reduce) {
+  .panel,button,.sidebar,.loading-screen { transition-duration:0.01ms !important; }
+}
+
+/* Phase 1B — navigation hierarchy, touch targets and readable panels.
+   No DOM relocation: JS listeners and existing element IDs remain intact. */
+.app-header { border-bottom:1px solid var(--suo-border); }
+.header-actions { gap:8px; }
+.header-actions .header-btn { min-height:36px; border-radius:9px; }
+.left-sidebar,.right-sidebar { scrollbar-gutter:stable; }
+.sidebar .panel { margin-bottom:12px; border-radius:12px; }
+.sidebar .panel-heading { gap:8px; }
+.sidebar .panel-heading h2 { line-height:1.25; }
+.sidebar .section-label { letter-spacing:.08em; font-weight:750; }
+.layer-category {
+  overflow:hidden;
+  border:1px solid var(--suo-border);
+  border-radius:10px;
+  background:var(--suo-surface);
+}
+.layer-category + .layer-category { margin-top:8px; }
+.layer-category-header {
+  min-height:44px;
+  width:100%;
+  border-radius:9px;
+  text-align:left;
+}
+.layer-category-header:focus-visible { position:relative; z-index:2; }
+.layer-category-header[aria-expanded="true"] {
+  background:var(--suo-surface-alt);
+  border-bottom:1px solid var(--suo-border);
+}
+.layer-category-header strong { color:var(--suo-ink); }
+.layer-category-header small { color:var(--suo-ink-muted); }
+.layer-category-content { padding:5px 6px 8px; }
+.layer-item { min-height:40px; border-radius:8px; }
+.layer-item input[type="checkbox"] { min-width:16px; min-height:16px; accent-color:var(--suo-brand-red); }
+.layer-expand-btn { min-width:30px; min-height:32px; }
+.layer-legend-panel {
+  background:var(--suo-surface-alt);
+  border:1px solid var(--suo-border);
+  border-radius:8px;
+}
+.search-form input[type="search"] { min-height:38px; }
+.smart-search-hint { line-height:1.45; }
+@media(max-width:900px) {
+  .header-actions { gap:5px; }
+  .header-actions .header-btn { min-height:40px; }
+  .sidebar .panel { margin-bottom:10px; }
+}
+
+/* Phase 1C: Flood & Weather Intelligence — full light surface and contrast.
+   Scoped to intelligence UI; map layers, hazard levels and live-data logic unchanged. */
+:is(.flood-panel,.weather-panel){
+  background:#fffaf3 !important;
+  color:#302b29 !important;
+  border:1px solid #e4d3bd !important;
+  box-shadow:0 18px 55px rgba(65,45,30,.17) !important;
+}
+:is(.flood-panel-header,.weather-panel-header){
+  background:#fff1d9 !important;
+  border-bottom:1px solid #e5d2b6 !important;
+  color:#302b29 !important;
+}
+:is(.flood-panel-header,.weather-panel-header) :is(h2,p),
+:is(.flood-panel,.weather-panel) :is(h2,h3,h4,strong,b){
+  color:#302b29 !important;
+}
+:is(.flood-panel,.weather-panel) :is(p,small,.flood-source-note,.weather-source-note){
+  color:#665b52 !important;
+}
+:is(.flood-panel-actions,.weather-panel-actions) button{
+  background:#fffdf9 !important;
+  color:#8c3337 !important;
+  border:1px solid #dcc7ac !important;
+}
+:is(.flood-panel-actions,.weather-panel-actions) button:hover{
+  background:#f4bd32 !important;
+  color:#392b16 !important;
+}
+:is(.flood-summary-card,.flood-section,.flood-rain-row,.flood-warning-card,
+    .flood-resource-card,.flood-static-placeholder,.flood-disclaimer,
+    .weather-current-card,.weather-section,.weather-hour-card,.weather-day-card,
+    .weather-radar-card,.weather-warning-card,.weather-warning-empty){
+  background:#fffdf9 !important;
+  border-color:#e5d5c1 !important;
+  color:#302b29 !important;
+}
+:is(.flood-summary-card,.flood-section,.flood-rain-row,.flood-warning-card,
+    .flood-resource-card,.flood-static-placeholder,.flood-disclaimer,
+    .weather-current-card,.weather-section,.weather-hour-card,.weather-day-card,
+    .weather-radar-card,.weather-warning-card,.weather-warning-empty)
+    :is(span,small,p,em){
+  color:#665b52 !important;
+}
+:is(.flood-section-heading,.weather-section-heading){
+  border-bottom-color:#e9d9c6 !important;
+}
+:is(.flood-section-heading,.weather-section-heading) h3{
+  color:#9b373b !important;
+}
+:is(.flood-section-heading,.weather-section-heading) > span{
+  color:#75695e !important;
+}
+:is(.flood-rain-ranking,.weather-hourly-list,.weather-daily-list,
+    .flood-warning-list,.weather-warning-list){
+  scrollbar-color:#c9ae87 #fff5e7;
+}
+.flood-rain-rank{background:#e3f2fb !important;color:#164b69 !important}
+.flood-rain-value b,.weather-current-main strong,.weather-current-grid strong{
+  color:#302b29 !important;
+}
+:is(.flood-loading,.flood-error,.weather-loading,.weather-error,
+    .flood-warning-empty,.flood-source-note,.weather-source-note){
+  background:#fff6e8 !important;
+  border-color:#e5d5c1 !important;
+  color:#665b52 !important;
+}
+:is(.flood-resource-actions a,.weather-radar-card a,
+    .weather-parameter-grid button){
+  background:#fff1d9 !important;
+  color:#8c3337 !important;
+  border-color:#e4ca9d !important;
+}
+.weather-parameter-grid button.active,.weather-parameter-grid button:hover{
+  background:#f4bd32 !important;
+  color:#392b16 !important;
+}
+:is(.flood-panel,.weather-panel) :is(input,select,textarea){
+  background:#fffdf9 !important;
+  color:#302b29 !important;
+  border-color:#dcc7ac !important;
+}
