@@ -8,7 +8,7 @@
 <title>SUO GeoPortal v8.1</title>
 <link href="https://cdn.jsdelivr.net/npm/mapbox-gl@3.25.0/dist/mapbox-gl.css" id="mapboxCss" rel="stylesheet"/>
 <link href="styles.css?v=8.1" rel="stylesheet"/>
-<link href="css/suo-v9-foundation.css?v=9.0.0-alpha1" rel="stylesheet"/>
+<link href="css/suo-v9-foundation.css?v=9.0.2" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen">
@@ -22,13 +22,14 @@
 <header class="app-header">
 <div class="brand-wrap">
 <button aria-label="Buka menu" class="icon-btn mobile-only" id="mobileMenuBtn" type="button">☰</button>
-<div class="brand-mark">SUO</div>
+<div class="brand-mark" aria-hidden="true">SUO</div>
 <div>
-<p class="eyebrow">SELANGOR URBAN OBSERVATORY</p>
-<h1>GeoPortal <span>v8.1</span></h1>
+<p class="eyebrow">SELANGOR URBAN OBSERVATORY (SUO)</p>
+<h1>3D GeoPortal <span class="geo-version">v9.0</span></h1>
 </div>
 </div>
 <div class="header-actions">
+<button class="header-btn secondary" id="findLayersBtn" type="button" title="Cari kategori layer">⌕ Cari Layer</button>
 <button class="header-btn" id="splitBtn" type="button">◫ Split Screen</button>
 <button class="header-btn secondary" id="tourBtn" type="button">▶ Urban Tour</button>
 <button class="header-btn secondary" id="focusMapBtn" type="button">▣ Focus Map</button>
@@ -78,7 +79,7 @@
 </div>
 <button class="mini-btn" id="toggleAllLayers" type="button">Semua</button>
 </div>
-<div class="layer-catalog-filter">
+<div class="layer-catalog-filter" id="layerCatalogFilter">
 <label for="layerFilterInput">Tapis kategori layer</label>
 <div class="layer-catalog-filter-row"><input id="layerFilterInput" type="search" autocomplete="off" placeholder="Contoh: pendidikan, banjir, rel..." aria-describedby="layerFilterStatus"/><button id="layerFilterClear" type="button" hidden aria-label="Kosongkan tapisan layer">✕</button></div>
 <small id="layerFilterStatus" role="status" aria-live="polite"></small>
@@ -1461,6 +1462,6 @@
   );
 })();
 </script>
-<script defer src="js/layer-catalog-filter.js?v=9.0.1"></script>
+<script defer src="js/layer-catalog-filter.js?v=9.0.2"></script>
 </body>
 </html>
