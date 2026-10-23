@@ -5,7 +5,8 @@ const LAYER_ID = "suo-buildings-extrusion";
 const VECTOR_URL = "mapbox://mapbox.mapbox-streets-v8";
 
 export function sync3DBuildings(map, { enabled = true, mode = "3d", basemap = "standard", prefix = "" } = {}) {
-  if (!map || !map.isStyleLoaded()) return;
+  // style.load fires before all source tiles are loaded; isStyleLoaded() can still be false.
+  if (!map || !map.getStyle()?.layers) return;
   const id = prefix + LAYER_ID;
   const sourceId = prefix + SOURCE_ID;
   const independent = basemap !== "standard";
@@ -25,13 +26,13 @@ export function sync3DBuildings(map, { enabled = true, mode = "3d", basemap = "s
       type: "fill-extrusion",
       source: sourceId,
       "source-layer": "building",
-      minzoom: 12,
+      minzoom: 11,
       filter: ["==", ["get", "extrude"], "true"],
       layout: { visibility: visible ? "visible" : "none" },
       paint: {
         "fill-extrusion-color": "#d7c8b5",
-        "fill-extrusion-height": ["coalesce", ["to-number", ["get", "height"]], 0],
-        "fill-extrusion-base": ["coalesce", ["to-number", ["get", "min_height"]], 0],
+        "fill-extrusion-height": ["max", 3, ["to-number", ["get", "height"], 8]],
+        "fill-extrusion-base": ["to-number", ["get", "min_height"], 0],
         "fill-extrusion-opacity": 0.83,
         "fill-extrusion-vertical-gradient": true
       }
