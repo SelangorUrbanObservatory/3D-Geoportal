@@ -172,3 +172,12 @@ html,body { color:var(--suo-ink); }
   color:#302b29 !important;
   border-color:#dcc7ac !important;
 }
+
+/* v9.0.1 searchable layer catalogue */
+.layer-catalog-filter { padding:10px 0 12px; }
+.layer-catalog-filter label { display:block; margin-bottom:6px; font-size:12px; font-weight:700; color:var(--suo-ink); }
+.layer-catalog-filter-row { display:flex; gap:6px; align-items:center; }
+.layer-catalog-filter-row input { min-width:0; flex:1; min-height:38px; padding:8px 10px; border:1px solid var(--suo-border); border-radius:8px; background:var(--suo-surface); color:var(--suo-ink); }
+.layer-catalog-filter-row button { min-width:36px; min-height:36px; border:1px solid var(--suo-border); border-radius:8px; background:var(--suo-surface-alt); color:var(--suo-brand-red); }
+.layer-catalog-filter small { display:block; margin-top:6px; color:var(--suo-ink-muted); }
+.enterprise-layer-list > .layer-category[hidden] { display:none !important; }
