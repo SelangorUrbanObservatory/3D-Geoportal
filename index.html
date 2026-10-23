@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="SUO GeoPortal v8.0.5F - Prototaip Selangor Urban Observatory menggunakan Mapbox GL JS." name="description"/>
-<title>SUO GeoPortal v8.1</title>
+<title>SUO 3D GeoPortal v9.1</title>
 <link href="https://cdn.jsdelivr.net/npm/mapbox-gl@3.25.0/dist/mapbox-gl.css" id="mapboxCss" rel="stylesheet"/>
 <link href="styles.css?v=8.1" rel="stylesheet"/>
 <link href="css/suo-v9-foundation.css?v=9.0.3" rel="stylesheet"/>
@@ -25,12 +25,12 @@
 <img class="brand-logo" src="assets/logo-suo.png?v=9.0.3" alt="Logo rasmi Selangor Urban Observatory" width="56" height="56"/>
 <div>
 <p class="eyebrow">SELANGOR URBAN OBSERVATORY (SUO)</p>
-<h1>3D GeoPortal <span class="geo-version">v9.0</span></h1>
+<h1>3D GeoPortal <span class="geo-version">v9.1</span></h1>
 </div>
 </div>
 <div class="header-actions">
 <button class="header-btn secondary" id="findLayersBtn" type="button" title="Cari kategori layer">⌕ Cari Layer</button>
-<a class="header-btn secondary" href="./cesium-osm-prototype.html" target="_blank" rel="noopener" title="Buka prototaip Cesium berasingan" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">◈ Cesium 3D (Beta)</a>
+<label class="engine-switcher" for="suoEngineSelect">3D Engine <select id="suoEngineSelect" aria-label="Pilih enjin 3D"><option value="mapbox">Mapbox 3D</option><option value="cesium">Cesium 3D (Beta)</option></select></label>
 <button class="header-btn" id="splitBtn" type="button">◫ Split Screen</button>
 <button class="header-btn secondary" id="tourBtn" type="button">▶ Urban Tour</button>
 <button class="header-btn secondary" id="focusMapBtn" type="button">▣ Focus Map</button>
@@ -531,6 +531,7 @@
 </aside>
 <main class="map-shell">
 <div class="split-map split-map-left" id="map"></div>
+<div id="suoCesiumHost" hidden><iframe id="suoCesiumFrame" title="SUO Cesium 3D" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
 <div aria-label="Peta perbandingan" class="split-map split-map-right" id="compareMap"></div>
 <div aria-hidden="true" class="split-divider" id="splitDivider"></div>
 <div class="map-top-tools">
@@ -1464,5 +1465,7 @@
 })();
 </script>
 <script defer src="js/layer-catalog-filter.js?v=9.0.2"></script>
+<script defer src="js/engine-switcher.js?v=9.1.0"></script>
+<link rel="stylesheet" href="css/engine-switcher.css?v=9.1.0">
 </body>
 </html>
