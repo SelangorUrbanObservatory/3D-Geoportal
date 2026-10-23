@@ -1,3 +1,4 @@
+import { sync3DBuildings } from "./3d-buildings.js";
 import { MAPBOX_TOKEN, BASEMAPS } from "./config.js";
 import {
   addPortalLayers,
@@ -579,6 +580,12 @@ export class CompareEngine {
     this.applyLayerState(side);
     this.applyBasemapLabels(side);
     this.applyTerrain(side);
+    sync3DBuildings(map, {
+      enabled: layerState.buildings,
+      mode: this.state[side].mode,
+      basemap: this.state[side].basemap,
+      prefix
+    });
 
     window.dispatchEvent(new CustomEvent(
       "suo:compare-map-ready",
@@ -676,6 +683,12 @@ export class CompareEngine {
         is3D
       );
     } catch (_) {}
+    sync3DBuildings(map, {
+      enabled: layerState.buildings,
+      mode: this.state[side].mode,
+      basemap: this.state[side].basemap,
+      prefix: this.prefixFor(side)
+    });
   }
 
   applyLayerState(side) {
