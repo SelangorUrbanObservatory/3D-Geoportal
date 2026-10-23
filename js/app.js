@@ -1,3 +1,4 @@
+import { BASEMAPS } from "./config.js";
 import {
   addPortalLayers,
   applyLayerVisibility,
@@ -488,7 +489,19 @@ document.getElementById("left3DBtn")
   .addEventListener("click", () => setViewMode("3d"));
 
 document.getElementById("basemapSelect").addEventListener("change", (event) => {
-  map.setStyle(BASEMAPS[event.target.value]);
+  const selected = event.target.value;
+  const style = BASEMAPS[selected];
+  if (!style) {
+    showStartupWarning("Pilihan basemap tidak dikenali.");
+    return;
+  }
+  // The existing style.load handler restores SUO GIS layers after setStyle.
+  try {
+    map.setStyle(style);
+  } catch (error) {
+    console.error("Pertukaran basemap gagal:", error);
+    showStartupWarning("Basemap gagal ditukar. Sila cuba pilihan lain.");
+  }
 });
 
 document.getElementById("cityHierarchyToggle").addEventListener("change", (event) => {
