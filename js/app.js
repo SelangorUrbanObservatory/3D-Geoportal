@@ -34,6 +34,7 @@ import {
 } from "./cadastral.js";
 
 const map = createMainMap();
+window.__SUO_MAIN_MAP__ = map;
 
 const compare = new CompareEngine(map);
 const comparePanelUI = new ComparePanelUI();
