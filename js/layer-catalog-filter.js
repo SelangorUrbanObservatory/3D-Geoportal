@@ -25,5 +25,15 @@
   input.addEventListener("keydown", event => {
     if (event.key === "Escape" && input.value) { input.value = ""; filter(); }
   });
+  const jump = document.getElementById("findLayersBtn");
+  if (jump) jump.addEventListener("click", () => {
+    const sidebar = document.getElementById("leftSidebar");
+    const reopen = document.getElementById("openLeftPanelTab");
+    if (sidebar && (sidebar.hidden || sidebar.classList.contains("collapsed") || sidebar.classList.contains("closed"))) {
+      reopen?.click();
+    }
+    input.scrollIntoView({ behavior: "smooth", block: "center" });
+    window.setTimeout(() => input.focus({ preventScroll: true }), 180);
+  });
   filter();
 })();
