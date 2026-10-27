@@ -27,7 +27,7 @@ import { createMainMap } from "./core/map-engine.js";
 import { WorkspaceController } from "./ui/workspace-controller.js";
 import {
   initializeIntelligenceHub
-} from "./intelligence/intelligence-hub.js?v=9.6.6";
+} from "./intelligence/intelligence-hub.js?v=9.6.9";
 import {
   addCadastralLayer,
   cadastralPopupHtml,
