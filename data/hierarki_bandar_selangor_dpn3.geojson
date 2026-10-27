@@ -1,0 +1,887 @@
+{
+  "type": "FeatureCollection",
+  "name": "Hierarki_Bandar_Selangor_DPN3",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "metadata": {
+    "title": "Senarai Bandar Selangor – DPN3 (semakan awal)",
+    "policy": "Dasar Perbandaran Negara Ketiga (DPN3)",
+    "status": "pre-publication-crosscheck",
+    "official_only": false,
+    "total_cities": 33,
+    "tier_counts": {
+      "Tier 1": 7,
+      "Tier 2": 3,
+      "Tier 3": 23
+    },
+    "source_file": "data/hierarki_bandar_selangor_dpn3.geojson",
+    "source_page": "https://myplan.planmalaysia.gov.my/portal-main/publication-details?id=72",
+    "hierarchy_reference": "Salinan lampiran Senarai Bandar DPN3 (Scribd, bukan salinan berautentikasi); semakan akhir dengan terbitan rasmi MyPLAN bertarikh 30 Oktober 2026 diperlukan.",
+    "coordinates_reference": "Titik rujukan DPN2 sedia ada, JUPEM MyGeoName Selangor 2022 dan OSM/Mapcarta; tidak mewakili polygon atau sempadan bandar.",
+    "note": "Data DPN3 digunakan untuk visualisasi awal 33 bandar. Semakan akhir terhadap dokumen rasmi DPN3 masih diperlukan dan tidak mengubah RS Negeri Selangor 2035 (Pengubahan) yang merujuk DPN2."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": 1,
+      "properties": {
+        "id": 1,
+        "nama_bandar": "Shah Alam",
+        "label": "Shah Alam",
+        "hierarki": "Tier 1",
+        "tier": 1,
+        "tier_code": "T1",
+        "daerah": "Petaling",
+        "pbt": "MBSA",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.532,
+          3.0738
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2,
+      "properties": {
+        "id": 2,
+        "nama_bandar": "Petaling Jaya",
+        "label": "Petaling Jaya",
+        "hierarki": "Tier 1",
+        "tier": 1,
+        "tier_code": "T1",
+        "daerah": "Petaling",
+        "pbt": "MBPJ",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.6444,
+          3.1073
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3,
+      "properties": {
+        "id": 3,
+        "nama_bandar": "Subang Jaya",
+        "label": "Subang Jaya",
+        "hierarki": "Tier 1",
+        "tier": 1,
+        "tier_code": "T1",
+        "daerah": "Petaling",
+        "pbt": "MBSJ",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.5851,
+          3.0567
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 4,
+      "properties": {
+        "id": 4,
+        "nama_bandar": "Klang",
+        "label": "Klang",
+        "hierarki": "Tier 1",
+        "tier": 1,
+        "tier_code": "T1",
+        "daerah": "Klang",
+        "pbt": "MBDK",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.4496,
+          3.0449
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 5,
+      "properties": {
+        "id": 5,
+        "nama_bandar": "Ampang Jaya",
+        "label": "Ampang Jaya",
+        "hierarki": "Tier 1",
+        "tier": 1,
+        "tier_code": "T1",
+        "daerah": "Gombak / Hulu Langat",
+        "pbt": "MPAJ",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.7632,
+          3.1491
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 6,
+      "properties": {
+        "id": 6,
+        "nama_bandar": "Kajang",
+        "label": "Kajang",
+        "hierarki": "Tier 1",
+        "tier": 1,
+        "tier_code": "T1",
+        "daerah": "Hulu Langat",
+        "pbt": "MPKJ",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.7909,
+          2.9935
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 7,
+      "properties": {
+        "id": 7,
+        "nama_bandar": "Selayang",
+        "label": "Selayang",
+        "hierarki": "Tier 1",
+        "tier": 1,
+        "tier_code": "T1",
+        "daerah": "Gombak",
+        "pbt": "MPS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.6538,
+          3.2543
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 8,
+      "properties": {
+        "id": 8,
+        "nama_bandar": "Bukit Beruntung",
+        "label": "Bukit Beruntung",
+        "hierarki": "Tier 2",
+        "tier": 2,
+        "tier_code": "T2",
+        "daerah": "Hulu Selangor",
+        "pbt": "MPHS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.56028,
+          3.43222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 9,
+      "properties": {
+        "id": 9,
+        "nama_bandar": "Banting",
+        "label": "Banting",
+        "hierarki": "Tier 2",
+        "tier": 2,
+        "tier_code": "T2",
+        "daerah": "Kuala Langat",
+        "pbt": "MPKL",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.5037,
+          2.8136
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 10,
+      "properties": {
+        "id": 10,
+        "nama_bandar": "Rawang",
+        "label": "Rawang",
+        "hierarki": "Tier 2",
+        "tier": 2,
+        "tier_code": "T2",
+        "daerah": "Gombak",
+        "pbt": "MPS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.5767,
+          3.3213
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11,
+      "properties": {
+        "id": 11,
+        "nama_bandar": "Kuala Kubu Bharu",
+        "label": "Kuala Kubu Bharu",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Hulu Selangor",
+        "pbt": "MPHS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.656,
+          3.5652
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 12,
+      "properties": {
+        "id": 12,
+        "nama_bandar": "Batang Kali",
+        "label": "Batang Kali",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Hulu Selangor",
+        "pbt": "MPHS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "OpenStreetMap/Mapcarta",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.65502,
+          3.4624
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13,
+      "properties": {
+        "id": 13,
+        "nama_bandar": "Hulu Bernam",
+        "label": "Hulu Bernam",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Hulu Selangor",
+        "pbt": "MPHS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "OpenStreetMap/Mapcarta",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.52225,
+          3.67043
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 14,
+      "properties": {
+        "id": 14,
+        "nama_bandar": "Bandar Saujana Utama",
+        "label": "Bandar Saujana Utama",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Kuala Selangor",
+        "pbt": "MPKS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "OpenStreetMap/Mapcarta",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.4803,
+          3.2063
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 15,
+      "properties": {
+        "id": 15,
+        "nama_bandar": "Bestari Jaya",
+        "label": "Bestari Jaya",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Kuala Selangor",
+        "pbt": "MPKS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.40414,
+          3.37803
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 16,
+      "properties": {
+        "id": 16,
+        "nama_bandar": "Ijok",
+        "label": "Ijok",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Kuala Selangor",
+        "pbt": "MPKS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "OpenStreetMap/Mapcarta",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.4166,
+          3.3139
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 17,
+      "properties": {
+        "id": 17,
+        "nama_bandar": "Kuala Selangor",
+        "label": "Kuala Selangor",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Kuala Selangor",
+        "pbt": "MPKS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.2524,
+          3.3377
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 18,
+      "properties": {
+        "id": 18,
+        "nama_bandar": "Puncak Alam",
+        "label": "Puncak Alam",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Kuala Selangor",
+        "pbt": "MPKS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "OpenStreetMap/Mapcarta",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.42793,
+          3.2389
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 19,
+      "properties": {
+        "id": 19,
+        "nama_bandar": "Tanjong Karang",
+        "label": "Tanjong Karang",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Kuala Selangor",
+        "pbt": "MPKS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.1701,
+          3.4244
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 20,
+      "properties": {
+        "id": 20,
+        "nama_bandar": "Sabak Bernam",
+        "label": "Sabak Bernam",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Sabak Bernam",
+        "pbt": "MDSB",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.9879,
+          3.7697
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 21,
+      "properties": {
+        "id": 21,
+        "nama_bandar": "Sekinchan",
+        "label": "Sekinchan",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Sabak Bernam",
+        "pbt": "MDSB",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "OpenStreetMap/Mapcarta",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.10268,
+          3.50643
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 22,
+      "properties": {
+        "id": 22,
+        "nama_bandar": "Sungai Besar",
+        "label": "Sungai Besar",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Sabak Bernam",
+        "pbt": "MDSB",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.9867,
+          3.6746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 23,
+      "properties": {
+        "id": 23,
+        "nama_bandar": "Kapar",
+        "label": "Kapar",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Klang",
+        "pbt": "MBDK",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.37692,
+          3.13692
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 24,
+      "properties": {
+        "id": 24,
+        "nama_bandar": "Meru",
+        "label": "Meru",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Klang",
+        "pbt": "MBDK",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.43736,
+          3.13356
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 25,
+      "properties": {
+        "id": 25,
+        "nama_bandar": "Pulau Indah",
+        "label": "Pulau Indah",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Klang",
+        "pbt": "MBDK",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.32908,
+          2.94442
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 26,
+      "properties": {
+        "id": 26,
+        "nama_bandar": "Bandar Saujana Putra",
+        "label": "Bandar Saujana Putra",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Kuala Langat",
+        "pbt": "MPKL",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.58222,
+          2.95361
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 27,
+      "properties": {
+        "id": 27,
+        "nama_bandar": "Tanjong Sepat",
+        "label": "Tanjong Sepat",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Kuala Langat",
+        "pbt": "MPKL",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "OpenStreetMap/Mapcarta",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.56291,
+          2.65994
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 28,
+      "properties": {
+        "id": 28,
+        "nama_bandar": "Batu Arang",
+        "label": "Batu Arang",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Gombak",
+        "pbt": "MPS",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.47472,
+          3.31239
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 29,
+      "properties": {
+        "id": 29,
+        "nama_bandar": "Bandar Baru Salak Tinggi",
+        "label": "Bandar Baru Salak Tinggi",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Sepang",
+        "pbt": "MPSp",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.73033,
+          2.81575
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 30,
+      "properties": {
+        "id": 30,
+        "nama_bandar": "Cyberjaya",
+        "label": "Cyberjaya",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Sepang",
+        "pbt": "MPSp",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.6482,
+          2.9213
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 31,
+      "properties": {
+        "id": 31,
+        "nama_bandar": "Dengkil",
+        "label": "Dengkil",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Sepang",
+        "pbt": "MPSp",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.67906,
+          2.85883
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 32,
+      "properties": {
+        "id": 32,
+        "nama_bandar": "Sepang",
+        "label": "Sepang",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Sepang",
+        "pbt": "MPSp",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.7495,
+          2.6931
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 33,
+      "properties": {
+        "id": 33,
+        "nama_bandar": "Sungai Pelek",
+        "label": "Sungai Pelek",
+        "hierarki": "Tier 3",
+        "tier": 3,
+        "tier_code": "T3",
+        "daerah": "Sepang",
+        "pbt": "MPSp",
+        "negeri": "Selangor",
+        "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
+        "tahun_dasar": 2026,
+        "koordinat_sumber": "JUPEM MyGeoName Selangor 2022 (Kg. Baharu Sungai Pelek)",
+        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.71264,
+          2.64167
+        ]
+      }
+    }
+  ]
+}
