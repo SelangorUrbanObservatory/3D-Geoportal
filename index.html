@@ -9,15 +9,18 @@
 <link href="https://cdn.jsdelivr.net/npm/mapbox-gl@3.25.0/dist/mapbox-gl.css" id="mapboxCss" rel="stylesheet"/>
 <link href="styles.css?v=8.1" rel="stylesheet"/>
 <link href="css/suo-v9-foundation.css?v=9.0.3" rel="stylesheet"/>
+<link href="css/suo-loading-brand.css?v=1.0" rel="stylesheet"/>
 </head>
 <body>
-<div class="loading-screen" id="loadingScreen">
-<div class="loader-ring"></div>
-<div>
-<p class="loading-kicker">SELANGOR URBAN OBSERVATORY</p>
-<h1>SUO GeoPortal</h1>
-<p>Memuatkan data spatial dan persekitaran 3D...</p>
+<div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
+<img class="suo-loading-logo" src="assets/logo-suo.png" alt="Logo Selangor Urban Observatory" width="94" height="94"/>
+<div class="suo-loading-copy">
+<p class="loading-kicker">SELANGOR URBAN OBSERVATORY (SUO)</p>
+<h1>3D GeoPortal Selangor</h1>
+<span class="suo-loading-divider" aria-hidden="true"></span>
+<p class="suo-loading-subtitle">Memuatkan peta, data geospatial dan persekitaran bandar 3D...</p>
 </div>
+<div class="loader-ring" aria-hidden="true"></div>
 </div>
 <header class="app-header">
 <div class="brand-wrap">
