@@ -11,3 +11,8 @@
 .loading-screen .suo-loading-subtitle{font-size:.93rem;color:#66594d!important;line-height:1.55}
 @media(max-width:520px){.loading-screen{padding:24px}.loading-screen .suo-loading-logo{width:78px;height:78px}.loading-screen::before{inset:9px}}
 @media(prefers-reduced-motion:reduce){.loading-screen .loader-ring{animation:none}}
+
+.loading-screen .suo-loading-taglines{display:grid;gap:5px;margin:12px 0 16px;text-align:center}
+.loading-screen .suo-loading-tagline-ms{font-size:clamp(1rem,2vw,1.2rem);font-weight:750;color:#9c3531;line-height:1.4;margin:0}
+.loading-screen .suo-loading-tagline-en{font-size:clamp(.82rem,1.5vw,.96rem);font-weight:500;color:#796457;line-height:1.4;margin:0}
+.loading-screen .suo-loading-subtitle{font-size:.79rem;color:#88796c!important}
