@@ -672,6 +672,7 @@ export async function addPortalLayers(map, prefix = "") {
         "icon-size": ["match", ["get", "web_level"],
           "Sekolah Menengah", 0.42,
           "Sekolah Rendah", 0.34,
+          "Sekolah Agama", 0.37,
           0.32],
         "icon-allow-overlap": true,
         "icon-ignore-placement": true
@@ -680,6 +681,7 @@ export async function addPortalLayers(map, prefix = "") {
         "icon-color": ["match", ["get", "web_level"],
           "Sekolah Menengah", "#7C3AED",
           "Sekolah Rendah", "#F59E0B",
+          "Sekolah Agama", "#D63B48",
           "#64748B"],
         "icon-halo-color": "#FFFFFF",
         "icon-halo-width": 1.3
