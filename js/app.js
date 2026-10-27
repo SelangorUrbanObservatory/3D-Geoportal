@@ -6,7 +6,8 @@ import {
   applyLayerRenderOrder,
   enableTerrain,
   disableTerrain,
-  layerState
+  layerState,
+  facilitySubState
 } from "./layers.js";
 import { initUrbanExplorer } from "./urban-explorer.js";
 import { UrbanTour } from "./urban-tour.js";
@@ -211,6 +212,11 @@ function syncDeepLinkToggles() {
     const toggle = document.getElementById(id);
     if (toggle) toggle.checked = Boolean(layerState[key]);
   });
+  for(const group of Object.keys(facilityControlGroups)) {
+    const config=facilityControlGroups[group];
+    Object.keys(facilitySubState[group]).forEach(name=>{facilitySubState[group][name]=Boolean(layerState[config.state]);});
+  }
+  syncFacilityCheckboxes();
   syncSafetyParentCheckbox();
 }
 
@@ -553,6 +559,8 @@ document.getElementById("districtToggle").addEventListener("change", (event) => 
 
 document.getElementById("healthFacilityToggle").addEventListener("change", (event) => {
   layerState.healthFacilities = event.target.checked;
+  Object.keys(facilitySubState.health).forEach(name=>{facilitySubState.health[name]=event.target.checked;});
+  syncFacilityCheckboxes();
   applyLayerVisibility(map);
   compare.refreshLayers();
   updateLayerCount();
@@ -565,6 +573,27 @@ document.getElementById("trafficToggle").addEventListener("change", (event) => {
   updateLayerCount();
 });
 
+const facilityControlGroups = {
+  school:{parent:"schoolToggle",state:"schools",items:[["schoolPrimaryToggle","Sekolah Rendah"],["schoolSecondaryToggle","Sekolah Menengah"],["schoolReligiousToggle","Sekolah Agama"]]},
+  health:{parent:"healthFacilityToggle",state:"healthFacilities",items:[["healthHospitalToggle","Hospital"],["healthClinicToggle","Klinik Kesihatan"],["healthMotherToggle","Klinik Ibu dan Anak"],["healthVillageToggle","Klinik Desa"]]}
+};
+function syncFacilityCheckboxes() {
+  for(const [group,config] of Object.entries(facilityControlGroups)) {
+    const parent=document.getElementById(config.parent);
+    const enabled=config.items.filter(([,name])=>facilitySubState[group][name]).length;
+    parent.checked=enabled===config.items.length;
+    parent.indeterminate=enabled>0&&enabled<config.items.length;
+    parent.setAttribute("aria-checked",parent.indeterminate?"mixed":String(parent.checked));
+    for(const [id,name] of config.items) document.getElementById(id).checked=facilitySubState[group][name];
+  }
+}
+for(const [group,config] of Object.entries(facilityControlGroups)) {
+  for(const [id,name] of config.items) document.getElementById(id).addEventListener("change",event=>{
+    facilitySubState[group][name]=event.target.checked;
+    layerState[config.state]=Object.values(facilitySubState[group]).some(Boolean);
+    syncFacilityCheckboxes();applyLayerVisibility(map);compare.refreshLayers();updateLayerCount();
+  });
+}
 function syncSafetyParentCheckbox() {
   const values = [layerState.police, layerState.fireStations, layerState.civilDefence];
   const parent = document.getElementById("safetyFacilityToggle");
@@ -614,6 +643,8 @@ document.getElementById("fireStationToggle").addEventListener("change", (event) 
 
 document.getElementById("schoolToggle").addEventListener("change", (event) => {
   layerState.schools = event.target.checked;
+  Object.keys(facilitySubState.school).forEach(name=>{facilitySubState.school[name]=event.target.checked;});
+  syncFacilityCheckboxes();
   applyLayerVisibility(map);
   compare.refreshLayers();
   updateLayerCount();
@@ -683,6 +714,8 @@ document.getElementById("toggleAllLayers").addEventListener("click", () => {
   document.getElementById("civilDefenceToggle").checked = allOn;
   syncSafetyParentCheckbox();
   document.getElementById("schoolToggle").checked = allOn;
+  for(const group of Object.keys(facilitySubState)) Object.keys(facilitySubState[group]).forEach(name=>{facilitySubState[group][name]=allOn;});
+  syncFacilityCheckboxes();
   document.getElementById("railToggle").checked = allOn;
   document.getElementById("railStationToggle").checked = allOn;
   document.getElementById("floodRainToggle").checked = allOn;
@@ -703,6 +736,7 @@ document.getElementById("toggleAllLayers").addEventListener("click", () => {
 });
 
 function updateLayerCount() {
+  syncFacilityCheckboxes();
   syncSafetyParentCheckbox();
   document.getElementById("activeLayerCount").textContent =
     String(Object.values(layerState).filter(Boolean).length);
