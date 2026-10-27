@@ -1,0 +1,13 @@
+/* SUO brand loading experience — warm Selangor palette */
+.loading-screen{background:radial-gradient(ellipse at 16% 18%,rgba(236,184,59,.19),transparent 46%),radial-gradient(ellipse at 90% 84%,rgba(163,47,49,.09),transparent 42%),linear-gradient(145deg,#fffdf8 0%,#fff7e9 100%);color:#382b24;flex-direction:column;gap:15px;text-align:center;isolation:isolate}
+.loading-screen::before{content:"";position:absolute;inset:16px;border:1px solid rgba(184,127,55,.18);border-radius:18px;pointer-events:none}
+.loading-screen::after{content:"";position:absolute;bottom:0;left:0;right:0;height:7px;background:linear-gradient(90deg,#b13a37 0 33%,#f3c24e 33% 67%,#b13a37 67%);pointer-events:none}
+.loading-screen .suo-loading-logo{display:block;width:94px;height:94px;object-fit:contain;filter:drop-shadow(0 5px 12px rgba(91,48,20,.12));margin-bottom:4px}
+.loading-screen .loader-ring{width:35px;height:35px;border:3px solid rgba(171,56,51,.12);border-top-color:#ad3434;border-right-color:#e7b53f;order:3;margin-top:8px}
+.loading-screen .suo-loading-copy{max-width:500px}
+.loading-screen .loading-kicker{color:#a43a34!important;font-size:.74rem;letter-spacing:.15em;line-height:1.6}
+.loading-screen h1{font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.15;font-weight:800;color:#3b2d26;margin:10px 0!important}
+.loading-screen .suo-loading-divider{display:block;width:76px;height:4px;border-radius:4px;background:linear-gradient(90deg,#b23b37 45%,#e9b53f 45%);margin:14px auto}
+.loading-screen .suo-loading-subtitle{font-size:.93rem;color:#66594d!important;line-height:1.55}
+@media(max-width:520px){.loading-screen{padding:24px}.loading-screen .suo-loading-logo{width:78px;height:78px}.loading-screen::before{inset:9px}}
+@media(prefers-reduced-motion:reduce){.loading-screen .loader-ring{animation:none}}
