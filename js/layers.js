@@ -555,13 +555,7 @@ export async function addPortalLayers(map, prefix = "") {
         "icon-ignore-placement": true
       },
       paint: {
-        "icon-color": [
-          "match",
-          ["get", "web_hierarchy"],
-          "IPK", "#0F172A",
-          "IPD", "#2563EB",
-          "#64748B"
-        ],
+        "icon-color": "#2563EB",
         "icon-halo-color": "#FFFFFF",
         "icon-halo-width": 1.5
       }
@@ -577,7 +571,7 @@ export async function addPortalLayers(map, prefix = "") {
       slot: "top",
       minzoom: 10,
       layout: {
-        "text-field": ["get", "web_name"],
+        "text-field": ["get", "NAMA"],
         "text-size": 10,
         "text-offset": [0, 1.35],
         "text-anchor": "top",
