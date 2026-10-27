@@ -86,6 +86,8 @@ export class FloodIntelligence {
 
     this.rainInteractionsBound = false;
     this.rankingInteractionsBound = false;
+    this.rainMarkers = [];
+    this.activeRainPopup = null;
     this.load();
   }
 
@@ -249,12 +251,55 @@ export class FloodIntelligence {
     };
 
     this.addRainLayer(this.map);
+    this.renderRainMarkers();
 
     for (const [compareMap, prefix] of this.compareMaps) {
       this.addRainLayer(compareMap, prefix);
     }
 
     return features;
+  }
+
+  // DOM markers remain visible across Mapbox style changes and 3D basemaps.
+  // They show point forecasts, NOT flood inundation polygons.
+  renderRainMarkers() {
+    this.rainMarkers.forEach(marker => marker.remove());
+    this.rainMarkers = [];
+    if (typeof mapboxgl === "undefined") return;
+    for (const feature of this.latestRainGeoJSON.features) {
+      const {name,rain_mm,level} = feature.properties;
+      const mm = Number(rain_mm);
+      const color = mm >= 60 ? "#DC2626" : mm >= 30 ? "#F97316" : mm >= 10 ? "#FACC15" : "#38BDF8";
+      const element = document.createElement("button");
+      element.type = "button";
+      element.className = "suo-rain-marker";
+      element.style.setProperty("--rain-color",color);
+      element.setAttribute("aria-label", `${name}: ramalan hujan 24 jam ${mm.toFixed(1)} mm`);
+      element.innerHTML = `<span class="suo-rain-marker-value">${mm.toFixed(1)}<small>mm</small></span>`;
+      element.addEventListener("click", event => {
+        event.stopPropagation();
+        this.showRainPopup(feature);
+      });
+      const marker = new mapboxgl.Marker({element,anchor:"center"})
+        .setLngLat(feature.geometry.coordinates).addTo(this.map);
+      this.rainMarkers.push(marker);
+    }
+    this.setRainMarkersVisibility();
+  }
+
+  setRainMarkersVisibility() {
+    for (const marker of this.rainMarkers) {
+      marker.getElement().style.display = layerState.floodRain ? "" : "none";
+    }
+  }
+
+  showRainPopup(feature) {
+    if (this.activeRainPopup) this.activeRainPopup.remove();
+    const p = feature.properties;
+    this.activeRainPopup = new mapboxgl.Popup({offset:22,maxWidth:"290px"})
+      .setLngLat(feature.geometry.coordinates)
+      .setHTML(`<div class="suo-rain-popup"><strong>${escapeHtml(p.name)}</strong><div>Ramalan hujan 24 jam: <b>${Number(p.rain_mm).toFixed(1)} mm</b></div><div>Intensiti terkumpul: ${escapeHtml(p.level)}</div><small>Sumber: Open-Meteo · Anggaran pada titik lokasi, bukan peta bahaya banjir.</small></div>`)
+      .addTo(this.map);
   }
 
   addRainLayer(targetMap, prefix = "") {
@@ -408,6 +453,8 @@ export class FloodIntelligence {
   setVisible(visible) {
     layerState.floodRain = visible;
     this.setRainVisibility(this.map);
+    this.setRainMarkersVisibility();
+    if (!visible && this.activeRainPopup) this.activeRainPopup.remove();
 
     for (const [compareMap, prefix] of this.compareMaps) {
       this.setRainVisibility(compareMap, prefix);
@@ -480,7 +527,9 @@ export class FloodIntelligence {
           if (toggle) toggle.checked = true;
           this.setVisible(true);
         }
+        const feature = this.latestRainGeoJSON.features.find(item => item.geometry.coordinates[0] === lng && item.geometry.coordinates[1] === lat);
         this.map.flyTo({center:[lng,lat],zoom:Math.max(this.map.getZoom(),11),essential:true});
+        if (feature) this.showRainPopup(feature);
         this.close();
       });
     }
