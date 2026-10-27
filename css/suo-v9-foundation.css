@@ -209,3 +209,18 @@ html,body { color:var(--suo-ink); }
 #healthLegendPanel .legend-heading { color: #352b25; }
 #schoolLegendPanel .legend-heading small,
 #healthLegendPanel .legend-heading small { color: #66574c; }
+
+/* Flood legend readability on cream SUO theme (v9.6.7). */
+#floodLegendPanel .legend-list .legend-row,
+#floodLegendPanel .legend-list .legend-row span:last-child {
+  color: #352b25 !important;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #352b25;
+}
+#floodLegendPanel .legend-heading,
+#floodLegendPanel .legend-heading span {color:#352b25 !important}
+#floodLegendPanel .legend-heading small {color:#67584c !important;opacity:1}
+#floodLegendPanel .flood-layer-note {color:#67584c !important;line-height:1.5}
