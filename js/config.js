@@ -56,7 +56,7 @@ export const BASEMAP_LABELS = {
 };
 
 export const DATA_URLS = {
-  cities: "data/hierarki_bandar_selangor_dpn2.geojson",
+  cities: "data/hierarki_bandar_selangor_dpn3.geojson",
   urbanConfig: "config/urban-hierarchy.json",
   health: "data/kesihatan/kemudahan_kesihatan_selangor.geojson",
   hospitalIcon: "assets/icons/hospital-building.svg",
