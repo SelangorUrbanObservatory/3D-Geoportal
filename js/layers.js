@@ -13,6 +13,7 @@ export const layerState = {
   healthFacilities: true,
   liveTraffic: true,
   police: true,
+  civilDefence: true,
   fireStations: true,
   schools: true,
   rail: true,
@@ -113,7 +114,7 @@ export async function addPortalLayers(map, prefix = "") {
       slot: "top",
       minzoom: 11,
       layout: {
-        "text-field": ["get", "web_name"],
+        "text-field": ["get", "NAMA"],
         "text-size": 10,
         "text-offset": [0, 1.25],
         "text-anchor": "top"
@@ -522,13 +523,14 @@ export async function addPortalLayers(map, prefix = "") {
     addLayerCompat(map, {
       id: policeSymbol,
       type: "symbol",
+      filter: ["==", ["get", "AGENSI"], "PDRM"],
       source: policeSource,
       slot: "top",
       layout: {
         "icon-image": "police-building",
         "icon-size": [
           "match",
-          ["get", "web_hierarchy"],
+          ["get", "KATEGORI"],
           "IPK", 0.56,
           "IPD", 0.46,
           0.42
@@ -554,6 +556,7 @@ export async function addPortalLayers(map, prefix = "") {
     addLayerCompat(map, {
       id: policeLabel,
       type: "symbol",
+      filter: ["==", ["get", "AGENSI"], "PDRM"],
       source: policeSource,
       slot: "top",
       minzoom: 10,
@@ -590,6 +593,7 @@ export async function addPortalLayers(map, prefix = "") {
     addLayerCompat(map, {
       id: fireHalo,
       type: "circle",
+      filter: ["==", ["get", "AGENSI"], "JBPM"],
       source: fireSource,
       slot: "top",
       paint: {
@@ -608,6 +612,7 @@ export async function addPortalLayers(map, prefix = "") {
     addLayerCompat(map, {
       id: firePoint,
       type: "circle",
+      filter: ["==", ["get", "AGENSI"], "JBPM"],
       source: fireSource,
       slot: "top",
       paint: {
@@ -631,11 +636,12 @@ export async function addPortalLayers(map, prefix = "") {
     addLayerCompat(map, {
       id: fireLabel,
       type: "symbol",
+      filter: ["==", ["get", "AGENSI"], "JBPM"],
       source: fireSource,
       slot: "top",
       minzoom: 10.5,
       layout: {
-        "text-field": ["get", "NAMA_BBP"],
+        "text-field": ["get", "NAMA"],
         "text-size": 10,
         "text-offset": [0, 1.25],
         "text-anchor": "top",
@@ -650,6 +656,23 @@ export async function addPortalLayers(map, prefix = "") {
     });
   }
 
+
+  // APM — 10 civil defence facilities from the same verified dashboard source.
+  const apmSource = `${prefix}civil-defence`;
+  const apmPoint = `${prefix}civil-defence-point`;
+  const apmLabel = `${prefix}civil-defence-label`;
+  if (!map.getSource(apmSource)) map.addSource(apmSource,{type:"geojson",data:DATA_URLS.civilDefence});
+  if (!map.getLayer(apmPoint)) addLayerCompat(map,{
+    id:apmPoint,type:"circle",source:apmSource,slot:"top",
+    filter:["==",["get","AGENSI"],"APM"],
+    paint:{"circle-radius":6,"circle-color":"#16A34A","circle-stroke-color":"#FFFFFF","circle-stroke-width":1.5}
+  });
+  if (!map.getLayer(apmLabel)) addLayerCompat(map,{
+    id:apmLabel,type:"symbol",source:apmSource,slot:"top",minzoom:11,
+    filter:["==",["get","AGENSI"],"APM"],
+    layout:{"text-field":["get","NAMA"],"text-size":10,"text-offset":[0,1.2],"text-anchor":"top","text-optional":true},
+    paint:{"text-color":"#FFFFFF","text-halo-color":"#14532D","text-halo-width":1.5}
+  });
 
   const schoolSource = `${prefix}schools`;
   const schoolSymbol = `${prefix}school-symbol`;
@@ -811,6 +834,8 @@ export function applyLayerRenderOrder(map, prefix = "") {
   moveTop(`${prefix}fire-station-halo`);
   moveTop(`${prefix}fire-station-point`);
   moveTop(`${prefix}fire-station-label`);
+  moveTop(`${prefix}civil-defence-point`);
+  moveTop(`${prefix}civil-defence-label`);
 }
 
 export function applyLayerVisibility(map, prefix = "") {
@@ -827,6 +852,8 @@ export function applyLayerVisibility(map, prefix = "") {
     [`${prefix}health-label`, layerState.healthFacilities],
     [`${prefix}traffic-casing`, layerState.liveTraffic],
     [`${prefix}traffic-line`, layerState.liveTraffic],
+    [`${prefix}civil-defence-point`, layerState.civilDefence],
+    [`${prefix}civil-defence-label`, layerState.civilDefence],
     [`${prefix}police-symbol`, layerState.police],
     [`${prefix}police-label`, layerState.police],
     [`${prefix}fire-station-halo`, layerState.fireStations],
