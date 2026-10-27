@@ -24,6 +24,8 @@
 <option value="kselangor">Kuala Selangor · Pekan</option>
 <option value="huluselangor">Hulu Selangor · Kuala Kubu Bharu</option>
 <option value="sabak">Sabak Bernam · Sungai Besar</option>
+<option value="gombak">Gombak · Rawang</option>
+<option value="klangat">Kuala Langat · Banting</option>
 </select>
 <button id="fly" class="secondary">Pergi ke lokasi</button>
 <button id="inspectBtn" class="secondary">Semak bangunan (klik pada peta)</button>
@@ -47,7 +49,7 @@ if(embedded){document.querySelector("header a").textContent="← Kembali ke Mapb
 window.addEventListener("message",event=>{if(!embedded||event.origin!==location.origin||event.source!==parent)return;if(event.data?.type==="suo:camera"){pendingCamera=event.data.camera;applyCamera(pendingCamera);}});
 
 let viewer=null,tileset=null,inspect=false,verticalOffset=0;function adjustTileset(offset){verticalOffset=offset;if(!tileset)return;const center=tileset.boundingSphere.center;const cart=C.Cartographic.fromCartesian(center);const from=C.Cartesian3.fromRadians(cart.longitude,cart.latitude,cart.height);const to=C.Cartesian3.fromRadians(cart.longitude,cart.latitude,cart.height+offset);tileset.modelMatrix=C.Matrix4.fromTranslation(C.Cartesian3.subtract(to,from,new C.Cartesian3()));}
-function fly(){if(embedded)$("place").value=$("nativePlace").value;if(!viewer)return status("Muatkan Cesium dahulu.");const [lon,lat]=locations[$("place").value];viewer.camera.flyTo({destination:C.Cartesian3.fromDegrees(lon,lat,1900),orientation:{heading:0,pitch:C.Math.toRadians(-45),roll:0},duration:1.3});status("Kamera ke "+$("place").selectedOptions[0].text+". Periksa bangunan pada zoom dekat.");}
+function fly(){if(!viewer)return status("Muatkan Cesium dahulu.");const selector=embedded?$("nativePlace"):$("place");const key=selector.value;const coords=locations[key];if(!coords)return status("Koordinat lokasi tidak ditemui: "+selector.selectedOptions[0]?.text);const [lon,lat]=coords;viewer.camera.flyTo({destination:C.Cartesian3.fromDegrees(lon,lat,1900),orientation:{heading:0,pitch:C.Math.toRadians(-45),roll:0},duration:1.3});status("Kamera ke "+selector.selectedOptions[0].text+". Periksa bangunan pada zoom dekat.");}
 $("fly").addEventListener("click",fly);
 $("start").addEventListener("click",async()=>{
 const token=$("token").value.trim();if(!token)return status("Token Cesium ion diperlukan untuk akses OSM Buildings.");
