@@ -57,9 +57,9 @@ export async function addPortalLayers(map, prefix = "") {
         "circle-radius": ["interpolate", ["linear"], ["zoom"], 7, 5, 14, 10],
         "circle-color": [
           "match", ["get", "hierarki"],
-          "Bandar Negeri", "#E31A1C",
-          "Bandar Utama", "#FD8D3C",
-          "Bandar Tempatan", "#3182BD",
+          "Tier 1", "#D43D48",
+          "Tier 2", "#E9AB27",
+          "Tier 3", "#9A6953",
           "#7F8C8D"
         ],
         "circle-stroke-color": "#FFFFFF",
