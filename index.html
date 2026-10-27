@@ -4,13 +4,14 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="SUO GeoPortal v8.0.5F - Prototaip Selangor Urban Observatory menggunakan Mapbox GL JS." name="description"/>
+<meta content="SUO 3D GeoPortal: platform geospatial pintar tiga dimensi yang mengintegrasikan visualisasi dan analitik bandar sebagai asas ke arah Urban Digital Twin Negeri Selangor." name="description"/>
 <title>SUO 3D GeoPortal v9.3</title>
 <link href="https://cdn.jsdelivr.net/npm/mapbox-gl@3.25.0/dist/mapbox-gl.css" id="mapboxCss" rel="stylesheet"/>
 <link href="styles.css?v=9.6.6" rel="stylesheet"/>
 <link href="css/suo-v9-foundation.css?v=9.6.7" rel="stylesheet"/>
 <link href="css/suo-loading-brand.css?v=1.1" rel="stylesheet"/>
 <link href="css/suo-facility-controls.css?v=1.0" rel="stylesheet"/>
+<link href="css/suo-about.css?v=1.0" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
@@ -41,8 +42,22 @@
 <button class="header-btn secondary" id="focusMapBtn" type="button">▣ Focus Map</button>
 <button class="header-btn secondary" id="resetBtn" type="button">⟳ Reset</button>
 <button class="header-btn secondary" id="fullscreenBtn" type="button">⛶ Fullscreen</button>
+<button class="header-btn secondary" id="aboutGeoportalBtn" type="button" aria-haspopup="dialog" aria-controls="aboutGeoportalDialog">ⓘ Mengenai</button>
 </div>
 </header>
+<div class="suo-about-overlay" id="aboutGeoportalOverlay" hidden>
+<section class="suo-about-dialog" id="aboutGeoportalDialog" role="dialog" aria-modal="true" aria-labelledby="suoAboutTitle" aria-describedby="suoAboutDescription" tabindex="-1">
+<div class="suo-about-top"><div class="suo-about-brand"><img src="assets/logo-suo.png" alt="Logo SUO" width="48" height="48"/><div><small>SELANGOR URBAN OBSERVATORY (SUO)</small><h2 id="suoAboutTitle">Mengenai SUO 3D GeoPortal</h2></div></div><button class="suo-about-close" id="aboutGeoportalClose" type="button" aria-label="Tutup maklumat GeoPortal">✕</button></div>
+<div class="suo-about-body">
+<p class="suo-about-tagline"><strong>Visualisasi Selangor, Memperkasa Keputusan.</strong><span lang="en">Visualising Selangor. Empowering Decisions.</span></p>
+<p id="suoAboutDescription"><strong>SUO 3D GeoPortal</strong> ialah platform geospatial pintar tiga dimensi yang mengintegrasikan data, visualisasi interaktif dan analitik bandar bagi menyokong perancangan serta pembuatan keputusan berasaskan bukti, sebagai asas pembangunan <strong>Urban Digital Twin Negeri Selangor</strong>.</p>
+<h3>Fungsi utama</h3>
+<ul class="suo-about-features"><li><strong>Visualisasi 2D &amp; 3D</strong><span>Eksplorasi spatial menggunakan Mapbox dan pilihan Cesium 3D (Beta).</span></li><li><strong>Data geospatial bersepadu</strong><span>Sempadan pentadbiran, hierarki bandar, pendidikan, kesihatan, keselamatan dan dataset spatial lain.</span></li><li><strong>Analitik bandar</strong><span>Alat spatial, analisis rangkaian serta modul hujan dan cuaca mengikut ketersediaan data.</span></li><li><strong>Sokongan keputusan</strong><span>Paparan maklumat lokasi untuk membantu analisis perancangan dan pengurusan bandar.</span></li></ul>
+<div class="suo-about-note"><strong>Status pembangunan</strong><p>Platform ini merupakan asas ke arah Urban Digital Twin, bukan sistem simulasi kembar digital bandar yang lengkap. Liputan, ketepatan dan kemas kini data berbeza mengikut sumber. Ramalan hujan tidak boleh ditafsirkan sebagai peta bahaya atau ramalan kejadian banjir.</p></div>
+<p class="suo-about-credit">Inisiatif Selangor Urban Observatory (SUO) · PLANMalaysia Selangor</p>
+</div>
+</section>
+</div>
 <div class="workspace" id="workspace">
 <button aria-label="Buka kolum kiri" class="sidebar-reopen-tab left-reopen-tab" hidden="" id="openLeftPanelTab" title="Buka kolum kiri" type="button">
 <span>▶</span>
@@ -1474,5 +1489,21 @@
 <script defer src="js/street-view.js?v=2.0"></script>
 <link rel="stylesheet" href="css/suo-pegman.css?v=1.0">
 <link rel="stylesheet" href="css/engine-switcher.css?v=9.1.0">
+<script>
+(function(){
+const button=document.getElementById("aboutGeoportalBtn");
+const overlay=document.getElementById("aboutGeoportalOverlay");
+const dialog=document.getElementById("aboutGeoportalDialog");
+const close=document.getElementById("aboutGeoportalClose");
+if(!button||!overlay||!dialog||!close)return;
+let previousFocus=null;
+function show(){previousFocus=document.activeElement;overlay.hidden=false;document.body.classList.add("suo-about-open");close.focus();}
+function hide(){overlay.hidden=true;document.body.classList.remove("suo-about-open");(previousFocus&&previousFocus.isConnected?previousFocus:button).focus();}
+button.addEventListener("click",show);
+close.addEventListener("click",hide);
+overlay.addEventListener("click",event=>{if(event.target===overlay)hide();});
+document.addEventListener("keydown",event=>{if(overlay.hidden)return;if(event.key==="Escape"){event.preventDefault();hide();}else if(event.key==="Tab"){const nodes=[...dialog.querySelectorAll('button,a[href],input,select,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled);if(!nodes.length){event.preventDefault();dialog.focus();return;}const first=nodes[0],last=nodes[nodes.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
+})();
+</script>
 </body>
 </html>
