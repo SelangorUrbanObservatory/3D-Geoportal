@@ -170,20 +170,21 @@
 <div class="legend-heading"><span>Pecahan Kemudahan Keselamatan</span><small>184 rekod dashboard</small></div>
 <label class="layer-item safety-child-layer">
 <span class="legend-police-icon police-ipd-color"></span>
-<span class="layer-copy"><strong>Polis Diraja Malaysia (137)</strong><small>17 lokasi IPK/IPD dalam layer GeoPortal semasa</small></span>
+<span class="layer-copy"><strong>Polis Diraja Malaysia (137)</strong><small>137 lokasi PDRM termasuk IPK, IPD, balai dan pondok polis</small></span>
 <input checked="" id="policeToggle" type="checkbox"/>
 </label>
 <label class="layer-item safety-child-layer">
 <span class="legend-fire-icon"></span>
-<span class="layer-copy"><strong>Jabatan Bomba &amp; Penyelamat (37)</strong><small>37 lokasi dalam layer GeoPortal</small></span>
+<span class="layer-copy"><strong>Jabatan Bomba &amp; Penyelamat (37)</strong><small>37 lokasi JBPM</small></span>
 <input checked="" id="fireStationToggle" type="checkbox"/>
 </label>
+<label class="layer-item safety-child-layer"><span class="legend-symbol" style="color:#16A34A">●</span><span class="layer-copy"><strong>Angkatan Pertahanan Awam Malaysia (10)</strong><small>APM Negeri dan Daerah</small></span><input checked="" id="civilDefenceToggle" type="checkbox"/></label>
 <div class="legend-list">
 <div class="legend-row"><span class="legend-police-icon police-ipk-color"></span><span>IPK</span></div>
 <div class="legend-row"><span class="legend-police-icon police-ipd-color"></span><span>IPD</span></div>
 <div class="legend-row"><span class="legend-fire-icon fire-zone-color"></span><span>BBP / Pejabat Zon</span></div>
 <div class="legend-row"><span class="legend-fire-icon fire-bbp-color"></span><span>BBP</span></div>
-<div class="legend-row"><span class="legend-police-icon police-ipd-color"></span><span>Angkatan Pertahanan Awam Malaysia (10) — belum dipaparkan sebagai layer</span></div>
+
 </div>
 </div>
 </div>
@@ -1377,7 +1378,7 @@
       return;
     }
 
-    import("./js/app.js?v=9.5.0").catch(function (error) {
+    import("./js/app.js?v=9.5.1").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
