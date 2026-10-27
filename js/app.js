@@ -211,6 +211,7 @@ function syncDeepLinkToggles() {
     const toggle = document.getElementById(id);
     if (toggle) toggle.checked = Boolean(layerState[key]);
   });
+  syncSafetyParentCheckbox();
 }
 
 function applyDeepLinkView() {
@@ -564,8 +565,32 @@ document.getElementById("trafficToggle").addEventListener("change", (event) => {
   updateLayerCount();
 });
 
+function syncSafetyParentCheckbox() {
+  const values = [layerState.police, layerState.fireStations, layerState.civilDefence];
+  const parent = document.getElementById("safetyFacilityToggle");
+  if (!parent) return;
+  parent.checked = values.every(Boolean);
+  parent.indeterminate = values.some(Boolean) && !values.every(Boolean);
+  parent.setAttribute("aria-checked", parent.indeterminate ? "mixed" : String(parent.checked));
+}
+
+document.getElementById("safetyFacilityToggle").addEventListener("change", (event) => {
+  const enabled = event.target.checked;
+  layerState.police = enabled;
+  layerState.fireStations = enabled;
+  layerState.civilDefence = enabled;
+  ["policeToggle", "fireStationToggle", "civilDefenceToggle"].forEach(id => {
+    document.getElementById(id).checked = enabled;
+  });
+  syncSafetyParentCheckbox();
+  applyLayerVisibility(map);
+  compare.refreshLayers();
+  updateLayerCount();
+});
+
 document.getElementById("policeToggle").addEventListener("change", (event) => {
   layerState.police = event.target.checked;
+  syncSafetyParentCheckbox();
   applyLayerVisibility(map);
   compare.refreshLayers();
   updateLayerCount();
@@ -573,6 +598,7 @@ document.getElementById("policeToggle").addEventListener("change", (event) => {
 
 document.getElementById("civilDefenceToggle").addEventListener("change", (event) => {
   layerState.civilDefence = event.target.checked;
+  syncSafetyParentCheckbox();
   applyLayerVisibility(map);
   compare.refreshLayers();
   updateLayerCount();
@@ -580,6 +606,7 @@ document.getElementById("civilDefenceToggle").addEventListener("change", (event)
 
 document.getElementById("fireStationToggle").addEventListener("change", (event) => {
   layerState.fireStations = event.target.checked;
+  syncSafetyParentCheckbox();
   applyLayerVisibility(map);
   compare.refreshLayers();
   updateLayerCount();
@@ -654,6 +681,7 @@ document.getElementById("toggleAllLayers").addEventListener("click", () => {
   document.getElementById("policeToggle").checked = allOn;
   document.getElementById("fireStationToggle").checked = allOn;
   document.getElementById("civilDefenceToggle").checked = allOn;
+  syncSafetyParentCheckbox();
   document.getElementById("schoolToggle").checked = allOn;
   document.getElementById("railToggle").checked = allOn;
   document.getElementById("railStationToggle").checked = allOn;
@@ -675,6 +703,7 @@ document.getElementById("toggleAllLayers").addEventListener("click", () => {
 });
 
 function updateLayerCount() {
+  syncSafetyParentCheckbox();
   document.getElementById("activeLayerCount").textContent =
     String(Object.values(layerState).filter(Boolean).length);
 }
