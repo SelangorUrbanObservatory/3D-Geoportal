@@ -174,7 +174,7 @@
 <div class="layer-item layer-item-expandable">
 <button aria-controls="schoolLegendPanel" aria-expanded="false" class="layer-expand-btn" id="schoolLegendBtn" title="Buka legend pendidikan" type="button">▸</button>
 <span class="legend-symbol school-layer-symbol"></span>
-<span class="layer-copy"><strong>Sekolah Negeri Selangor</strong><small>945 sekolah</small></span>
+<span class="layer-copy"><strong>Sekolah Negeri Selangor</strong><small>1,212 sekolah</small></span>
 <input checked="" id="schoolToggle" type="checkbox"/>
 </div>
 <div class="layer-legend-panel" hidden="" id="schoolLegendPanel">
@@ -182,6 +182,7 @@
 <div class="legend-list">
 <div class="legend-row"><span class="legend-school-icon school-primary-color"></span><span>Sekolah Rendah (664)</span></div>
 <div class="legend-row"><span class="legend-school-icon school-secondary-color"></span><span>Sekolah Menengah (281)</span></div>
+<div class="legend-row"><span class="legend-school-icon" style="background:#D63B48"></span><span>Sekolah Agama JAIS (267)</span></div>
 </div>
 </div>
 </div></div></div>
@@ -1374,7 +1375,7 @@
       return;
     }
 
-    import("./js/app.js?v=9.1.0").catch(function (error) {
+    import("./js/app.js?v=9.5.0").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
