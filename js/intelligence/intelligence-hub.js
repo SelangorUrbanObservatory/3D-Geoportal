@@ -10,7 +10,7 @@ import {
 } from "../weather.js";
 import {
   FloodIntelligence
-} from "../flood.js?v=9.6.5";
+} from "../flood.js?v=9.6.6";
 
 export function initializeIntelligenceHub(map) {
   const result = {
