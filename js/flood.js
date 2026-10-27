@@ -275,7 +275,7 @@ export class FloodIntelligence {
       element.className = "suo-rain-marker";
       element.style.setProperty("--rain-color",color);
       element.setAttribute("aria-label", `${name}: ramalan hujan 24 jam ${mm.toFixed(1)} mm`);
-      element.innerHTML = `<span class="suo-rain-marker-value">${mm.toFixed(1)}<small>mm</small></span>`;
+      element.innerHTML = `<svg class="suo-rain-weather-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M8 21a6 6 0 0 1-.3-12A9 9 0 0 1 25 11a5 5 0 0 1-.5 10H8Z" fill="#D9ECFF" stroke="#23548A" stroke-width="2" stroke-linejoin="round"/><path d="M10 24l-1.5 3M17 24l-1.5 3M24 24l-1.5 3" stroke="#1687E0" stroke-width="2.5" stroke-linecap="round"/></svg><span class="suo-rain-marker-value">${mm.toFixed(1)} mm</span>`;
       element.addEventListener("click", event => {
         event.stopPropagation();
         this.showRainPopup(feature);
