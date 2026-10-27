@@ -11,8 +11,8 @@
 #schoolLegendPanel .legend-heading,#healthLegendPanel .legend-heading,#policeLegendPanel .legend-heading{margin-bottom:8px}
 
 /* Master checkbox for the entire Kemudahan Masyarakat section. */
-.layer-category:has(> #communityFacilitiesToggle) { position: relative; }
-.layer-category:has(> #communityFacilitiesToggle) > .layer-category-header {
+.community-facilities-category { position: relative; }
+.community-facilities-category > .layer-category-header {
   padding-right: 66px;
 }
 #communityFacilitiesToggle {
