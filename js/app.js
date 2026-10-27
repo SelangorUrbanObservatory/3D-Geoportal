@@ -93,7 +93,7 @@ const DEEP_LINK_PRESETS = {
     view: { center: [101.48, 3.18], zoom: 9.6, pitch: 48, bearing: 0 },
     state: {
       cityHierarchy: false, pbt: true, districts: true, cadastral: false,
-      healthFacilities: true, liveTraffic: false, police: false, fireStations: false,
+      healthFacilities: true, liveTraffic: false, police: false, fireStations: false, civilDefence: false,
       schools: false, rail: false, railStations: false, floodRain: false,
       terrain: true, buildings: true
     }
@@ -102,7 +102,7 @@ const DEEP_LINK_PRESETS = {
     view: { center: [101.48, 3.18], zoom: 9.7, pitch: 48, bearing: 0 },
     state: {
       cityHierarchy: false, pbt: true, districts: true, cadastral: false,
-      healthFacilities: false, liveTraffic: false, police: false, fireStations: false,
+      healthFacilities: false, liveTraffic: false, police: false, fireStations: false, civilDefence: false,
       schools: true, rail: false, railStations: false, floodRain: false,
       terrain: true, buildings: true
     }
@@ -111,7 +111,7 @@ const DEEP_LINK_PRESETS = {
     view: { center: [101.48, 3.18], zoom: 9.7, pitch: 48, bearing: 0 },
     state: {
       cityHierarchy: false, pbt: true, districts: true, cadastral: false,
-      healthFacilities: false, liveTraffic: false, police: true, fireStations: false,
+      healthFacilities: false, liveTraffic: false, police: true, fireStations: false, civilDefence: false,
       schools: false, rail: false, railStations: false, floodRain: false,
       terrain: true, buildings: true
     }
@@ -120,7 +120,7 @@ const DEEP_LINK_PRESETS = {
     view: { center: [101.48, 3.18], zoom: 9.7, pitch: 48, bearing: 0 },
     state: {
       cityHierarchy: false, pbt: true, districts: true, cadastral: false,
-      healthFacilities: false, liveTraffic: false, police: false, fireStations: true,
+      healthFacilities: false, liveTraffic: false, police: false, fireStations: true, civilDefence: true,
       schools: false, rail: false, railStations: false, floodRain: false,
       terrain: true, buildings: true
     }
@@ -129,7 +129,7 @@ const DEEP_LINK_PRESETS = {
     view: { center: [101.53, 3.08], zoom: 9.7, pitch: 48, bearing: 0 },
     state: {
       cityHierarchy: false, pbt: true, districts: true, cadastral: false,
-      healthFacilities: false, liveTraffic: false, police: false, fireStations: false,
+      healthFacilities: false, liveTraffic: false, police: false, fireStations: false, civilDefence: false,
       schools: false, rail: true, railStations: true, floodRain: false,
       terrain: true, buildings: true
     }
@@ -138,7 +138,7 @@ const DEEP_LINK_PRESETS = {
     view: { center: [101.53, 3.08], zoom: 11.5, pitch: 38, bearing: 0 },
     state: {
       cityHierarchy: false, pbt: true, districts: true, cadastral: true,
-      healthFacilities: false, liveTraffic: false, police: false, fireStations: false,
+      healthFacilities: false, liveTraffic: false, police: false, fireStations: false, civilDefence: false,
       schools: false, rail: false, railStations: false, floodRain: false,
       terrain: false, buildings: true
     }
@@ -147,7 +147,7 @@ const DEEP_LINK_PRESETS = {
     view: { center: [101.48, 3.18], zoom: 9.4, pitch: 35, bearing: 0 },
     state: {
       cityHierarchy: false, pbt: true, districts: false, cadastral: false,
-      healthFacilities: false, liveTraffic: false, police: false, fireStations: false,
+      healthFacilities: false, liveTraffic: false, police: false, fireStations: false, civilDefence: false,
       schools: false, rail: false, railStations: false, floodRain: false,
       terrain: false, buildings: false
     }
@@ -156,7 +156,7 @@ const DEEP_LINK_PRESETS = {
     view: { center: [101.48, 3.18], zoom: 9.2, pitch: 35, bearing: 0 },
     state: {
       cityHierarchy: false, pbt: false, districts: true, cadastral: false,
-      healthFacilities: false, liveTraffic: false, police: false, fireStations: false,
+      healthFacilities: false, liveTraffic: false, police: false, fireStations: false, civilDefence: false,
       schools: false, rail: false, railStations: false, floodRain: false,
       terrain: false, buildings: false
     }
@@ -165,7 +165,7 @@ const DEEP_LINK_PRESETS = {
     view: { center: [101.48, 3.18], zoom: 9.5, pitch: 45, bearing: 0 },
     state: {
       cityHierarchy: false, pbt: true, districts: true, cadastral: false,
-      healthFacilities: false, liveTraffic: false, police: false, fireStations: false,
+      healthFacilities: false, liveTraffic: false, police: false, fireStations: false, civilDefence: false,
       schools: false, rail: false, railStations: false, floodRain: true,
       terrain: true, buildings: true
     }
@@ -174,7 +174,7 @@ const DEEP_LINK_PRESETS = {
     view: { center: [101.53, 3.08], zoom: 10.2, pitch: 48, bearing: 0 },
     state: {
       cityHierarchy: false, pbt: true, districts: true, cadastral: false,
-      healthFacilities: false, liveTraffic: true, police: false, fireStations: false,
+      healthFacilities: false, liveTraffic: true, police: false, fireStations: false, civilDefence: false,
       schools: false, rail: false, railStations: false, floodRain: false,
       terrain: true, buildings: true
     }
@@ -198,6 +198,7 @@ function syncDeepLinkToggles() {
     liveTraffic: "trafficToggle",
     police: "policeToggle",
     fireStations: "fireStationToggle",
+    civilDefence: "civilDefenceToggle",
     schools: "schoolToggle",
     rail: "railToggle",
     railStations: "railStationToggle",
@@ -342,7 +343,7 @@ map.on("click", async (event) => {
     isSpatialToolActive() ||
     isNetworkIntelligenceActive()
   ) return;
-  const layerIds = ["cadastral-fill", "district-fill", "pbt-fill", "school-symbol", "fire-station-point", "police-symbol", "health-symbol", "city-circle"]
+  const layerIds = ["cadastral-fill", "district-fill", "pbt-fill", "school-symbol", "fire-station-point", "civil-defence-point", "police-symbol", "health-symbol", "city-circle"]
     .filter((id) => map.getLayer(id));
 
   const features = map.queryRenderedFeatures(event.point, {
@@ -386,16 +387,9 @@ map.on("click", async (event) => {
       Daerah: ${properties.web_district || "-"}<br>
       PBT: ${properties.web_pbt || "-"}<br>
       Jenis Warta: ${properties.web_type || "-"}`;
-  } else if (feature.layer.id === "police-symbol") {
-    html = `<strong>${properties.web_name || "PDRM"}</strong><br>
-      Hierarki: ${properties.web_hierarchy || "-"}<br>
-      Daerah: ${properties.web_district || "-"}<br>
-      Alamat: ${properties.web_address || "-"}<br>
-      Telefon: ${properties.web_phone || "-"}`;
-  } else if (feature.layer.id === "fire-station-point") {
-    html = `<strong>${properties.NAMA_BBP || "Balai Bomba & Penyelamat"}</strong><br>
-      Zon: ${properties.ZON || "-"} — ${properties.NAMA_ZON || "-"}<br>
-      Kategori: ${properties.KATEGORI || "-"}`;
+  } else if (["police-symbol","fire-station-point","civil-defence-point"].includes(feature.layer.id)) {
+    const escapeHtml = (value) => String(value ?? "-").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+    html = `<strong>${escapeHtml(properties.NAMA)}</strong><br>Agensi: ${escapeHtml(properties.AGENSI)}<br>Kategori: ${escapeHtml(properties.KATEGORI)}<br>Hierarki: ${escapeHtml(properties.HIERARKI)}<br>Induk: ${escapeHtml(properties.INDUK)}<br>Alamat: ${escapeHtml(properties.ALAMAT)}`;
   } else if (feature.layer.id === "health-symbol") {
     html = `<strong>${properties.web_name || "Kemudahan Kesihatan"}</strong><br>
       Kategori: ${properties.web_category || "-"}<br>
@@ -577,6 +571,13 @@ document.getElementById("policeToggle").addEventListener("change", (event) => {
   updateLayerCount();
 });
 
+document.getElementById("civilDefenceToggle").addEventListener("change", (event) => {
+  layerState.civilDefence = event.target.checked;
+  applyLayerVisibility(map);
+  compare.refreshLayers();
+  updateLayerCount();
+});
+
 document.getElementById("fireStationToggle").addEventListener("change", (event) => {
   layerState.fireStations = event.target.checked;
   applyLayerVisibility(map);
@@ -652,6 +653,7 @@ document.getElementById("toggleAllLayers").addEventListener("click", () => {
   document.getElementById("trafficToggle").checked = allOn;
   document.getElementById("policeToggle").checked = allOn;
   document.getElementById("fireStationToggle").checked = allOn;
+  document.getElementById("civilDefenceToggle").checked = allOn;
   document.getElementById("schoolToggle").checked = allOn;
   document.getElementById("railToggle").checked = allOn;
   document.getElementById("railStationToggle").checked = allOn;
@@ -960,6 +962,7 @@ function setAssistantLayerVisibility(layer, visible) {
     healthFacilities: "healthFacilityToggle",
     police: "policeToggle",
     fireStations: "fireStationToggle",
+    civilDefence: "civilDefenceToggle",
     schools: "schoolToggle",
     cityHierarchy: "cityHierarchyToggle",
     terrain: "terrainToggle",
