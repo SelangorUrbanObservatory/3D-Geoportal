@@ -5538,3 +5538,12 @@ button:focus-visible,input:focus-visible,select:focus-visible{
 /* Flood Intelligence: rainfall ranking acts as a map navigation control. */
 .flood-rain-row.flood-rain-focus{width:100%;font:inherit;text-align:left;color:inherit;cursor:pointer;transition:border-color .15s,background .15s}
 .flood-rain-row.flood-rain-focus:hover,.flood-rain-row.flood-rain-focus:focus-visible{border-color:#c28b31;background:rgba(245,189,69,.12);outline-offset:2px}
+
+/* Flood Intelligence: always-visible Mapbox DOM forecast markers */
+.suo-rain-marker{appearance:none;border:2px solid #fff;background:var(--rain-color,#38BDF8);color:#152332;min-width:52px;height:52px;border-radius:50%;box-shadow:0 3px 12px rgba(0,0,0,.48);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:3px;line-height:1.05;font-family:inherit;transition:transform .15s ease}
+.suo-rain-marker:hover,.suo-rain-marker:focus-visible{transform:scale(1.15);outline:2px solid #fff;outline-offset:2px}
+.suo-rain-marker-value{font-weight:850;font-size:13px;text-align:center;white-space:nowrap}
+.suo-rain-marker-value small{display:block;font-size:9px;font-weight:700}
+.suo-rain-popup{color:#322c26;font-size:12px;line-height:1.6}
+.suo-rain-popup strong{display:block;font-size:14px;margin-bottom:5px}
+.suo-rain-popup small{display:block;margin-top:6px;color:#64584e}
