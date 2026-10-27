@@ -9,3 +9,25 @@
 #policeLegendPanel .safety-child-layer strong{font-size:12px;line-height:1.3}
 #policeLegendPanel .safety-child-layer input{width:17px;height:17px;accent-color:#a92d37;margin:0}
 #schoolLegendPanel .legend-heading,#healthLegendPanel .legend-heading,#policeLegendPanel .legend-heading{margin-bottom:8px}
+
+/* Master checkbox for the entire Kemudahan Masyarakat section. */
+.layer-category:has(> #communityFacilitiesToggle) { position: relative; }
+.layer-category:has(> #communityFacilitiesToggle) > .layer-category-header {
+  padding-right: 66px;
+}
+#communityFacilitiesToggle {
+  position: absolute;
+  right: 34px;
+  top: 13px;
+  z-index: 4;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #a92d37;
+}
+#communityFacilitiesToggle:focus-visible {
+  outline: 2px solid #a92d37;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
