@@ -5599,3 +5599,74 @@ button:focus-visible,input:focus-visible,select:focus-visible{
 @media (prefers-reduced-motion: reduce) {
   .urban-explorer-chevron { transition: none; }
 }
+
+/* v9.6.9: visible reopen handles against both bright and dark map basemaps.
+   Previously dark text inherited --text on a nearly black button. */
+.workspace .sidebar-reopen-tab {
+  box-sizing: border-box;
+  width: 46px;
+  min-height: 154px;
+  padding: 13px 9px;
+  gap: 9px;
+  justify-content: center;
+  border: 1px solid #d9a52f;
+  background: #fff9e9;
+  color: #30271c;
+  box-shadow: 0 3px 14px rgba(33, 27, 18, 0.3);
+  backdrop-filter: none;
+  cursor: pointer;
+}
+.workspace .left-reopen-tab {
+  border-left: 0;
+  border-radius: 0 12px 12px 0;
+  box-shadow: 2px 3px 12px rgba(33,27,18,.24);
+}
+.workspace .right-reopen-tab {
+  border-right: 0;
+  border-radius: 12px 0 0 12px;
+  box-shadow: -2px 3px 12px rgba(33,27,18,.24);
+}
+.workspace .sidebar-reopen-tab b {
+  color: #30271c;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  text-align: center;
+}
+.workspace .sidebar-reopen-tab > span {
+  color: #a63138;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1;
+}
+.workspace .sidebar-reopen-tab:hover,
+.workspace .sidebar-reopen-tab:focus-visible {
+  background: #ffdf8b;
+  color: #241d12;
+  border-color: #b8781d;
+}
+.workspace .sidebar-reopen-tab:hover b,
+.workspace .sidebar-reopen-tab:focus-visible b {
+  color: #241d12;
+}
+.workspace .sidebar-reopen-tab:focus-visible {
+  outline: 3px solid #a63138;
+  outline-offset: 2px;
+}
+@media (max-width: 1100px) {
+  .workspace .sidebar-reopen-tab {
+    width: auto;
+    max-width: calc(50vw - 7px);
+    min-height: 44px;
+    padding: 9px 12px;
+    gap: 6px;
+  }
+  .workspace .sidebar-reopen-tab b {
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    white-space: nowrap;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}
