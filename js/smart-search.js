@@ -11,7 +11,7 @@ const LOCAL_SOURCES = [
     key: "cities",
     url: DATA_URLS.cities,
     icon: "●",
-    group: "Bandar DPN2",
+    group: "Bandar DPN3",
     name: (p) => p.nama_bandar,
     subtitle: (p) => `${p.hierarki || "Bandar"} · ${p.daerah || "Selangor"}`
   },
