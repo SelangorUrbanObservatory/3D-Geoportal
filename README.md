@@ -1,3 +1,11 @@
+# SUO 3D GeoPortal — DPN3 Tier Migration (28 Oktober 2026)
+
+Urban Explorer dan Urban Tour kini menggunakan **33 bandar Selangor** mengikut **Tier 1 (7), Tier 2 (3), Tier 3 (23)** daripada senarai kerja Lampiran DPN3. Fail rujukan: `data/hierarki_bandar_selangor_dpn3.geojson`; konfigurasi: `config/urban-hierarchy.json`. Koordinat ialah titik fokus paparan (bukan sempadan statutori). **Senarai masih perlu disemak terhadap penerbitan rasmi DPN3 MyPLAN yang dinyatakan bertarikh 30 Oktober 2026.**
+
+Rujukan hierarki: https://myplan.planmalaysia.gov.my/portal-main/publication-details?id=72 ; salinan lampiran untuk semakan awal: https://www.scribd.com/document/1073303886/Senarai-Bandar-DPN3 . Lokasi daripada fail GeoPortal terdahulu, JUPEM MyGeoName Selangor 2022 dan OpenStreetMap/Mapcarta. Warta RS Negeri Selangor 2035 (Pengubahan) masih merujuk DPN2; kedua-duanya tidak boleh ditafsirkan sebagai sumber kategori yang sama.
+
+---
+
 # SUO GeoPortal v8.0.4 Public Transport Rail Layer
 
 ## Struktur JavaScript
