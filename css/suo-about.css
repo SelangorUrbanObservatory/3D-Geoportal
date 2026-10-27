@@ -25,3 +25,9 @@ body.suo-about-open{overflow:hidden}
 .suo-about-note p{font-size:12px;margin:4px 0 0;color:#594c43}
 .suo-about-credit{text-align:center;font-size:11px;color:#79695b;margin:18px 0 0!important}
 @media(max-width:560px){.suo-about-overlay{padding:9px}.suo-about-top{padding:15px}.suo-about-body{padding:16px}.suo-about-features{grid-template-columns:1fr}.suo-about-brand h2{font-size:17px}}
+
+/* Always-accessible About shortcut on narrow/mobile headers. */
+@media(max-width:900px){
+ #aboutGeoportalBtn{position:fixed!important;right:12px;bottom:calc(18px + env(safe-area-inset-bottom,0px));top:auto!important;left:auto!important;z-index:8500!important;display:inline-flex!important;align-items:center;justify-content:center;gap:5px;min-height:43px;padding:10px 13px!important;border-radius:999px!important;background:#fff8ea!important;border:1px solid #d8ba88!important;color:#873a30!important;box-shadow:0 3px 15px rgba(46,29,18,.25)!important;font-size:12px!important;font-weight:800!important;white-space:nowrap}
+ body.suo-about-open #aboutGeoportalBtn{visibility:hidden}
+}
