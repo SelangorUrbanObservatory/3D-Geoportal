@@ -197,3 +197,15 @@ html,body { color:var(--suo-ink); }
 /* Official SUO logo — keep original artwork, transparent background, natural aspect */
 .brand-wrap .brand-logo { display:block; width:56px; height:56px; max-width:none; object-fit:contain; flex:0 0 56px; background:transparent; border:0; box-shadow:none; }
 @media (max-width:760px) { .brand-wrap .brand-logo { width:44px; height:44px; flex-basis:44px; } }
+
+/* Accessibility: readable education and health legends on light SUO surfaces. */
+#schoolLegendPanel .legend-row,
+#healthLegendPanel .legend-row {
+  color: #352b25;
+  font-weight: 600;
+  line-height: 1.45;
+}
+#schoolLegendPanel .legend-heading,
+#healthLegendPanel .legend-heading { color: #352b25; }
+#schoolLegendPanel .legend-heading small,
+#healthLegendPanel .legend-heading small { color: #66574c; }
