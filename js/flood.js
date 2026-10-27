@@ -203,8 +203,17 @@ export class FloodIntelligence {
 
     const payload = await response.json();
     const forecasts = Array.isArray(payload) ? payload : [payload];
-    const now = Date.now();
-    const until = now + (24 * 60 * 60 * 1000);
+    // Open-Meteo timestamps are local to Asia/Kuala_Lumpur; compare local
+    // wall-clock hours instead of interpreting them as browser/UTC instants.
+    const nowMY = new Intl.DateTimeFormat("sv-SE", {
+      timeZone:"Asia/Kuala_Lumpur",year:"numeric",month:"2-digit",day:"2-digit",
+      hour:"2-digit",minute:"2-digit",hourCycle:"h23"
+    }).format(new Date()).replace(" ","T");
+    const untilMY = new Date(Date.parse(nowMY + "+08:00") + 24*3600*1000);
+    const untilKey = new Intl.DateTimeFormat("sv-SE", {
+      timeZone:"Asia/Kuala_Lumpur",year:"numeric",month:"2-digit",day:"2-digit",
+      hour:"2-digit",minute:"2-digit",hourCycle:"h23"
+    }).format(untilMY).replace(" ","T");
 
     const features = cities.map((city, index) => {
       const forecast = forecasts[index] || forecasts[0] || {};
@@ -214,9 +223,7 @@ export class FloodIntelligence {
       let total = 0;
 
       times.forEach((time, timeIndex) => {
-        const timestamp = new Date(time).getTime();
-
-        if (timestamp >= now && timestamp <= until) {
+        if (time >= nowMY && time < untilKey) {
           total += Number(precipitation[timeIndex] || 0);
         }
       });
@@ -290,15 +297,15 @@ export class FloodIntelligence {
               "interpolate",
               ["linear"],
               ["get", "rain_mm"],
-              0, 5,
-              60, 12
+              0, 9,
+              60, 18
             ],
             14, [
               "interpolate",
               ["linear"],
               ["get", "rain_mm"],
-              0, 9,
-              60, 21
+              0, 12,
+              60, 25
             ]
           ],
           "circle-color": [
@@ -310,8 +317,8 @@ export class FloodIntelligence {
             60, "#DC2626"
           ],
           "circle-stroke-color": "#FFFFFF",
-          "circle-stroke-width": 1.7,
-          "circle-opacity": 0.9
+          "circle-stroke-width": 2.5,
+          "circle-opacity": 0.98
         }
       });
     }
@@ -322,7 +329,7 @@ export class FloodIntelligence {
         type: "symbol",
         source: sourceId,
         slot: "top",
-        minzoom: 7,
+        minzoom: 6,
         layout: {
           visibility: layerState.floodRain ? "visible" : "none",
           "text-field": [
