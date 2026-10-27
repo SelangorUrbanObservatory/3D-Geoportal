@@ -54,7 +54,13 @@ export async function addPortalLayers(map, prefix = "") {
       source: citySource,
       slot: "top",
       paint: {
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 7, 5, 14, 10],
+        "circle-radius": [
+          "interpolate", ["linear"], ["zoom"],
+          7, ["match", ["get", "hierarki"],
+            "Tier 1", 6, "Tier 2", 5, "Tier 3", 4, 5],
+          14, ["match", ["get", "hierarki"],
+            "Tier 1", 11, "Tier 2", 9, "Tier 3", 7, 8]
+        ],
         "circle-color": [
           "match", ["get", "hierarki"],
           "Tier 1", "#D43D48",
