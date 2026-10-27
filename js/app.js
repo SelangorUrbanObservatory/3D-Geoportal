@@ -405,7 +405,7 @@ map.on("click", async (event) => {
       Operator: ${properties.web_operator || "-"}`;
   } else {
     html = `<strong>${properties.nama_bandar || "Bandar"}</strong><br>
-      Hierarki: ${properties.hierarki || "-"}<br>
+      Tier DPN3: ${properties.hierarki || "-"}<br>
       Daerah: ${properties.daerah || "-"}`;
   }
 
@@ -1057,7 +1057,7 @@ const ASSISTANT_LAYER_LABELS = {
   police: "Polis Diraja Malaysia",
   fireStations: "Balai Bomba & Penyelamat",
   schools: "Pendidikan",
-  cityHierarchy: "Hierarki Bandar DPN2",
+  cityHierarchy: "Hierarki Bandar DPN3",
   terrain: "Terrain 3D",
   buildings: "Bangunan 3D"
 };

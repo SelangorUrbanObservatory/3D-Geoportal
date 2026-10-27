@@ -110,8 +110,8 @@
 <button aria-expanded="true" class="layer-category-header" data-layer-category="urbanHierarchy" type="button">
 <span class="layer-category-icon">◉</span>
 <span>
-<strong>Hierarki Bandar DPN2</strong>
-<small>3 layer</small>
+<strong>Hierarki Bandar DPN3</strong>
+<small>3 tier</small>
 </span>
 <span class="layer-category-chevron">⌄</span>
 </button>
@@ -119,8 +119,8 @@
 <label class="layer-item">
 <span class="legend-symbol city-hierarchy-symbol"></span>
 <span class="layer-copy">
-<strong>Hierarki Bandar DPN2</strong>
-<small>Bandar Negeri, Utama dan Tempatan</small>
+<strong>Hierarki Bandar DPN3</strong>
+<small><span style="color:#D43D48">●</span> Tier 1 &nbsp; <span style="color:#E9AB27">●</span> Tier 2 &nbsp; <span style="color:#9A6953">●</span> Tier 3</small>
 </span>
 <input checked="" id="cityHierarchyToggle" type="checkbox"/>
 </label>
@@ -217,7 +217,7 @@
 <span class="legend-symbol flood-layer-symbol"></span>
 <span class="layer-copy">
 <strong>Ramalan Hujan 24 Jam</strong>
-<small>Bandar DPN2 dan amaran banjir</small>
+<small>Lokasi ramalan hujan dan amaran banjir</small>
 </span>
 <input checked="" id="floodRainToggle" type="checkbox"/>
 </div>
@@ -490,9 +490,9 @@
 <div class="panel-heading">
 <div>
 <p class="section-label">URBAN EXPLORER</p>
-<h2>Bandar DPN2 Selangor</h2>
+<h2>Bandar DPN3 Selangor</h2>
 </div>
-<span class="policy-badge" id="urbanPolicyBadge">DPN2</span>
+<span class="policy-badge" id="urbanPolicyBadge">DPN3</span>
 </div>
 <div class="policy-status" id="urbanPolicyStatus">Memuatkan konfigurasi rasmi...</div>
 <div class="urban-explorer" id="urbanExplorer"></div>
@@ -602,7 +602,7 @@
 <div class="compare-layer-list">
 <label class="compare-layer-row">
 <input checked="" data-compare-layer="cityHierarchy" data-compare-side="left" type="checkbox"/>
-<span>Hierarki Bandar DPN2</span>
+<span>Hierarki Bandar DPN3</span>
 </label>
 <label class="compare-layer-row">
 <input checked="" data-compare-layer="healthFacilities" data-compare-side="left" type="checkbox"/>
@@ -643,7 +643,7 @@
 <div class="compare-layer-list">
 <label class="compare-layer-row">
 <input checked="" data-compare-layer="cityHierarchy" data-compare-side="right" type="checkbox"/>
-<span>Hierarki Bandar DPN2</span>
+<span>Hierarki Bandar DPN3</span>
 </label>
 <label class="compare-layer-row">
 <input checked="" data-compare-layer="healthFacilities" data-compare-side="right" type="checkbox"/>
@@ -796,7 +796,7 @@
 <article class="flood-summary-card">
 <span>Hujan Tertinggi 24 Jam</span>
 <strong id="floodMaxRain">-- mm</strong>
-<small id="floodMaxRainLocation">Bandar DPN2</small>
+<small id="floodMaxRainLocation">Lokasi ramalan</small>
 </article>
 <article class="flood-summary-card">
 <span>Bandar Tahap Tinggi</span>
@@ -813,7 +813,7 @@
 <div class="flood-section-heading">
 <div>
 <p class="section-label">RAMALAN HUJAN 24 JAM</p>
-<h3>Bandar DPN2 Selangor</h3>
+<h3>Lokasi Ramalan Selangor</h3>
 </div>
 <span id="floodRainUpdated">--</span>
 </div>
@@ -1029,9 +1029,9 @@
 </section><section class="panel summary-heading-panel" data-right-component="selangor-summary-heading">
 <div class="panel-heading">
 <div>
-<p class="section-label">RINGKASAN PBT, DAERAH &amp; DPN2</p>
+<p class="section-label">RINGKASAN PBT, DAERAH &amp; DPN3</p>
 <h2>Ringkasan Negeri Selangor</h2>
-<p class="muted">Statistik utama pentadbiran, bandar dan layer aktif.</p>
+<p class="muted">Statistik utama pentadbiran, bandar DPN3 dan layer aktif.</p>
 </div>
 </div>
 </section><section class="kpi-grid" data-right-component="selangor-summary">
@@ -1046,7 +1046,7 @@
 <small>Daerah pentadbiran</small>
 </article>
 <article class="kpi-card">
-<span>Bandar DPN2</span>
+<span>Bandar DPN3</span>
 <strong id="urbanLocationCount">0</strong>
 <small>Lokasi fokus</small>
 </article>
@@ -1388,7 +1388,7 @@
       return;
     }
 
-    import("./js/app.js?v=9.6.10").catch(function (error) {
+    import("./js/app.js?v=9.7.0").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +

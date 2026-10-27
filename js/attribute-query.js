@@ -89,16 +89,16 @@ export const ATTRIBUTE_LAYER_REGISTRY = {
     }
   },
   cities: {
-    label: "bandar DPN2",
+    label: "bandar DPN3",
     url: DATA_URLS.cities,
     nameField: "nama_bandar",
     fields: {
       hierarki: {
-        label: "Hierarki",
+        label: "Tier DPN3",
         values: {
-          "Bandar Negeri": ["bandar negeri"],
-          "Bandar Utama": ["bandar utama"],
-          "Bandar Tempatan": ["bandar tempatan"]
+          "Tier 1": ["tier 1", "tier satu", "tier pertama"],
+          "Tier 2": ["tier 2", "tier dua", "tier kedua"],
+          "Tier 3": ["tier 3", "tier tiga", "tier ketiga"]
         }
       },
       daerah: {
