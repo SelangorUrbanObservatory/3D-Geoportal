@@ -37,6 +37,6 @@ export async function initUrbanExplorer(onSelect) {
 
   count.textContent = String(cities.length);
   status.className = "policy-status ready";
-  status.textContent = `${cities.length} bandar DPN2 dimuatkan.`;
+  status.textContent = `${cities.length} bandar DPN3 (Tier 1–3) dimuatkan. Senarai semakan awal; pengesahan akhir dokumen DPN3 diperlukan.`;
   return cities;
 }
