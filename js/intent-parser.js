@@ -142,7 +142,7 @@ function detectLayerCommand(text) {
     ["pendidikan", "schools"],
     ["keselamatan", "police"],
     ["hierarki bandar", "cityHierarchy"],
-    ["bandar dpn2", "cityHierarchy"],
+    ["bandar dpn3", "cityHierarchy"],
     ["terrain", "terrain"],
     ["bangunan 3d", "buildings"]
   ];
@@ -218,7 +218,7 @@ export function parseIntent(message) {
     subject = { layer: "districts", category: null };
   }
 
-  if (!subject && (text.includes("bandar") || text.includes("dpn2"))) {
+  if (!subject && (text.includes("bandar") || text.includes("dpn3"))) {
     subject = { layer: "cities", category: null };
   }
 
