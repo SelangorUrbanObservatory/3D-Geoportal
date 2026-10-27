@@ -171,7 +171,7 @@ export class FloodIntelligence {
     });
 
     if (!response.ok) {
-      throw new Error("Senarai bandar DPN2 tidak dapat dimuatkan.");
+      throw new Error("Senarai lokasi ramalan hujan tidak dapat dimuatkan.");
     }
 
     const config = await response.json();
@@ -190,7 +190,7 @@ export class FloodIntelligence {
       }
     }
 
-    // Retain the 18 configured DPN cities, then add distinct forecast points.
+    // Read current DPN3 sampling centres and append distinct extra Selangor forecast points.
     const names = new Set(cities.map(city=>city.name.toLocaleLowerCase("ms-MY")));
     for (const location of ADDITIONAL_RAIN_LOCATIONS) {
       if (!names.has(location.name.toLocaleLowerCase("ms-MY"))) {
@@ -495,7 +495,7 @@ export class FloodIntelligence {
       `${Number(maxFeature?.properties.rain_mm || 0).toFixed(1)} mm`;
 
     document.getElementById("floodMaxRainLocation").textContent =
-      maxFeature?.properties.name || "Bandar DPN2";
+      maxFeature?.properties.name || "Lokasi ramalan";
 
     document.getElementById("floodHighRainCities").textContent =
       String(highCount);
