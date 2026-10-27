@@ -535,6 +535,9 @@
 </aside>
 <main class="map-shell">
 <div class="split-map split-map-left" id="map"></div>
+<button id="suoPegman" class="suo-pegman" type="button" aria-label="Tarik ikon orang kuning ke atas jalan untuk buka Street View" title="Tarik ke atas jalan untuk Street View"><svg viewBox="0 0 40 54" aria-hidden="true"><circle cx="20" cy="9" r="8" fill="#f3b827" stroke="#ad7800" stroke-width="2"/><rect x="12" y="19" width="16" height="18" rx="7" fill="#f3b827" stroke="#ad7800" stroke-width="2"/><path d="M12 24L5 35M28 24L35 35M16 35L13 50M24 35L27 50" stroke="#d99c13" stroke-width="6" stroke-linecap="round"/></svg></button>
+<div id="suoPegmanTip" class="suo-pegman-tip" hidden>Tarik ke atas jalan</div>
+<div id="suoPegmanGhost" class="suo-pegman-ghost" hidden><svg viewBox="0 0 40 54" aria-hidden="true"><circle cx="20" cy="9" r="8" fill="#f3b827" stroke="#ad7800" stroke-width="2"/><rect x="12" y="19" width="16" height="18" rx="7" fill="#f3b827" stroke="#ad7800" stroke-width="2"/><path d="M12 24L5 35M28 24L35 35M16 35L13 50M24 35L27 50" stroke="#d99c13" stroke-width="6" stroke-linecap="round"/></svg></div>
 <div id="suoCesiumHost" hidden><iframe id="suoCesiumFrame" title="SUO Cesium 3D" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
 <div aria-label="Peta perbandingan" class="split-map split-map-right" id="compareMap"></div>
 <div aria-hidden="true" class="split-divider" id="splitDivider"></div>
@@ -1470,7 +1473,8 @@
 </script>
 <script defer src="js/layer-catalog-filter.js?v=9.0.2"></script>
 <script defer src="js/engine-switcher.js?v=9.4.5"></script>
-<script defer src="js/street-view.js?v=1.0"></script>
+<script defer src="js/street-view.js?v=2.0"></script>
+<link rel="stylesheet" href="css/suo-pegman.css?v=1.0">
 <link rel="stylesheet" href="css/engine-switcher.css?v=9.1.0">
 </body>
 </html>
