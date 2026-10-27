@@ -135,6 +135,7 @@
 </span>
 <span class="layer-category-chevron">⌄</span>
 </button>
+<input checked="" id="communityFacilitiesToggle" class="community-facilities-master-toggle" type="checkbox" aria-label="Papar atau sembunyikan semua Kemudahan Masyarakat" title="Aktifkan atau matikan semua kemudahan"/>
 <div class="layer-category-content" data-layer-category-content="communityFacilities">
 <div class="layer-group nested-layer-group">
 <div class="layer-item layer-item-expandable">
@@ -1387,7 +1388,7 @@
       return;
     }
 
-    import("./js/app.js?v=9.6.9").catch(function (error) {
+    import("./js/app.js?v=9.6.10").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
