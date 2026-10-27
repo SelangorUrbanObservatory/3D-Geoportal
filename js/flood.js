@@ -85,6 +85,7 @@ export class FloodIntelligence {
     });
 
     this.rainInteractionsBound = false;
+    this.rankingInteractionsBound = false;
     this.load();
   }
 
@@ -321,7 +322,7 @@ export class FloodIntelligence {
         type: "symbol",
         source: sourceId,
         slot: "top",
-        minzoom: 9,
+        minzoom: 7,
         layout: {
           visibility: layerState.floodRain ? "visible" : "none",
           "text-field": [
@@ -444,7 +445,7 @@ export class FloodIntelligence {
       const properties = feature.properties;
 
       return `
-        <article class="flood-rain-row">
+        <button type="button" class="flood-rain-row flood-rain-focus" data-flood-lng="${Number(feature.geometry.coordinates[0])}" data-flood-lat="${Number(feature.geometry.coordinates[1])}" data-flood-name="${escapeHtml(properties.name)}" title="Fokus lokasi pada peta">
           <span class="flood-rain-rank">${index + 1}</span>
           <div>
             <strong>${escapeHtml(properties.name)}</strong>
@@ -456,9 +457,26 @@ export class FloodIntelligence {
               ${escapeHtml(properties.level)}
             </span>
           </div>
-        </article>
+        </button>
       `;
     }).join("");
+    if (!this.rankingInteractionsBound) {
+      this.rankingInteractionsBound = true;
+      ranking.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-flood-lng][data-flood-lat]");
+        if (!button) return;
+        const lng = Number(button.dataset.floodLng);
+        const lat = Number(button.dataset.floodLat);
+        if (!Number.isFinite(lng) || !Number.isFinite(lat)) return;
+        if (!layerState.floodRain) {
+          const toggle = document.getElementById("floodRainToggle");
+          if (toggle) toggle.checked = true;
+          this.setVisible(true);
+        }
+        this.map.flyTo({center:[lng,lat],zoom:Math.max(this.map.getZoom(),11),essential:true});
+        this.close();
+      });
+    }
   }
 
   async loadFloodWarnings() {
