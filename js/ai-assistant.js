@@ -292,10 +292,10 @@ export class SpatialAssistant {
       const features = await getCities();
       highlightFeatures(this.map, features);
       zoomToFeatures(this.map, features, { maxZoom: 9.5 });
-      return `Terdapat ${features.length} bandar dalam layer Hierarki Bandar DPN2 Selangor.`;
+      return `Terdapat ${features.length} bandar dalam layer Hierarki Bandar DPN3 Selangor.`;
     }
 
-    return "Sila nyatakan layer yang hendak dikira, contohnya hospital, IPD, PBT atau bandar DPN2.";
+    return "Sila nyatakan layer yang hendak dikira, contohnya hospital, IPD, PBT atau bandar DPN3.";
   }
 
   async handleArea(query) {
@@ -469,7 +469,7 @@ export class SpatialAssistant {
       const features = await getCities();
       highlightFeatures(this.map, features);
       zoomToFeatures(this.map, features, { maxZoom: 9.5 });
-      return "Semua bandar DPN2 telah di-highlight.";
+      return "Semua bandar DPN3 telah di-highlight.";
     }
 
     return "Sila nyatakan data yang hendak dipaparkan.";
@@ -514,7 +514,7 @@ export class SpatialAssistant {
       .find(([name]) => query.text.includes(name));
 
     if (!cityMatch) {
-      return "Lokasi navigasi tidak ditemui dalam senarai bandar DPN2.";
+      return "Lokasi navigasi tidak ditemui dalam senarai bandar DPN3.";
     }
 
     clearHighlight(this.map);
