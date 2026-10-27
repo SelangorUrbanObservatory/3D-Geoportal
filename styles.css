@@ -5534,3 +5534,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{
  color:#9d3438!important;background:#fbeceb!important;border-color:#e8b9b6!important
 }
 .network-clear-btn:hover{color:#fff!important;background:#b93a3e!important;border-color:#b93a3e!important}
+
+/* Flood Intelligence: rainfall ranking acts as a map navigation control. */
+.flood-rain-row.flood-rain-focus{width:100%;font:inherit;text-align:left;color:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+.flood-rain-row.flood-rain-focus:hover,.flood-rain-row.flood-rain-focus:focus-visible{border-color:#c28b31;background:rgba(245,189,69,.12);outline-offset:2px}
