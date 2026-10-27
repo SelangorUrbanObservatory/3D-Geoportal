@@ -114,7 +114,7 @@ export async function addPortalLayers(map, prefix = "") {
       slot: "top",
       minzoom: 11,
       layout: {
-        "text-field": ["get", "NAMA"],
+        "text-field": ["get", "web_name"],
         "text-size": 10,
         "text-offset": [0, 1.25],
         "text-anchor": "top"
