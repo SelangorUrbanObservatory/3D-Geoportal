@@ -7,7 +7,7 @@
 <meta content="SUO 3D GeoPortal: platform geospatial pintar tiga dimensi yang mengintegrasikan visualisasi dan analitik bandar sebagai asas ke arah Urban Digital Twin Negeri Selangor." name="description"/>
 <title>SUO 3D GeoPortal v9.3</title>
 <link href="https://cdn.jsdelivr.net/npm/mapbox-gl@3.25.0/dist/mapbox-gl.css" id="mapboxCss" rel="stylesheet"/>
-<link href="styles.css?v=9.6.6" rel="stylesheet"/>
+<link href="styles.css?v=9.6.8" rel="stylesheet"/>
 <link href="css/suo-v9-foundation.css?v=9.6.7" rel="stylesheet"/>
 <link href="css/suo-loading-brand.css?v=1.1" rel="stylesheet"/>
 <link href="css/suo-facility-controls.css?v=1.2" rel="stylesheet"/>
@@ -486,17 +486,22 @@
 </section>
 </div>
 </section>
-<section class="panel">
-<div class="panel-heading">
+<details class="panel urban-explorer-panel" id="urbanExplorerPanel">
+<summary class="urban-explorer-summary">
 <div>
 <p class="section-label">URBAN EXPLORER</p>
 <h2>Bandar DPN3 Selangor</h2>
 </div>
+<span class="urban-explorer-summary-right">
 <span class="policy-badge" id="urbanPolicyBadge">DPN3</span>
-</div>
-<div class="policy-status" id="urbanPolicyStatus">Memuatkan konfigurasi rasmi...</div>
+<span class="urban-explorer-chevron" aria-hidden="true">⌄</span>
+</span>
+</summary>
+<div class="urban-explorer-content">
+<div class="policy-status" id="urbanPolicyStatus">Memuatkan konfigurasi bandar...</div>
 <div class="urban-explorer" id="urbanExplorer"></div>
-</section>
+</div>
+</details>
 <section class="panel spatial-analysis-panel">
 <p class="section-label">UKUR &amp; ANALISIS</p>
 <h2>Alat Spatial</h2>
