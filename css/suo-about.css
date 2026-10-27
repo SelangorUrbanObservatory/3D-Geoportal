@@ -1,0 +1,27 @@
+/* SUO GeoPortal About modal — light corporate theme */
+.suo-about-overlay[hidden]{display:none!important}
+.suo-about-overlay{position:fixed;inset:0;z-index:100000;background:rgba(28,23,19,.58);display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(5px)}
+body.suo-about-open{overflow:hidden}
+.suo-about-dialog{width:min(100%,670px);max-height:min(88vh,800px);overflow:auto;background:#fff9ef;color:#352c27;border:1px solid #e6d5bb;border-radius:18px;box-shadow:0 24px 80px rgba(25,17,12,.32);font-family:inherit}
+.suo-about-top{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:20px 23px 17px;border-bottom:1px solid #e9dac5;background:linear-gradient(110deg,#fff3d6,#fffaf1)}
+.suo-about-brand{display:flex;align-items:center;gap:13px;min-width:0}
+.suo-about-brand img{object-fit:contain;flex-shrink:0}
+.suo-about-brand small{display:block;font-size:10px;font-weight:800;letter-spacing:.07em;color:#a73531}
+.suo-about-brand h2{margin:4px 0 0;font-size:clamp(18px,2.8vw,23px);line-height:1.2;color:#352c27}
+.suo-about-close{border:1px solid #e6d5bb;border-radius:9px;background:#fff;color:#623d33;width:35px;height:35px;flex-shrink:0;cursor:pointer;font-size:17px}
+.suo-about-close:hover{background:#f8e6d9}
+.suo-about-body{padding:20px 24px 24px;font-size:13px;line-height:1.7}
+.suo-about-body p{margin:0 0 17px}
+.suo-about-tagline{display:flex;flex-direction:column;gap:2px;text-align:center;margin-bottom:20px!important}
+.suo-about-tagline strong{color:#a73531;font-size:17px}
+.suo-about-tagline span{font-size:12px;color:#776459}
+.suo-about-body h3{font-size:14px;color:#9d332f;margin:18px 0 10px}
+.suo-about-features{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0;margin:0}
+.suo-about-features li{padding:12px;background:#fff1dc;border:1px solid #eedec5;border-radius:10px;min-width:0}
+.suo-about-features strong{display:block;color:#382c25;font-size:12px}
+.suo-about-features span{display:block;color:#66564b;font-size:12px;margin-top:3px}
+.suo-about-note{margin-top:18px;padding:13px 15px;border-left:3px solid #c78b2d;border-radius:8px;background:#f7eedf}
+.suo-about-note strong{color:#8e4031}
+.suo-about-note p{font-size:12px;margin:4px 0 0;color:#594c43}
+.suo-about-credit{text-align:center;font-size:11px;color:#79695b;margin:18px 0 0!important}
+@media(max-width:560px){.suo-about-overlay{padding:9px}.suo-about-top{padding:15px}.suo-about-body{padding:16px}.suo-about-features{grid-template-columns:1fr}.suo-about-brand h2{font-size:17px}}
