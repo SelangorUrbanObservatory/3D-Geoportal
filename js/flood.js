@@ -5,6 +5,18 @@ import { addLayerCompat } from "./utils.js";
 const OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast";
 const FLOOD_WARNING_URL = "https://api.data.gov.my/flood-warning";
 
+// Additional forecast sampling locations; these are not official DPN urban hierarchy entries.
+const ADDITIONAL_RAIN_LOCATIONS = [
+  ["Kota Damansara",101.577,3.151],["Setia Alam",101.461,3.108],
+  ["Bukit Raja",101.453,3.073],["Kapar",101.383,3.139],
+  ["Meru",101.446,3.136],["Seri Kembangan",101.706,3.026],
+  ["Balakong",101.751,3.031],["Cheras Selatan",101.761,3.057],
+  ["Hulu Langat",101.825,3.113],["Batang Kali",101.653,3.469],
+  ["Bestari Jaya",101.416,3.378],["Ijok",101.389,3.335],
+  ["Telok Panglima Garang",101.471,2.929],["Jenjarom",101.493,2.883],
+  ["Dengkil",101.681,2.860],["Salak Tinggi",101.752,2.816]
+].map(([name,longitude,latitude])=>({name,longitude,latitude,hierarchy:"Lokasi Ramalan Tambahan"}));
+
 const RAIN_SOURCE_ID = "flood-rain-forecast";
 const RAIN_CIRCLE_ID = "flood-rain-circle";
 const RAIN_LABEL_ID = "flood-rain-label";
@@ -178,6 +190,14 @@ export class FloodIntelligence {
       }
     }
 
+    // Retain the 18 configured DPN cities, then add distinct forecast points.
+    const names = new Set(cities.map(city=>city.name.toLocaleLowerCase("ms-MY")));
+    for (const location of ADDITIONAL_RAIN_LOCATIONS) {
+      if (!names.has(location.name.toLocaleLowerCase("ms-MY"))) {
+        cities.push(location);
+        names.add(location.name.toLocaleLowerCase("ms-MY"));
+      }
+    }
     return cities;
   }
 
