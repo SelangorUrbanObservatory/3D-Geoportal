@@ -218,6 +218,7 @@ function syncDeepLinkToggles() {
   }
   syncFacilityCheckboxes();
   syncSafetyParentCheckbox();
+  syncCommunityFacilitiesToggle();
 }
 
 function applyDeepLinkView() {
@@ -603,6 +604,51 @@ function syncSafetyParentCheckbox() {
   parent.setAttribute("aria-checked", parent.indeterminate ? "mixed" : String(parent.checked));
 }
 
+// Three facility sections share a single master checkbox.
+// Mixed reflects any combination of the individual education, health and safety layers.
+function syncCommunityFacilitiesToggle() {
+  const master = document.getElementById("communityFacilitiesToggle");
+  if (!master) return;
+  const values = [
+    ...Object.values(facilitySubState.school),
+    ...Object.values(facilitySubState.health),
+    layerState.police,
+    layerState.fireStations,
+    layerState.civilDefence
+  ];
+  const selected = values.filter(Boolean).length;
+  master.checked = selected === values.length;
+  master.indeterminate = selected > 0 && selected < values.length;
+  master.setAttribute("aria-checked", master.indeterminate ? "mixed" : String(master.checked));
+}
+
+document.getElementById("communityFacilitiesToggle").addEventListener("change", (event) => {
+  const enabled = event.target.checked;
+  layerState.schools = enabled;
+  layerState.healthFacilities = enabled;
+  layerState.police = enabled;
+  layerState.fireStations = enabled;
+  layerState.civilDefence = enabled;
+
+  for (const group of ["school", "health"]) {
+    for (const name of Object.keys(facilitySubState[group])) {
+      facilitySubState[group][name] = enabled;
+    }
+  }
+
+  // Keep each subsection and its individual toggles in sync.
+  syncFacilityCheckboxes();
+  for (const id of ["policeToggle", "fireStationToggle", "civilDefenceToggle"]) {
+    document.getElementById(id).checked = enabled;
+  }
+  syncSafetyParentCheckbox();
+  syncCommunityFacilitiesToggle();
+
+  applyLayerVisibility(map);
+  compare.refreshLayers();
+  updateLayerCount();
+});
+
 document.getElementById("safetyFacilityToggle").addEventListener("change", (event) => {
   const enabled = event.target.checked;
   layerState.police = enabled;
@@ -738,6 +784,7 @@ document.getElementById("toggleAllLayers").addEventListener("click", () => {
 function updateLayerCount() {
   syncFacilityCheckboxes();
   syncSafetyParentCheckbox();
+  syncCommunityFacilitiesToggle();
   document.getElementById("activeLayerCount").textContent =
     String(Object.values(layerState).filter(Boolean).length);
 }
