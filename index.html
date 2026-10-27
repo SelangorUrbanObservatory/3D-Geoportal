@@ -129,8 +129,9 @@
 </div>
 <div class="layer-legend-panel" hidden="" id="schoolLegendPanel">
 <div class="legend-heading"><span>Pecahan Kemudahan Pendidikan</span><small>1,212 rekod</small></div>
-<div class="legend-list">
-<div class="legend-row"><span class="legend-school-icon school-primary-color"></span><span>Sekolah Rendah (664)</span></div>
+<div class="facility-sublist"><label class="facility-subitem"><span class="facility-subicon" style="background:#F59E0B"></span><span class="facility-subname">Sekolah Rendah (664)</span><input checked="" id="schoolPrimaryToggle" type="checkbox" aria-label="Papar Sekolah Rendah"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#7C3AED"></span><span class="facility-subname">Sekolah Menengah (281)</span><input checked="" id="schoolSecondaryToggle" type="checkbox" aria-label="Papar Sekolah Menengah"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#D63B48"></span><span class="facility-subname">Sekolah Agama (267)</span><input checked="" id="schoolReligiousToggle" type="checkbox" aria-label="Papar Sekolah Agama"/></label></div>
 <div class="legend-row"><span class="legend-school-icon school-secondary-color"></span><span>Sekolah Menengah (281)</span></div>
 <div class="legend-row"><span class="legend-school-icon" style="background:#D63B48"></span><span>Sekolah Agama (267)</span></div>
 </div>
@@ -148,8 +149,10 @@
 </div>
 <div class="layer-legend-panel" hidden="" id="healthLegendPanel">
 <div class="legend-heading"><span>Pecahan Kemudahan Kesihatan</span><small>87 rekod</small></div>
-<div class="legend-list">
-<div class="legend-row"><span class="legend-hospital-icon hospital-color"></span><span>Hospital (47)</span></div>
+<div class="facility-sublist"><label class="facility-subitem"><span class="facility-subicon" style="background:#E63946"></span><span class="facility-subname">Hospital (47)</span><input checked="" id="healthHospitalToggle" type="checkbox" aria-label="Papar Hospital"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#1D4ED8"></span><span class="facility-subname">Klinik Kesihatan (33)</span><input checked="" id="healthClinicToggle" type="checkbox" aria-label="Papar Klinik Kesihatan"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#EC4899"></span><span class="facility-subname">Klinik Ibu dan Anak (4)</span><input checked="" id="healthMotherToggle" type="checkbox" aria-label="Papar Klinik Ibu dan Anak"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#16A34A"></span><span class="facility-subname">Klinik Desa (3)</span><input checked="" id="healthVillageToggle" type="checkbox" aria-label="Papar Klinik Desa"/></label></div>
 <div class="legend-row"><span class="legend-hospital-icon clinic-color"></span><span>Klinik Kesihatan (33)</span></div>
 <div class="legend-row"><span class="legend-hospital-icon mother-child-color"></span><span>Klinik Ibu dan Anak (4)</span></div>
 <div class="legend-row"><span class="legend-hospital-icon village-clinic-color"></span><span>Klinik Desa (3)</span></div>
@@ -170,17 +173,16 @@
 <div class="legend-heading"><span>Pecahan Kemudahan Keselamatan</span><small>184 rekod dashboard</small></div>
 <label class="layer-item safety-child-layer">
 <span class="legend-police-icon police-ipd-color"></span>
-<span class="layer-copy"><strong>Polis Diraja Malaysia (137)</strong><small>137 lokasi PDRM termasuk IPK, IPD, balai dan pondok polis</small></span>
+<span class="layer-copy"><strong>PDRM (137)</strong></span>
 <input checked="" id="policeToggle" type="checkbox"/>
 </label>
 <label class="layer-item safety-child-layer">
 <span class="legend-fire-icon"></span>
-<span class="layer-copy"><strong>Jabatan Bomba &amp; Penyelamat (37)</strong><small>37 lokasi JBPM</small></span>
+<span class="layer-copy"><strong>JBPM (37)</strong></span>
 <input checked="" id="fireStationToggle" type="checkbox"/>
 </label>
-<label class="layer-item safety-child-layer"><span class="legend-symbol" style="color:#16A34A">●</span><span class="layer-copy"><strong>Angkatan Pertahanan Awam Malaysia (10)</strong><small>APM Negeri dan Daerah</small></span><input checked="" id="civilDefenceToggle" type="checkbox"/></label>
-<div class="legend-list">
-<div class="legend-row"><span class="legend-police-icon police-ipk-color"></span><span>IPK</span></div>
+<label class="layer-item safety-child-layer"><span class="legend-symbol" style="color:#16A34A">●</span><span class="layer-copy"><strong>APM (10)</strong></span><input checked="" id="civilDefenceToggle" type="checkbox"/></label>
+
 <div class="legend-row"><span class="legend-police-icon police-ipd-color"></span><span>IPD</span></div>
 <div class="legend-row"><span class="legend-fire-icon fire-zone-color"></span><span>BBP / Pejabat Zon</span></div>
 <div class="legend-row"><span class="legend-fire-icon fire-bbp-color"></span><span>BBP</span></div>
@@ -1378,7 +1380,7 @@
       return;
     }
 
-    import("./js/app.js?v=9.5.2").catch(function (error) {
+    import("./js/app.js?v=9.6.0").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
