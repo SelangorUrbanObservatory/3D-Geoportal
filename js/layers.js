@@ -5,6 +5,22 @@ import {
   setCadastralVisibility
 } from "./cadastral.js";
 
+export const facilitySubState = {
+  school: {"Sekolah Rendah":true,"Sekolah Menengah":true,"Sekolah Agama":true},
+  health: {"Hospital":true,"Klinik Kesihatan":true,"Klinik Ibu dan Anak":true,"Klinik Desa":true}
+};
+
+export function applyFacilityFilters(map,prefix="") {
+  for (const [group,property,ids] of [
+    ["school","web_level",["school-symbol","school-label"]],
+    ["health","web_category",["health-symbol","health-label"]]
+  ]) {
+    const selected=Object.entries(facilitySubState[group]).filter(([,v])=>v).map(([name])=>name);
+    const filter=["in",["get",property],["literal",selected]];
+    for(const id of ids) if(map.getLayer(prefix+id)) map.setFilter(prefix+id,filter);
+  }
+}
+
 export const layerState = {
   cityHierarchy: true,
   pbt: true,
@@ -875,6 +891,8 @@ export function applyLayerVisibility(map, prefix = "") {
       map.setLayoutProperty(id, "visibility", visible ? "visible" : "none");
     }
   }
+
+  applyFacilityFilters(map,prefix);
 
   setCadastralVisibility(
     map,
