@@ -1,0 +1,11 @@
+/* Compact consistent facility checkbox rows for Pendidikan, Kesihatan, Keselamatan */
+#schoolLegendPanel .facility-sublist,#healthLegendPanel .facility-sublist{display:grid;gap:6px}
+#schoolLegendPanel .facility-subitem,#healthLegendPanel .facility-subitem{display:grid;grid-template-columns:17px minmax(0,1fr) 20px;align-items:center;gap:8px;padding:8px 6px;border-radius:7px;background:rgba(255,255,255,.4);color:#352b25;font-size:12px;cursor:pointer;min-height:36px}
+.facility-subicon{width:13px;height:13px;border-radius:3px;display:block}
+.facility-subname{min-width:0;overflow-wrap:anywhere;font-weight:600;line-height:1.3}
+#schoolLegendPanel .facility-subitem input,#healthLegendPanel .facility-subitem input{width:17px;height:17px;accent-color:#a92d37;cursor:pointer;margin:0}
+#policeLegendPanel .safety-child-layer{display:grid;grid-template-columns:17px minmax(0,1fr) 20px;align-items:center;gap:8px;padding:8px 6px;min-height:36px;border-radius:7px;background:rgba(255,255,255,.4);color:#352b25;margin:0 0 6px}
+#policeLegendPanel .safety-child-layer .layer-copy{min-width:0}
+#policeLegendPanel .safety-child-layer strong{font-size:12px;line-height:1.3}
+#policeLegendPanel .safety-child-layer input{width:17px;height:17px;accent-color:#a92d37;margin:0}
+#schoolLegendPanel .legend-heading,#healthLegendPanel .legend-heading,#policeLegendPanel .legend-heading{margin-bottom:8px}
