@@ -1047,6 +1047,16 @@ document.querySelectorAll("[data-layer-category]").forEach((button) => {
   });
 });
 
+// Layer Management: clicking a sublayer's icon/name/row opens its details.
+// The existing expand button owns aria-expanded and continues to run its
+// original listener; do not intercept checkboxes or other controls.
+document.getElementById("layerManagementPanel")?.addEventListener("click", (event) => {
+  if (event.target.closest("button, input, label, a")) return;
+  const row = event.target.closest(".layer-item-expandable");
+  if (!row) return;
+  row.querySelector(".layer-expand-btn")?.click();
+});
+
 
 
 const workspaceController = new WorkspaceController({
