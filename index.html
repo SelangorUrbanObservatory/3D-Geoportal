@@ -12,6 +12,7 @@
 <link href="css/suo-loading-brand.css?v=1.1" rel="stylesheet"/>
 <link href="css/suo-facility-controls.css?v=1.2" rel="stylesheet"/>
 <link href="css/suo-about.css?v=1.1" rel="stylesheet"/>
+<link href="css/admin-intelligence.css?v=1.0" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
@@ -1060,6 +1061,28 @@
 <strong id="activeLayerCount">9</strong>
 <small>Spatial layers</small>
 </article>
+</section><section class="panel admin-intel-panel" data-right-component="pbt-district-intelligence" id="adminIntelligencePanel">
+<div class="panel-heading">
+<div>
+<p class="section-label">PBT &amp; DISTRICT INTELLIGENCE</p>
+<h2>Profil Kawasan Interaktif</h2>
+<p class="muted">Taburan kemudahan berdasarkan sempadan GIS Selangor.</p>
+</div>
+<span class="admin-intel-phase">FASA 1</span>
+</div>
+<div class="admin-intel-switch" role="group" aria-label="Pilih kategori kawasan">
+<button type="button" id="adminTypePbt" class="active" aria-pressed="true">12 PBT</button>
+<button type="button" id="adminTypeDistrict" aria-pressed="false">9 Daerah</button>
+</div>
+<label class="admin-intel-field" for="adminAreaSelect">
+Pilih kawasan
+<select id="adminAreaSelect" disabled aria-label="Pilih PBT atau daerah">
+<option value="">Memuatkan sempadan...</option>
+</select>
+</label>
+<div id="adminIntelligenceStatus" class="admin-intel-status" role="status" aria-live="polite">Memuatkan data sempadan...</div>
+<div id="adminIntelligenceDetails" class="admin-intel-details" hidden></div>
+<button type="button" id="adminClearSelection" class="admin-intel-clear" disabled>Kosongkan pilihan kawasan</button>
 </section><section class="panel network-intelligence-panel" data-right-component="network-intelligence">
 <div class="network-panel-heading">
 <div>
@@ -1393,7 +1416,7 @@
       return;
     }
 
-    import("./js/app.js?v=9.7.0").catch(function (error) {
+    import("./js/app.js?v=9.7.1").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +

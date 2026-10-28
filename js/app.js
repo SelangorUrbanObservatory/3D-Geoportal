@@ -10,6 +10,7 @@ import {
   facilitySubState
 } from "./layers.js";
 import { initUrbanExplorer } from "./urban-explorer.js";
+import { AdminIntelligence } from "./admin-intelligence.js?v=1.0";
 import { UrbanTour } from "./urban-tour.js";
 import { CompareEngine } from "./compare.js";
 import { ComparePanelUI } from "./compare-panel-ui.js";
@@ -27,7 +28,7 @@ import { createMainMap } from "./core/map-engine.js";
 import { WorkspaceController } from "./ui/workspace-controller.js";
 import {
   initializeIntelligenceHub
-} from "./intelligence/intelligence-hub.js?v=9.6.9";
+} from "./intelligence/intelligence-hub.js?v=9.7.1";
 import {
   addCadastralLayer,
   cadastralPopupHtml,
@@ -54,6 +55,7 @@ let viewMode = "3d";
 let nightMode = false;
 let activeMarker = null;
 let cityLookup = new Map();
+let adminIntelligence = null;
 
 const deepLinkParams = new URLSearchParams(window.location.search);
 const rawDeepLinkFocus = (deepLinkParams.get("focus") || deepLinkParams.get("theme") || "")
@@ -361,6 +363,16 @@ map.on("click", async (event) => {
   if (!features.length) return;
 
   const feature = features[0];
+  // P2: polygon selection opens the interactive area profile instead of
+  // passing nested Polygon coordinates to a point-based Mapbox popup.
+  if (adminIntelligence && ["pbt-fill", "district-fill"].includes(feature.layer.id)) {
+    const preferredId = adminIntelligence.type === "district" ? "district-fill" : "pbt-fill";
+    const areaFeature = features.find(item => item.layer.id === preferredId) || feature;
+    void adminIntelligence.selectFromMap(areaFeature).catch(error =>
+      console.error("PBT & District Intelligence:", error)
+    );
+    return;
+  }
   const properties = feature.properties || {};
 
   let html;
@@ -1040,6 +1052,21 @@ document.querySelectorAll("[data-layer-category]").forEach((button) => {
 const workspaceController = new WorkspaceController({
   map,
   compare
+});
+
+adminIntelligence = new AdminIntelligence({
+  map,
+  onAreaSelected: () => {
+    workspaceController.setRight(true);
+    if (window.innerWidth <= 980) {
+      document.getElementById("rightSidebar")?.classList.add("open");
+    }
+    requestAnimationFrame(() => {
+      document.getElementById("adminIntelligencePanel")?.scrollIntoView({
+        block: "start", behavior: "smooth"
+      });
+    });
+  }
 });
 
 const smartSearch = new SmartSearch({

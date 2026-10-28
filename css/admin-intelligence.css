@@ -1,0 +1,52 @@
+/* SUO P2: PBT & District Intelligence. Light Selangor palette, mobile friendly. */
+.admin-intel-panel { border-top: 3px solid #ba3e42; }
+.admin-intel-panel .panel-heading { align-items: flex-start; }
+.admin-intel-panel .panel-heading h2 { margin-bottom: 4px; color: #342e2a; }
+.admin-intel-phase { background: #fff1cf; border: 1px solid #e6c785; border-radius: 999px;
+  color: #805b1a; font-weight: 800; font-size: 10px; padding: 5px 8px; white-space: nowrap; }
+.admin-intel-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 5px;
+  background: #fff5e8; border: 1px solid #eadcc8; border-radius: 11px;
+  padding: 4px; margin: 11px 0 10px; }
+.admin-intel-switch button { min-height: 39px; border: 0; border-radius: 8px; padding: 8px;
+  background: transparent; color: #69574a; font-size: 12px; font-weight: 750; }
+.admin-intel-switch button.active, .admin-intel-switch button[aria-pressed="true"] {
+  background: #b53d43; color: #fff; box-shadow: 0 2px 7px rgba(137,30,37,.18);
+}
+.admin-intel-field { display: grid; gap: 5px; color: #665648; font-size: 11px; font-weight: 750; }
+.admin-intel-field select { display: block; width: 100%; min-width: 0; height: 42px;
+  border: 1px solid #dfcfb9; border-radius: 10px; background: #fffcf7;
+  padding: 9px 11px; color: #382f29; font-size: 12px; }
+.admin-intel-field select:disabled { opacity: .6; cursor: not-allowed; }
+.admin-intel-status { padding: 9px 0; color: #77675c; font-size: 11px; line-height: 1.5; }
+.admin-intel-selected { margin: 10px 0 9px; }
+.admin-intel-selected h3 { color: #342d2b; font-size: 15px; line-height: 1.3; margin: 5px 0 3px; }
+.admin-intel-selected small { color: #7d6d63; font-size: 11px; }
+.admin-intel-type { display: inline-flex; padding: 4px 7px; border-radius: 7px;
+  font-size: 10px; background: #fcedc6; color: #80521d; font-weight: 900; }
+.admin-intel-stats { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; margin: 10px 0; }
+.admin-intel-stat { padding: 10px; background: #fff9ef; border: 1px solid #f0dfc8;
+  border-radius: 11px; min-width: 0; }
+.admin-intel-stat span, .admin-intel-stat small { display: block; color: #827267; font-size: 10px; line-height: 1.4; }
+.admin-intel-stat strong { display: block; color: #8f3137; font-size: 16px;
+  line-height: 1.25; margin: 6px 0 3px; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.admin-intel-groups { display: grid; gap: 8px; }
+.admin-intel-group { border: 1px solid #eadfcf; border-radius: 10px; padding: 10px;
+  background: #fffdfa; }
+.admin-intel-group-head { display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding-bottom: 6px; color: #4b3c36; }
+.admin-intel-group-head strong { font-size: 12px; }
+.admin-intel-group-head b { color: #a83b3f; font-size: 18px; font-variant-numeric: tabular-nums; }
+.admin-intel-breakdown { display: grid; gap: 4px; font-size: 11px; color: #71645c; }
+.admin-intel-breakdown > div { display: flex; justify-content: space-between; gap: 9px; }
+.admin-intel-breakdown strong { color: #4b4039; font-variant-numeric: tabular-nums; }
+.admin-intel-note { font-size: 10px; line-height: 1.6; color: #75695c; margin: 11px 0 0; }
+.admin-intel-loading, .admin-intel-missing { font-size: 12px; color: #8b6b48; line-height: 1.5; }
+.admin-intel-clear { width: 100%; min-height: 39px; border-radius: 9px;
+  border: 1px solid #e7cfac; background: #fff5e1; color: #8d3c3d;
+  font-weight: 800; font-size: 12px; margin-top: 9px; }
+.admin-intel-clear:hover { background: #f8dfbd; }
+.admin-intel-panel :is(button,select):focus-visible { outline: 3px solid #b83b42; outline-offset: 2px; }
+@media (max-width: 380px) {
+  .admin-intel-stats { grid-template-columns: 1fr; }
+  .admin-intel-panel .panel-heading { flex-wrap: wrap; }
+}
