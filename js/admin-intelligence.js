@@ -100,7 +100,10 @@ export class AdminIntelligence {
       else this.clear();
     });
     this.clearBtn?.addEventListener("click", () => this.clear());
-    this.map.on("style.load", () => this.drawSelection());
+    if (this.clearBtn) this.clearBtn.disabled = true;
+    this.map.on("style.load", () => {
+      try { this.drawSelection(); } catch (error) { console.warn("P2 map style:", error); }
+    });
     this.loadBoundaries();
   }
 
@@ -187,6 +190,7 @@ export class AdminIntelligence {
     this.populate();
     this.status.textContent = "Mengira taburan kemudahan dalam sempadan kawasan…";
     this.details.hidden = false;
+    if (this.clearBtn) this.clearBtn.disabled = false;
     this.details.innerHTML = '<p class="admin-intel-loading">Mengira statistik geospatial…</p>';
     try { this.drawSelection(); } catch (e) { console.warn("Highlight P2:", e); }
     this.onAreaSelected?.();
@@ -283,6 +287,7 @@ export class AdminIntelligence {
     this.selected = null;
     if (!keepType) this.type = "pbt";
     this.details.hidden = true;
+    if (this.clearBtn) this.clearBtn.disabled = true;
     this.details.replaceChildren();
     this.status.textContent = "Pilih PBT atau daerah untuk melihat profil spatial.";
     if (this.map.getSource(ADMIN_SOURCE)) {
