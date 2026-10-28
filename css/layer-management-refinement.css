@@ -231,7 +231,9 @@
 #layerManagementPanel #communityFacilitiesToggle {
   position: absolute;
   top: 15px;
-  right: 35px;
+  /* Match sublayer checkbox's right edge:
+     category border (1px) + content inset (11px) + row inset (3px). */
+  right: 15px;
   z-index: 5;
 }
 #layerManagementPanel .layer-category-header:focus-visible,
@@ -294,6 +296,7 @@
 @container suo-sidebar (max-width: 285px) {
   #layerManagementPanel .layer-category-header { gap: 6px; padding-inline: 8px; }
   #layerManagementPanel .layer-category-content { padding-inline: 6px; }
+  #layerManagementPanel #communityFacilitiesToggle { right: 10px; }
   #layerManagementPanel .layer-item-expandable > .layer-copy { min-width: 0; }
   #layerManagementPanel .layer-copy strong { font-size: 11.5px; }
   #layerManagementPanel .layer-copy small { font-size: 10px; }
@@ -302,6 +305,7 @@
 @container suo-sidebar (min-width: 440px) {
   #layerManagementPanel .layer-category-header { padding-block: 11px; }
   #layerManagementPanel .layer-category-content { padding-inline: 14px; }
+  #layerManagementPanel #communityFacilitiesToggle { right: 18px; }
   #layerManagementPanel .layer-category-content > .layer-item,
   #layerManagementPanel .nested-layer-group > .layer-item {
     min-height: 49px;
