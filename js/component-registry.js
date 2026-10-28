@@ -2,6 +2,7 @@ export const RIGHT_PANEL_COMPONENTS = [
   "urban-intelligence",
   "selangor-summary-heading",
   "selangor-summary",
+  "pbt-district-intelligence",
   "network-intelligence",
   "flood-intelligence",
   "weather-intelligence",
