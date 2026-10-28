@@ -123,7 +123,9 @@ export class AdminIntelligence {
       }
     }
     this.populate();
-    if (!this.selected) this.status.textContent = "Pilih PBT atau daerah untuk melihat profil spatial.";
+    if (!this.selected && this.boundaries[this.type].length) {
+      this.status.textContent = "Pilih kawasan melalui dropdown atau klik sempadan pada peta.";
+    }
   }
 
   setType(type) {
