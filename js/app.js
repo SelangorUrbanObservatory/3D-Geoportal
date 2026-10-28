@@ -1061,6 +1061,11 @@ adminIntelligence = new AdminIntelligence({
     if (window.innerWidth <= 980) {
       document.getElementById("rightSidebar")?.classList.add("open");
     }
+    requestAnimationFrame(() => {
+      document.getElementById("adminIntelligencePanel")?.scrollIntoView({
+        block: "start", behavior: "smooth"
+      });
+    });
   }
 });
 
