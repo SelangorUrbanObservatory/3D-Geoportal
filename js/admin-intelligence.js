@@ -281,12 +281,12 @@ export class AdminIntelligence {
       '</div>',
       '<div class="admin-intel-dimension-heading">Analisis Kawasan</div>',
       '<div class="admin-insight-tabs" role="tablist" aria-label="Dimensi analisis kawasan">',
-      '<button type="button" id="adminTabFacilities" role="tab" aria-controls="adminPaneFacilities" data-admin-tab="facilities" aria-selected="true" tabindex="0" class="active">Kemudahan</button>',
-      '<button type="button" id="adminTabBenchmark" role="tab" aria-controls="adminPaneBenchmark" data-admin-tab="benchmark" aria-selected="false" tabindex="-1">Perbandingan</button>',
-      '<button type="button" id="adminTabUrban" role="tab" aria-controls="adminPaneUrban" data-admin-tab="urban" aria-selected="false" tabindex="-1">Bandar &amp; Rel</button>',
+      '<button type="button" id="adminTabFacilities" role="tab" aria-controls="adminPaneFacilities" data-admin-tab="facilities" aria-selected="true" tabindex="0" class="active"><span class="admin-tab-icon" aria-hidden="true">▦</span><span>Kemudahan</span></button>',
+      '<button type="button" id="adminTabBenchmark" role="tab" aria-controls="adminPaneBenchmark" data-admin-tab="benchmark" aria-selected="false" tabindex="-1"><span class="admin-tab-icon" aria-hidden="true">≋</span><span>Perbandingan</span></button>',
+      '<button type="button" id="adminTabUrban" role="tab" aria-controls="adminPaneUrban" data-admin-tab="urban" aria-selected="false" tabindex="-1"><span class="admin-tab-icon" aria-hidden="true">◎</span><span>Bandar &amp; Rel</span></button>',
       type === "district" ?
-        '<button type="button" id="adminTabFourth" role="tab" aria-controls="adminPaneFourth" data-admin-tab="socioeconomic" aria-selected="false" tabindex="-1">Sosioekonomi</button>' :
-        '<button type="button" id="adminTabFourth" role="tab" aria-controls="adminPaneFourth" data-admin-tab="sources" aria-selected="false" tabindex="-1">Sumber Data</button>',
+        '<button type="button" id="adminTabFourth" role="tab" aria-controls="adminPaneFourth" data-admin-tab="socioeconomic" aria-selected="false" tabindex="-1"><span class="admin-tab-icon" aria-hidden="true">▥</span><span>Sosioekonomi</span></button>' :
+        '<button type="button" id="adminTabFourth" role="tab" aria-controls="adminPaneFourth" data-admin-tab="sources" aria-selected="false" tabindex="-1"><span class="admin-tab-icon" aria-hidden="true">ⓘ</span><span>Sumber Data</span></button>',
       '</div>',
       '<section id="adminPaneFacilities" aria-labelledby="adminTabFacilities" data-admin-pane="facilities" role="tabpanel">',
       '<div class="admin-intel-groups">',
