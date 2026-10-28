@@ -13,6 +13,7 @@
 <link href="css/suo-facility-controls.css?v=1.2" rel="stylesheet"/>
 <link href="css/suo-about.css?v=1.1" rel="stylesheet"/>
 <link href="css/admin-intelligence.css?v=1.2" rel="stylesheet"/>
+<link href="css/sidebar-width-adjuster.css?v=1.0" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
@@ -68,6 +69,20 @@
 <b>Urban Intelligence</b>
 <span>◀</span>
 </button>
+<div class="sidebar-width-handle left-width-handle" id="leftWidthHandle"
+     role="separator" tabindex="0" aria-orientation="vertical"
+     aria-label="Laras lebar panel kiri" aria-controls="leftSidebar"
+     aria-valuemin="250" aria-valuemax="580" aria-valuenow="318"
+     title="Seret untuk laras lebar panel kiri">
+  <span class="sidebar-width-grip" aria-hidden="true">⋮</span>
+</div>
+<div class="sidebar-width-handle right-width-handle" id="rightWidthHandle"
+     role="separator" tabindex="0" aria-orientation="vertical"
+     aria-label="Laras lebar panel kanan" aria-controls="rightSidebar"
+     aria-valuemin="250" aria-valuemax="580" aria-valuenow="330"
+     title="Seret untuk laras lebar panel kanan">
+  <span class="sidebar-width-grip" aria-hidden="true">⋮</span>
+</div>
 <aside class="sidebar left-sidebar" id="leftSidebar">
 <div class="sidebar-collapse-bar">
 <span>Navigasi &amp; Layer</span>
@@ -1416,7 +1431,7 @@ Pilih kawasan
       return;
     }
 
-    import("./js/app.js?v=9.7.3").catch(function (error) {
+    import("./js/app.js?v=9.7.4").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +

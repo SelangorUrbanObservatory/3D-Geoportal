@@ -1,0 +1,204 @@
+/*
+ * SUO 3D GeoPortal — dual sidebar width adjusters (v1).
+ * Desktop only: <= 980px keeps the established off-canvas/mobile drawer UX.
+ * Use CSS grid custom tracks instead of fixed widths in the legacy collapse rules.
+ */
+@media (min-width: 981px) {
+  .workspace {
+    --suo-left-grid-track: var(--suo-left-panel-width, 318px);
+    --suo-right-grid-track: var(--suo-right-panel-width, 330px);
+  }
+  /* Match higher specificity of legacy <=1100px collapse rules. */
+  .workspace,
+  .workspace.left-panel-collapsed,
+  .workspace.right-panel-collapsed,
+  .workspace.left-panel-collapsed.right-panel-collapsed {
+    grid-template-columns:
+      var(--suo-left-grid-track)
+      minmax(0, 1fr)
+      var(--suo-right-grid-track);
+  }
+  .workspace.left-panel-collapsed {
+    --suo-left-grid-track: 0px;
+  }
+  .workspace.right-panel-collapsed {
+    --suo-right-grid-track: 0px;
+  }
+  .workspace.left-panel-collapsed.right-panel-collapsed {
+    --suo-left-grid-track: 0px;
+    --suo-right-grid-track: 0px;
+  }
+  .workspace.is-panel-resizing {
+    transition: none !important;
+    cursor: col-resize;
+    user-select: none;
+  }
+  .workspace.is-panel-resizing .sidebar {
+    transition: none !important;
+  }
+  .workspace.is-panel-resizing .mapboxgl-canvas,
+  .workspace.is-panel-resizing .map-shell {
+    pointer-events: none;
+  }
+  html.suo-panel-resizing, html.suo-panel-resizing body {
+    cursor: col-resize !important;
+    user-select: none !important;
+  }
+  .sidebar-width-handle {
+    position: absolute;
+    z-index: 29;
+    top: 50%;
+    width: 22px;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: col-resize;
+    touch-action: none;
+    transform: translateY(-50%);
+  }
+  .sidebar-width-handle[hidden] {
+    display: none !important;
+  }
+  .sidebar-width-handle.left-width-handle {
+    left: calc(var(--suo-left-panel-width, 318px) - 11px);
+  }
+  .sidebar-width-handle.right-width-handle {
+    right: calc(var(--suo-right-panel-width, 330px) - 11px);
+  }
+  .sidebar-width-grip {
+    width: 13px;
+    height: 61px;
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+    line-height: 1;
+    color: #87363a;
+    background: #fff6dd;
+    border: 1px solid #d9ab57;
+    border-radius: 9px;
+    box-shadow: 0 3px 10px rgba(77, 50, 35, .21);
+    transition: background .13s ease, width .13s ease, box-shadow .13s ease;
+  }
+  .sidebar-width-handle:hover .sidebar-width-grip,
+  .sidebar-width-handle:focus-visible .sidebar-width-grip,
+  .workspace.is-panel-resizing .sidebar-width-grip {
+    width: 16px;
+    background: #f4d27c;
+    border-color: #b43940;
+    box-shadow: 0 2px 12px rgba(126, 43, 47, .24);
+  }
+  .sidebar-width-handle:focus-visible {
+    outline: 3px solid #ad353b;
+    outline-offset: 3px;
+    border-radius: 9px;
+  }
+  .sidebar-width-handle:focus-visible .sidebar-width-grip { color: #5d2025; }
+}
+
+@media (max-width: 980px) {
+  /* Preserve existing side-drawer layout rather than crushing the central map. */
+  .sidebar-width-handle { display: none !important; }
+}
+
+/* Resizable panel contents derive from their container, NOT viewport breakpoints. */
+.left-sidebar, .right-sidebar {
+  container-name: suo-sidebar;
+  container-type: inline-size;
+  min-width: 0;
+}
+.left-sidebar .panel, .right-sidebar .panel {
+  min-width: 0;
+}
+.left-sidebar :is(.panel-heading,.layer-category-header,.urban-explorer-summary),
+.right-sidebar :is(.panel-heading,.network-panel-heading) {
+  min-width: 0;
+}
+.left-sidebar :is(.panel-heading,.layer-category-header,.urban-explorer-summary) > *,
+.right-sidebar :is(.panel-heading,.network-panel-heading) > * {
+  min-width: 0;
+}
+
+/* Narrow panels: more readable single-column forms/lists, robust tab wrapping. */
+@container suo-sidebar (max-width: 260px) {
+  .left-sidebar .quick-grid,
+  .left-sidebar .search-form,
+  .left-sidebar .chat-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .left-sidebar .quick-grid button { min-height: 39px; }
+  .right-sidebar .network-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    height: auto;
+    gap: 4px;
+  }
+  .right-sidebar .network-tab {
+    white-space: normal;
+    min-width: 0;
+    line-height: 1.2;
+  }
+  .right-sidebar .admin-intel-stats,
+  .right-sidebar .admin-insight-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .right-sidebar .admin-insight-tabs button {
+    font-size: 11px;
+    padding: 8px 5px;
+  }
+  .right-sidebar .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .right-sidebar .admin-insight-rail-list > div {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mid-width panels: two summary columns and comfortable two-column forms. */
+@container suo-sidebar (min-width: 261px) and (max-width: 450px) {
+  .right-sidebar .admin-intel-stats,
+  .right-sidebar .admin-insight-pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .right-sidebar .network-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+  }
+  .right-sidebar .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Wide: make use of space instead of stretching a two-card layout excessively. */
+@container suo-sidebar (min-width: 451px) {
+  .left-sidebar .quick-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .right-sidebar .kpi-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .right-sidebar .network-tabs {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .right-sidebar .admin-insight-tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .right-sidebar .admin-insight-city-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Never allow horizontal overflow in sidebar forms or analysis cards. */
+.left-sidebar :is(input,select,textarea,button),
+.right-sidebar :is(input,select,textarea,button) {
+  max-width: 100%;
+}
+.left-sidebar :is(.panel,.layer-category,.quick-grid,.urban-explorer),
+.right-sidebar :is(.panel,.kpi-grid,.admin-intel-stats,.admin-insight-tabs,.network-tabs) {
+  min-width: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-width-grip { transition: none; }
+}
