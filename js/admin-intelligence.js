@@ -1,6 +1,7 @@
 import { DATA_URLS } from "./config.js";
 import { loadGeoJSON, pointInFeature } from "./spatial-query.js";
 import { addLayerCompat } from "./utils.js";
+import { generateAreaInsights } from "./admin-area-insights.js?v=1.0";
 
 const ADMIN_SOURCE = "suo-admin-selection-source";
 const ADMIN_FILL = "suo-admin-selection-fill";
@@ -90,6 +91,8 @@ export class AdminIntelligence {
     this.errors = { pbt: null, district: null };
     this.selected = null;
     this.serial = 0;
+    this.cityPoints = [];
+    this.activeTab = "facilities";
 
     if (!this.root || !this.map || !this.selectEl || !this.status || !this.details) return;
 
@@ -100,6 +103,18 @@ export class AdminIntelligence {
       else this.clear();
     });
     this.clearBtn?.addEventListener("click", () => this.clear());
+    this.details.addEventListener("click", event => {
+      const tab = event.target.closest?.("[data-admin-tab]");
+      if (tab) return this.activateTab(tab.dataset.adminTab);
+      const cityButton = event.target.closest?.("[data-admin-city]");
+      if (!cityButton) return;
+      const name = cityButton.dataset.adminCity;
+      const city = this.cityPoints.find(f => f.properties?.nama_bandar === name);
+      if (city?.geometry?.type === "Point") {
+        this.map.flyTo({ center: city.geometry.coordinates, zoom: 13.6,
+          pitch: this.map.getPitch?.() || 0, bearing: 0, duration: 900, essential: true });
+      }
+    });
     if (this.clearBtn) this.clearBtn.disabled = true;
     this.map.on("style.load", () => {
       try { this.drawSelection(); } catch (error) { console.warn("P2 map style:", error); }
@@ -224,6 +239,7 @@ export class AdminIntelligence {
     }));
     if (id !== this.serial) return true;
     this.renderProfile(feature, type, groups);
+    void this.renderInsights(feature, type, id);
     return true;
   }
 
@@ -247,6 +263,13 @@ export class AdminIntelligence {
       '<div class="admin-intel-stat"><span>Keluasan kawasan</span><strong>' + (Number.isFinite(area) ? numberMY(area, 2) + ' ha' : '—') + '</strong><small>' + esc(areaSource) + '</small></div>',
       '<div class="admin-intel-stat"><span>Jumlah kemudahan direkod</span><strong>' + (total === null ? '—' : numberMY(total)) + '</strong><small>' + (missing ? 'Sebahagian data tidak tersedia' : 'Pendidikan · Kesihatan · Keselamatan') + '</small></div>',
       '</div>',
+      '<div class="admin-insight-tabs" role="tablist" aria-label="Dimensi analisis kawasan">',
+      '<button type="button" role="tab" data-admin-tab="facilities" aria-selected="true" class="active">Kemudahan</button>',
+      '<button type="button" role="tab" data-admin-tab="benchmark" aria-selected="false">Perbandingan</button>',
+      '<button type="button" role="tab" data-admin-tab="urban" aria-selected="false">Bandar & Rel</button>',
+      type === "district" ? '<button type="button" role="tab" data-admin-tab="socioeconomic" aria-selected="false">Sosioekonomi</button>' : '',
+      '</div>',
+      '<section data-admin-pane="facilities" role="tabpanel">',
       '<div class="admin-intel-groups">',
       ...groups.map(g =>
         '<div class="admin-intel-group">' +
@@ -260,8 +283,48 @@ export class AdminIntelligence {
       '</div>',
       '<p class="admin-intel-note">Bilangan dikira daripada lokasi titik dalam poligon sempadan GIS, bukan statistik agregat rasmi agensi. Set data boleh mengandungi koordinat anggaran atau rekod yang memerlukan semakan. ' +
       (type === "pbt" ? 'Keluasan rujukan JUPEM 2024 mungkin berbeza daripada keluasan geometri poligon yang digunakan bagi analisis.' : 'Keluasan daerah mengikut atribut data sempadan GIS portal.') +
-      '</p>'
+      '</p>',
+      '</section>',
+      '<section data-admin-pane="benchmark" role="tabpanel" hidden><p class="admin-insight-loading">Mengira penanda aras kawasan…</p></section>',
+      '<section data-admin-pane="urban" role="tabpanel" hidden><p class="admin-insight-loading">Memuatkan bandar dan stesen rel…</p></section>',
+      type === "district" ? '<section data-admin-pane="socioeconomic" role="tabpanel" hidden><p class="admin-insight-loading">Memuatkan indikator DOSM…</p></section>' : ''
     ].join("");
+    this.activeTab = "facilities";
+  }
+
+  activateTab(tab) {
+    if (!["facilities","benchmark","urban","socioeconomic"].includes(tab)) return;
+    this.activeTab = tab;
+    this.details.querySelectorAll("[data-admin-tab]").forEach(button => {
+      const active = button.dataset.adminTab === tab;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-selected", String(active));
+    });
+    this.details.querySelectorAll("[data-admin-pane]").forEach(pane => {
+      pane.hidden = pane.dataset.adminPane !== tab;
+    });
+  }
+
+  async renderInsights(feature, type, id) {
+    try {
+      const result = await generateAreaInsights({
+        feature, type, boundaries: this.boundaries[type], pbtReferences: PBT_REFERENCE
+      });
+      if (id !== this.serial) return;
+      this.cityPoints = result.cityPoints || [];
+      const panes = { benchmark: result.benchmark, urban: result.urban,
+        socioeconomic: result.socioeconomic };
+      for (const [name, html] of Object.entries(panes)) {
+        const pane = this.details.querySelector('[data-admin-pane="' + name + '"]');
+        if (pane && html !== null && html !== undefined) pane.innerHTML = html;
+      }
+    } catch (error) {
+      console.error("PBT & District Insights:", error);
+      if (id !== this.serial) return;
+      for (const pane of this.details.querySelectorAll('[data-admin-pane]:not([data-admin-pane="facilities"])')) {
+        pane.innerHTML = '<p class="admin-insight-missing">Analisis tambahan tidak dapat dimuatkan.</p>';
+      }
+    }
   }
 
   drawSelection() {
@@ -287,6 +350,7 @@ export class AdminIntelligence {
   clear({ keepType = false } = {}) {
     ++this.serial;
     this.selected = null;
+    this.cityPoints = [];
     if (!keepType) this.type = "pbt";
     this.details.hidden = true;
     if (this.clearBtn) this.clearBtn.disabled = true;
