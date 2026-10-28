@@ -117,7 +117,7 @@
 }
 
 /* Narrow panels: more readable single-column forms/lists, robust tab wrapping. */
-@container suo-sidebar (max-width: 340px) {
+@container suo-sidebar (max-width: 260px) {
   .left-sidebar .quick-grid,
   .left-sidebar .search-form,
   .left-sidebar .chat-form {
@@ -151,7 +151,7 @@
 }
 
 /* Mid-width panels: two summary columns and comfortable two-column forms. */
-@container suo-sidebar (min-width: 341px) and (max-width: 465px) {
+@container suo-sidebar (min-width: 261px) and (max-width: 450px) {
   .right-sidebar .admin-intel-stats,
   .right-sidebar .admin-insight-pair {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -166,7 +166,7 @@
 }
 
 /* Wide: make use of space instead of stretching a two-card layout excessively. */
-@container suo-sidebar (min-width: 466px) {
+@container suo-sidebar (min-width: 451px) {
   .left-sidebar .quick-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
