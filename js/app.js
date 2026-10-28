@@ -25,7 +25,7 @@ import {
 import { SpatialAssistant } from "./ai-assistant.js";
 import { SmartSearch } from "./smart-search.js";
 import { createMainMap } from "./core/map-engine.js";
-import { WorkspaceController } from "./ui/workspace-controller.js";
+import { WorkspaceController } from "./ui/workspace-controller.js?v=1.1";
 import {
   initializeIntelligenceHub
 } from "./intelligence/intelligence-hub.js?v=9.7.1";
