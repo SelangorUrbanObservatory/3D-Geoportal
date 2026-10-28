@@ -1,7 +1,7 @@
 import {
   applyRightPanelRegistry,
   validateRightPanelRegistry
-} from "../component-registry.js";
+} from "../component-registry.js?v=9.7.1";
 import {
   ExecutiveLanduseIntelligence
 } from "../executive-landuse.js";
