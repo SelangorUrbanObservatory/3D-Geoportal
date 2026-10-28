@@ -1,7 +1,7 @@
 import { DATA_URLS } from "./config.js";
 import { loadGeoJSON, pointInFeature } from "./spatial-query.js";
 import { addLayerCompat } from "./utils.js";
-import { generateAreaInsights } from "./admin-area-insights.js?v=1.0";
+import { generateAreaInsights } from "./admin-area-insights.js?v=1.1";
 
 const ADMIN_SOURCE = "suo-admin-selection-source";
 const ADMIN_FILL = "suo-admin-selection-fill";
@@ -103,6 +103,20 @@ export class AdminIntelligence {
       else this.clear();
     });
     this.clearBtn?.addEventListener("click", () => this.clear());
+    this.details.addEventListener("keydown", event => {
+      const current = event.target.closest?.("[data-admin-tab]");
+      if (!current || !["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+      const tabs = [...this.details.querySelectorAll("[data-admin-tab]")];
+      const currentIndex = tabs.indexOf(current);
+      if (currentIndex < 0) return;
+      event.preventDefault();
+      const step = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1;
+      const nextIndex = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 :
+        (currentIndex + step + tabs.length) % tabs.length;
+      const next = tabs[nextIndex];
+      this.activateTab(next.dataset.adminTab);
+      next.focus();
+    });
     this.details.addEventListener("click", event => {
       const tab = event.target.closest?.("[data-admin-tab]");
       if (tab) return this.activateTab(tab.dataset.adminTab);
@@ -259,17 +273,22 @@ export class AdminIntelligence {
       '<h3>' + esc(type === "district" ? "Daerah " + name : name) + '</h3>',
       type === "pbt" ? '<small>' + esc(feature.properties?.web_type || "") + '</small>' : '',
       '</div>',
-      '<div class="admin-intel-stats">',
-      '<div class="admin-intel-stat"><span>Keluasan kawasan</span><strong>' + (Number.isFinite(area) ? numberMY(area, 2) + ' ha' : '—') + '</strong><small>' + esc(areaSource) + '</small></div>',
-      '<div class="admin-intel-stat"><span>Jumlah kemudahan direkod</span><strong>' + (total === null ? '—' : numberMY(total)) + '</strong><small>' + (missing ? 'Sebahagian data tidak tersedia' : 'Pendidikan · Kesihatan · Keselamatan') + '</small></div>',
+      '<div class="admin-intel-stats" aria-label="Ringkasan empat indikator kawasan">',
+      '<div class="admin-intel-stat"><span>Keluasan</span><strong class="admin-area-value">' + (Number.isFinite(area) ? numberMY(area, 2) : '—') + '</strong><small>ha · ' + esc(areaSource) + '</small></div>',
+      '<div class="admin-intel-stat"><span>Kemudahan</span><strong>' + (total === null ? '—' : numberMY(total)) + '</strong><small>' + (missing ? 'Data sebahagian' : 'Rekod spatial') + '</small></div>',
+      '<div class="admin-intel-stat"><span>Bandar DPN3</span><strong data-admin-value="cities" aria-live="polite">—</strong><small>Titik dalam kawasan</small></div>',
+      '<div class="admin-intel-stat"><span>Stesen rel</span><strong data-admin-value="rail" aria-live="polite">—</strong><small>Stesen unik (nama)</small></div>',
       '</div>',
+      '<div class="admin-intel-dimension-heading">Analisis Kawasan</div>',
       '<div class="admin-insight-tabs" role="tablist" aria-label="Dimensi analisis kawasan">',
-      '<button type="button" role="tab" data-admin-tab="facilities" aria-selected="true" class="active">Kemudahan</button>',
-      '<button type="button" role="tab" data-admin-tab="benchmark" aria-selected="false">Perbandingan</button>',
-      '<button type="button" role="tab" data-admin-tab="urban" aria-selected="false">Bandar & Rel</button>',
-      type === "district" ? '<button type="button" role="tab" data-admin-tab="socioeconomic" aria-selected="false">Sosioekonomi</button>' : '',
+      '<button type="button" id="adminTabFacilities" role="tab" aria-controls="adminPaneFacilities" data-admin-tab="facilities" aria-selected="true" tabindex="0" class="active"><span class="admin-tab-icon" aria-hidden="true">▦</span><span>Kemudahan</span></button>',
+      '<button type="button" id="adminTabBenchmark" role="tab" aria-controls="adminPaneBenchmark" data-admin-tab="benchmark" aria-selected="false" tabindex="-1"><span class="admin-tab-icon" aria-hidden="true">≋</span><span>Perbandingan</span></button>',
+      '<button type="button" id="adminTabUrban" role="tab" aria-controls="adminPaneUrban" data-admin-tab="urban" aria-selected="false" tabindex="-1"><span class="admin-tab-icon" aria-hidden="true">◎</span><span>Bandar &amp; Rel</span></button>',
+      type === "district" ?
+        '<button type="button" id="adminTabFourth" role="tab" aria-controls="adminPaneFourth" data-admin-tab="socioeconomic" aria-selected="false" tabindex="-1"><span class="admin-tab-icon" aria-hidden="true">▥</span><span>Sosioekonomi</span></button>' :
+        '<button type="button" id="adminTabFourth" role="tab" aria-controls="adminPaneFourth" data-admin-tab="sources" aria-selected="false" tabindex="-1"><span class="admin-tab-icon" aria-hidden="true">ⓘ</span><span>Sumber Data</span></button>',
       '</div>',
-      '<section data-admin-pane="facilities" role="tabpanel">',
+      '<section id="adminPaneFacilities" aria-labelledby="adminTabFacilities" data-admin-pane="facilities" role="tabpanel">',
       '<div class="admin-intel-groups">',
       ...groups.map(g =>
         '<div class="admin-intel-group">' +
@@ -285,20 +304,28 @@ export class AdminIntelligence {
       (type === "pbt" ? 'Keluasan rujukan JUPEM 2024 mungkin berbeza daripada keluasan geometri poligon yang digunakan bagi analisis.' : 'Keluasan daerah mengikut atribut data sempadan GIS portal.') +
       '</p>',
       '</section>',
-      '<section data-admin-pane="benchmark" role="tabpanel" hidden><p class="admin-insight-loading">Mengira penanda aras kawasan…</p></section>',
-      '<section data-admin-pane="urban" role="tabpanel" hidden><p class="admin-insight-loading">Memuatkan bandar dan stesen rel…</p></section>',
-      type === "district" ? '<section data-admin-pane="socioeconomic" role="tabpanel" hidden><p class="admin-insight-loading">Memuatkan indikator DOSM…</p></section>' : ''
+      '<section id="adminPaneBenchmark" aria-labelledby="adminTabBenchmark" data-admin-pane="benchmark" role="tabpanel" hidden><p class="admin-insight-loading">Mengira penanda aras kawasan…</p></section>',
+      '<section id="adminPaneUrban" aria-labelledby="adminTabUrban" data-admin-pane="urban" role="tabpanel" hidden><p class="admin-insight-loading">Memuatkan bandar dan stesen rel…</p></section>',
+      type === "district" ?
+        '<section id="adminPaneFourth" aria-labelledby="adminTabFourth" data-admin-pane="socioeconomic" role="tabpanel" hidden><p class="admin-insight-loading">Memuatkan indikator DOSM…</p></section>' :
+        '<section id="adminPaneFourth" aria-labelledby="adminTabFourth" data-admin-pane="sources" role="tabpanel" hidden>' +
+        '<h4 class="admin-insight-subtitle">Sumber &amp; metodologi</h4>' +
+        '<p class="admin-insight-note"><b>Keluasan:</b> JUPEM 2024 (hektar). <b>Sempadan:</b> poligon GIS PBT yang digunakan dalam portal; keluasan dan vintaj mungkin berbeza.</p>' +
+        '<p class="admin-insight-note"><b>Kemudahan:</b> dataset pendidikan, kesihatan dan keselamatan SUO. Jumlah berdasarkan titik yang berada dalam poligon, bukan inventori lengkap yang diperakui.</p>' +
+        '<p class="admin-insight-note"><b>Bandar &amp; rel:</b> titik fokus hierarki DPN3 dan rekod stesen rel SUO yang disatukan mengikut nama. Statistik bukan ukuran capaian atau kecukupan perkhidmatan.</p>' +
+        '</section>'
     ].join("");
     this.activeTab = "facilities";
   }
 
   activateTab(tab) {
-    if (!["facilities","benchmark","urban","socioeconomic"].includes(tab)) return;
+    if (!["facilities","benchmark","urban","socioeconomic","sources"].includes(tab)) return;
     this.activeTab = tab;
     this.details.querySelectorAll("[data-admin-tab]").forEach(button => {
       const active = button.dataset.adminTab === tab;
       button.classList.toggle("active", active);
       button.setAttribute("aria-selected", String(active));
+      button.tabIndex = active ? 0 : -1;
     });
     this.details.querySelectorAll("[data-admin-pane]").forEach(pane => {
       pane.hidden = pane.dataset.adminPane !== tab;
@@ -312,6 +339,10 @@ export class AdminIntelligence {
       });
       if (id !== this.serial) return;
       this.cityPoints = result.cityPoints || [];
+      for (const [metric, value] of [["cities", result.cityCount], ["rail", result.railCount]]) {
+        const element = this.details.querySelector('[data-admin-value="' + metric + '"]');
+        if (element) element.textContent = Number.isFinite(value) ? numberMY(value) : "—";
+      }
       const panes = { benchmark: result.benchmark, urban: result.urban,
         socioeconomic: result.socioeconomic };
       for (const [name, html] of Object.entries(panes)) {
