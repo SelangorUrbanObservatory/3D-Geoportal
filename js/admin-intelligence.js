@@ -1,7 +1,7 @@
 import { DATA_URLS } from "./config.js";
 import { loadGeoJSON, pointInFeature } from "./spatial-query.js";
 import { addLayerCompat } from "./utils.js";
-import { generateAreaInsights } from "./admin-area-insights.js?v=1.0";
+import { generateAreaInsights } from "./admin-area-insights.js?v=1.1";
 
 const ADMIN_SOURCE = "suo-admin-selection-source";
 const ADMIN_FILL = "suo-admin-selection-fill";
