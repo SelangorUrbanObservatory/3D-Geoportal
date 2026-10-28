@@ -94,6 +94,8 @@ export class WorkspaceController {
   }
 
   constrainWidths() {
+    // Mobile drawers do not use desktop tracks; preserve the chosen desktop widths.
+    if (!this.isDesktop()) return;
     // Restrict restored desktop values so the map retains enough room.
     // Clamp both sides in turn, including after a browser-width change.
     this.widths.left = clamp(this.widths.left, MIN_PANEL_WIDTH, MAX_PANEL_WIDTH);
