@@ -129,12 +129,9 @@ async function urbanPanel(feature) {
   }
   const rail = [...railMap.values()].sort((a,b)=>a.name.localeCompare(b.name,"ms"));
   const byTier = [1,2,3].map(t => cityList?.filter(f => Number(f.properties?.tier) === t).length ?? null);
-  const result = [
-    '<div class="admin-insight-pair">',
-    '<div><span>Bandar DPN3 (titik rujukan)</span><strong>' + (cityList ? M.format(cityList.length) : '—') + '</strong><small>Tier 1 · 2 · 3</small></div>',
-    '<div><span>Stesen rel unik (nama)</span><strong>' + (railRecords ? M.format(rail.length) : '—') + '</strong><small>234 rekod station-line di peringkat dataset</small></div>',
-    '</div>'
-  ];
+  // KPI counts are shown once in the four-card profile header.
+  // Keep this tab for interpretation, tier distribution, city navigation and station lists.
+  const result = ['<div class="admin-insight-subtitle">Hierarki Bandar DPN3</div>'];
   if (cityList) {
     result.push('<div class="admin-insight-tier">');
     const colors = ["tier-one","tier-two","tier-three"];
@@ -160,7 +157,12 @@ async function urbanPanel(feature) {
     if (rail.length>10) result.push('<p class="admin-insight-note">+' + (rail.length-10) + ' stesen lain dalam kawasan.</p>');
   }
   result.push('<p class="admin-insight-note">Bandar DPN3 ialah titik rujukan GeoPortal, bukan sempadan bandar. Stesen rel digabung mengikut nama dalam kawasan (rekod persimpangan/pertukaran laluan boleh diduplikasi dalam dataset). Bilangan stesen bukan ukuran capaian pengangkutan awam.</p>');
-  return { html: result.join(""), points: cityList || [] };
+  return {
+    html: result.join(""),
+    points: cityList || [],
+    cityCount: cityList ? cityList.length : null,
+    railCount: railRecords ? rail.length : null
+  };
 }
 
 function percentageChange(curr,prev) { return prev > 0 ? ((curr-prev)/prev)*100 : null; }
@@ -200,12 +202,22 @@ export async function generateAreaInsights({ type, feature, boundaries, pbtRefer
     peerMetrics(type,boundaries,pbtReferences).then(rows => comparePanel(type,feature,rows))
       .catch(err => { console.warn("P2 comparison:",err); return '<p class="admin-insight-missing">Perbandingan tidak dapat dikira kerana data tidak lengkap.</p>'; }),
     urbanPanel(feature).catch(err => {
-      console.warn("P2 urban:",err); return {html:'<p class="admin-insight-missing">Maklumat bandar dan rel tidak tersedia.</p>',points:[]};
+      console.warn("P2 urban:",err); return {
+        html: '<p class="admin-insight-missing">Maklumat bandar dan rel tidak tersedia.</p>',
+        points: [], cityCount: null, railCount: null
+      };
     })
   ];
   if(type === "district") tasks.push(socioPanel(feature).catch(err => {
     console.warn("P2 socioeconomic:",err); return '<p class="admin-insight-missing">Indikator sosioekonomi tidak dapat dimuatkan.</p>';
   }));
   const [benchmark,urban,socio] = await Promise.all(tasks);
-  return { benchmark, urban:urban.html, cityPoints:urban.points, socioeconomic:socio ?? null };
+  return {
+    benchmark,
+    urban: urban.html,
+    cityPoints: urban.points,
+    cityCount: urban.cityCount,
+    railCount: urban.railCount,
+    socioeconomic: socio ?? null
+  };
 }
