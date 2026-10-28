@@ -96,18 +96,29 @@ export class WorkspaceController {
   constrainWidths() {
     // Mobile drawers do not use desktop tracks; preserve the chosen desktop widths.
     if (!this.isDesktop()) return;
-    // Restrict restored desktop values so the map retains enough room.
-    // Clamp both sides in turn, including after a browser-width change.
     this.widths.left = clamp(this.widths.left, MIN_PANEL_WIDTH, MAX_PANEL_WIDTH);
     this.widths.right = clamp(this.widths.right, MIN_PANEL_WIDTH, MAX_PANEL_WIDTH);
-    if (this.state.leftOpen) {
-      this.widths.left = Math.round(clamp(this.widths.left, MIN_PANEL_WIDTH, this.maxWidthFor("left")));
-    }
-    if (this.state.rightOpen) {
-      this.widths.right = Math.round(clamp(this.widths.right, MIN_PANEL_WIDTH, this.maxWidthFor("right")));
-    }
-    if (this.state.leftOpen) {
-      this.widths.left = Math.round(clamp(this.widths.left, MIN_PANEL_WIDTH, this.maxWidthFor("left")));
+    const available = this.workspaceWidth() - MIN_MAP_WIDTH;
+    // When both panels are visible, share reductions proportionally instead
+    // of forcing all of the saved-width adjustment onto the left panel.
+    if (this.state.leftOpen && this.state.rightOpen &&
+        this.widths.left + this.widths.right > available) {
+      const reduction = this.widths.left + this.widths.right - available;
+      const leftSlack = this.widths.left - MIN_PANEL_WIDTH;
+      const rightSlack = this.widths.right - MIN_PANEL_WIDTH;
+      const totalSlack = leftSlack + rightSlack;
+      const leftCut = totalSlack > 0
+        ? Math.min(leftSlack, Math.round(reduction * leftSlack / totalSlack))
+        : 0;
+      this.widths.left = Math.round(this.widths.left - leftCut);
+      this.widths.right = Math.round(Math.max(MIN_PANEL_WIDTH, this.widths.right - (reduction - leftCut)));
+    } else {
+      if (this.state.leftOpen) this.widths.left = Math.round(
+        clamp(this.widths.left, MIN_PANEL_WIDTH, this.maxWidthFor("left"))
+      );
+      if (this.state.rightOpen) this.widths.right = Math.round(
+        clamp(this.widths.right, MIN_PANEL_WIDTH, this.maxWidthFor("right"))
+      );
     }
   }
 
@@ -159,6 +170,8 @@ export class WorkspaceController {
 
     window.addEventListener("resize", () => {
       if (this.drag && !this.isDesktop()) this.endDrag(this.drag.side);
+      // Restore saved preferred dimensions if the desktop becomes wider again.
+      if (!this.drag && this.isDesktop()) this.readWidths();
       this.constrainWidths();
       this.applyWidths();
       this.resizeMaps();
