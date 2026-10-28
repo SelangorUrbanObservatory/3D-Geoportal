@@ -1,0 +1,315 @@
+/*
+ * SUO GeoPortal — Layer Management UI refinement.
+ * Scope exclusively to #layerManagementPanel: no map layer or JS toggle changes.
+ * Loaded last to override legacy dark/grey nested layer skins.
+ */
+#layerManagementPanel {
+  --layer-row-ink: #39312d;
+  --layer-muted: #74685d;
+  --layer-line: #eadfce;
+  --layer-surface: #fffdf8;
+  --layer-hover: #fff6e7;
+  --layer-red: #ae373e;
+  min-width: 0;
+}
+#layerManagementPanel .panel-heading {
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 8px;
+}
+#layerManagementPanel .layer-list.enterprise-layer-list {
+  display: grid;
+  gap: 9px;
+  min-width: 0;
+}
+#layerManagementPanel .layer-category {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e7d8c4;
+  border-radius: 12px;
+  background: var(--layer-surface);
+  box-shadow: 0 1px 3px rgba(82, 54, 36, .035);
+}
+#layerManagementPanel .layer-category + .layer-category {
+  margin-top: 0;
+}
+#layerManagementPanel .layer-category-header {
+  width: 100%;
+  min-height: 47px;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 0;
+  background: #fff5e6;
+  color: var(--layer-row-ink);
+  text-align: left;
+  cursor: pointer;
+}
+#layerManagementPanel .layer-category-header:hover {
+  background: #ffefd3;
+}
+#layerManagementPanel .layer-category-header[aria-expanded="true"] {
+  border-bottom: 1px solid var(--layer-line);
+  background: #fff2df;
+}
+#layerManagementPanel .layer-category-header > span:nth-child(2) {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+#layerManagementPanel .layer-category-header strong {
+  color: #433630;
+  font-size: 12.5px;
+  line-height: 1.3;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+#layerManagementPanel .layer-category-header small {
+  color: #786a5d;
+  font-size: 10.5px;
+  line-height: 1.3;
+  font-weight: 550;
+  overflow-wrap: anywhere;
+}
+#layerManagementPanel .layer-category-icon {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #edd4a5;
+  border-radius: 8px;
+  background: #ffebc1;
+  color: #9c6c17;
+  font-size: 14px;
+  font-weight: 850;
+}
+#layerManagementPanel .layer-category-chevron {
+  justify-self: center;
+  color: #805b3c;
+  font-size: 17px;
+  line-height: 1;
+}
+#layerManagementPanel .layer-category-content {
+  min-width: 0;
+  display: grid;
+  gap: 0;
+  padding: 3px 11px 7px;
+  background: var(--layer-surface);
+}
+#layerManagementPanel .layer-category-content[hidden],
+#layerManagementPanel .layer-legend-panel[hidden] {
+  display: none !important;
+}
+#layerManagementPanel .nested-layer-group {
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #f0e7dd;
+  background: transparent;
+}
+#layerManagementPanel .nested-layer-group + .nested-layer-group {
+  margin-top: 0;
+}
+#layerManagementPanel .nested-layer-group:last-child {
+  border-bottom: 0;
+}
+#layerManagementPanel .layer-category-content > .layer-item,
+#layerManagementPanel .nested-layer-group > .layer-item {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 47px;
+  margin: 0;
+  padding: 8px 3px;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #f0e7dd;
+  background: transparent !important;
+  color: var(--layer-row-ink);
+}
+#layerManagementPanel .layer-category-content > .layer-item:last-child {
+  border-bottom: 0;
+}
+#layerManagementPanel .nested-layer-group > .layer-item:hover,
+#layerManagementPanel .layer-category-content > .layer-item:hover {
+  background: var(--layer-hover) !important;
+}
+/*
+ * The underlying HTML order is: expand, icon, label, checkbox.
+ * Visually reorder to: icon, label, expand (chevron), checkbox.
+ * Explicit grid positions keep the click / checkbox listeners unchanged.
+ */
+#layerManagementPanel .nested-layer-group > .layer-item-expandable {
+  grid-template-columns: 20px minmax(0, 1fr) 29px 20px;
+  gap: 8px;
+}
+#layerManagementPanel .layer-item-expandable > .legend-symbol {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: center;
+}
+#layerManagementPanel .layer-item-expandable > .layer-copy {
+  grid-column: 2;
+  grid-row: 1;
+}
+#layerManagementPanel .layer-item-expandable > .layer-expand-btn {
+  grid-column: 3;
+  grid-row: 1;
+}
+#layerManagementPanel .layer-item-expandable > input[type="checkbox"] {
+  grid-column: 4;
+  grid-row: 1;
+}
+#layerManagementPanel .layer-copy {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+  overflow-wrap: anywhere;
+}
+#layerManagementPanel .layer-copy strong {
+  font-size: 12.5px;
+  line-height: 1.3;
+  font-weight: 750;
+  color: #443b34;
+}
+#layerManagementPanel .layer-copy small {
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: var(--layer-muted);
+  overflow-wrap: anywhere;
+}
+#layerManagementPanel .layer-category-content .legend-symbol {
+  min-width: 13px;
+  flex-shrink: 0;
+}
+#layerManagementPanel .layer-item-expandable .layer-expand-btn {
+  width: 29px;
+  height: 34px;
+  min-width: 29px;
+  min-height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent !important;
+  color: #865a3d;
+  font-size: 16px;
+  line-height: 1;
+  box-shadow: none;
+  cursor: pointer;
+}
+#layerManagementPanel .layer-item-expandable .layer-expand-btn:hover,
+#layerManagementPanel .layer-item-expandable .layer-expand-btn:focus-visible {
+  color: var(--layer-red);
+  border-color: #ead2ae;
+  background: #fff0d7 !important;
+}
+#layerManagementPanel .layer-item-expandable .layer-expand-btn.open {
+  color: var(--layer-red);
+  border-color: transparent;
+  background: transparent !important;
+  transform: rotate(90deg);
+}
+#layerManagementPanel input[type="checkbox"] {
+  justify-self: end;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  margin: 0;
+  accent-color: var(--layer-red);
+  cursor: pointer;
+}
+#layerManagementPanel .community-facilities-category > .layer-category-header {
+  padding-right: 65px;
+}
+#layerManagementPanel #communityFacilitiesToggle {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  z-index: 5;
+}
+#layerManagementPanel .layer-category-header:focus-visible,
+#layerManagementPanel .layer-expand-btn:focus-visible,
+#layerManagementPanel input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--layer-red);
+  outline-offset: 2px;
+}
+#layerManagementPanel .layer-category-content .layer-legend-panel {
+  min-width: 0;
+  margin: 0 0 9px 28px;
+  padding: 10px 11px;
+  border: 1px solid #ebdac5;
+  border-radius: 9px;
+  background: #fff8ed;
+  color: #4b4037;
+}
+#layerManagementPanel .layer-legend-panel .legend-heading {
+  margin-bottom: 8px;
+}
+#layerManagementPanel .layer-legend-panel .legend-heading span {
+  font-size: 11.5px;
+  color: #563b2d;
+}
+#layerManagementPanel .layer-legend-panel .legend-heading small,
+#layerManagementPanel .layer-legend-panel .legend-row {
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: #695d52;
+}
+#layerManagementPanel .layer-legend-panel .legend-list {
+  gap: 6px;
+}
+#layerManagementPanel .layer-legend-panel .facility-subitem,
+#layerManagementPanel #policeLegendPanel .safety-child-layer {
+  min-width: 0;
+  border: 0;
+  border-radius: 7px;
+  background: #fffdf9 !important;
+  padding: 7px 6px;
+  color: #493c34;
+}
+#layerManagementPanel .layer-legend-panel .facility-subitem:hover,
+#layerManagementPanel #policeLegendPanel .safety-child-layer:hover {
+  background: #fff0dc !important;
+}
+#layerManagementPanel #policeLegendPanel .safety-child-layer {
+  display: grid;
+  grid-template-columns: 17px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 8px;
+  min-height: 37px;
+}
+#layerManagementPanel #policeLegendPanel .safety-child-layer input {
+  grid-column: 3;
+}
+#layerManagementPanel .layer-legend-panel :is(.facility-subname,.layer-copy strong) {
+  font-size: 11.5px;
+}
+@container suo-sidebar (max-width: 285px) {
+  #layerManagementPanel .layer-category-header { gap: 6px; padding-inline: 8px; }
+  #layerManagementPanel .layer-category-content { padding-inline: 6px; }
+  #layerManagementPanel .layer-item-expandable > .layer-copy { min-width: 0; }
+  #layerManagementPanel .layer-copy strong { font-size: 11.5px; }
+  #layerManagementPanel .layer-copy small { font-size: 10px; }
+  #layerManagementPanel .layer-category-content .layer-legend-panel { margin-left: 8px; }
+}
+@container suo-sidebar (min-width: 440px) {
+  #layerManagementPanel .layer-category-header { padding-block: 11px; }
+  #layerManagementPanel .layer-category-content { padding-inline: 14px; }
+  #layerManagementPanel .layer-category-content > .layer-item,
+  #layerManagementPanel .nested-layer-group > .layer-item {
+    min-height: 49px;
+    padding-block: 9px;
+  }
+  #layerManagementPanel .layer-category-content .layer-legend-panel { margin-left: 31px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #layerManagementPanel .layer-expand-btn,
+  #layerManagementPanel .layer-category-chevron { transition: none !important; }
+}

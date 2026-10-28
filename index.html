@@ -14,6 +14,7 @@
 <link href="css/suo-about.css?v=1.1" rel="stylesheet"/>
 <link href="css/admin-intelligence.css?v=1.2" rel="stylesheet"/>
 <link href="css/sidebar-width-adjuster.css?v=1.0" rel="stylesheet"/>
+<link href="css/layer-management-refinement.css?v=1.0" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
@@ -108,7 +109,7 @@
         </div>
 <div class="search-results smart-search-results" hidden="" id="searchResults" role="listbox"></div>
 </section>
-<section class="panel">
+<section class="panel layer-management-panel" id="layerManagementPanel">
 <div class="panel-heading">
 <div>
 <p class="section-label">LAYER MANAGEMENT</p>
@@ -123,7 +124,7 @@
 </div>
 <div class="layer-list enterprise-layer-list">
 <section class="layer-category">
-<button aria-expanded="true" class="layer-category-header" data-layer-category="urbanHierarchy" type="button">
+<button aria-expanded="true" class="layer-category-header" data-layer-category="urbanHierarchy" aria-controls="layerCategoryContentUrbanHierarchy" type="button">
 <span class="layer-category-icon">◉</span>
 <span>
 <strong>Hierarki Bandar DPN3</strong>
@@ -131,19 +132,19 @@
 </span>
 <span class="layer-category-chevron">⌄</span>
 </button>
-<div class="layer-category-content" data-layer-category-content="urbanHierarchy">
+<div class="layer-category-content" id="layerCategoryContentUrbanHierarchy" data-layer-category-content="urbanHierarchy">
 <label class="layer-item">
 <span class="legend-symbol city-hierarchy-symbol"></span>
 <span class="layer-copy">
-<strong>Hierarki Bandar DPN3</strong>
+<strong>Bandar mengikut Tier</strong>
 <small><span style="color:#D43D48;font-size:16px;line-height:1;vertical-align:middle">●</span> Tier 1 &nbsp; <span style="color:#E9AB27;font-size:13px;line-height:1;vertical-align:middle">●</span> Tier 2 &nbsp; <span style="color:#9A6953;font-size:10px;line-height:1;vertical-align:middle">●</span> Tier 3</small>
 </span>
-<input checked="" id="cityHierarchyToggle" type="checkbox"/>
+<input checked="" id="cityHierarchyToggle" aria-label="Papar atau sembunyikan Hierarki Bandar DPN3" type="checkbox"/>
 </label>
 </div>
 </section>
 <section class="layer-category community-facilities-category">
-<button aria-expanded="true" class="layer-category-header" data-layer-category="communityFacilities" type="button">
+<button aria-expanded="true" class="layer-category-header" data-layer-category="communityFacilities" aria-controls="layerCategoryContentCommunityFacilities" type="button">
 <span class="layer-category-icon">▦</span>
 <span>
 <strong>Kemudahan Masyarakat</strong>
@@ -152,13 +153,13 @@
 <span class="layer-category-chevron">⌄</span>
 </button>
 <input checked="" id="communityFacilitiesToggle" class="community-facilities-master-toggle" type="checkbox" aria-label="Papar atau sembunyikan semua Kemudahan Masyarakat" title="Aktifkan atau matikan semua kemudahan"/>
-<div class="layer-category-content" data-layer-category-content="communityFacilities">
+<div class="layer-category-content" id="layerCategoryContentCommunityFacilities" data-layer-category-content="communityFacilities">
 <div class="layer-group nested-layer-group">
 <div class="layer-item layer-item-expandable">
 <button aria-controls="schoolLegendPanel" aria-expanded="false" class="layer-expand-btn" id="schoolLegendBtn" title="Buka legend pendidikan" type="button">▸</button>
 <span class="legend-symbol school-layer-symbol"></span>
 <span class="layer-copy"><strong>Pendidikan</strong><small>1,212 Kemudahan Pendidikan</small></span>
-<input checked="" id="schoolToggle" type="checkbox"/>
+<input checked="" id="schoolToggle" aria-label="Papar atau sembunyikan kemudahan pendidikan" type="checkbox"/>
 </div>
 <div class="layer-legend-panel" hidden="" id="schoolLegendPanel">
 <div class="legend-heading"><span>Pecahan Kemudahan Pendidikan</span><small>1,212 rekod</small></div>
@@ -176,7 +177,7 @@
 <strong>Kesihatan</strong>
 <small>87 Kemudahan Kesihatan</small>
 </span>
-<input checked="" id="healthFacilityToggle" type="checkbox"/>
+<input checked="" id="healthFacilityToggle" aria-label="Papar atau sembunyikan kemudahan kesihatan" type="checkbox"/>
 </div>
 <div class="layer-legend-panel" hidden="" id="healthLegendPanel">
 <div class="legend-heading"><span>Pecahan Kemudahan Kesihatan</span><small>87 rekod</small></div>
@@ -218,7 +219,7 @@
 </section>
 
 <section class="layer-category">
-<button aria-expanded="true" class="layer-category-header" data-layer-category="flood" type="button">
+<button aria-expanded="true" class="layer-category-header" data-layer-category="flood" aria-controls="layerCategoryContentFlood" type="button">
 <span class="layer-category-icon">≋</span>
 <span>
 <strong>Flood Intelligence Fasa 1</strong>
@@ -226,16 +227,16 @@
 </span>
 <span class="layer-category-chevron">⌄</span>
 </button>
-<div class="layer-category-content" data-layer-category-content="flood">
+<div class="layer-category-content" id="layerCategoryContentFlood" data-layer-category-content="flood">
 <div class="layer-group nested-layer-group">
 <div class="layer-item layer-item-expandable">
 <button aria-controls="floodLegendPanel" aria-expanded="false" class="layer-expand-btn" id="floodLegendBtn" title="Buka legend banjir" type="button">▸</button>
 <span class="legend-symbol flood-layer-symbol"></span>
 <span class="layer-copy">
 <strong>Ramalan Hujan 24 Jam</strong>
-<small>Lokasi ramalan hujan dan amaran banjir</small>
+<small>Lokasi dan intensiti hujan diramal</small>
 </span>
-<input checked="" id="floodRainToggle" type="checkbox"/>
+<input checked="" id="floodRainToggle" aria-label="Papar atau sembunyikan ramalan hujan 24 jam" type="checkbox"/>
 </div>
 <div class="layer-legend-panel" hidden="" id="floodLegendPanel">
 <div class="legend-heading">
@@ -256,7 +257,7 @@
 </div>
 </section>
 <section class="layer-category cadastral-category">
-<button aria-expanded="false" class="layer-category-header" data-layer-category="cadastral" type="button">
+<button aria-expanded="false" class="layer-category-header" data-layer-category="cadastral" aria-controls="layerCategoryContentCadastral" type="button">
 <span class="layer-category-icon">▦</span>
 <span>
 <strong>Lot Kadaster</strong>
@@ -264,7 +265,7 @@
 </span>
 <span class="layer-category-chevron">⌄</span>
 </button>
-<div class="layer-category-content" data-layer-category-content="cadastral" hidden="">
+<div class="layer-category-content" id="layerCategoryContentCadastral" data-layer-category-content="cadastral" hidden="">
 <div class="layer-group nested-layer-group">
 <div class="layer-item layer-item-expandable">
 <button aria-controls="cadastralLegendPanel" aria-expanded="false" class="layer-expand-btn" id="cadastralLegendBtn" title="Buka legend lot kadaster" type="button">▸</button>
@@ -301,7 +302,7 @@
 </div>
 </div>
 </section><section class="layer-category">
-<button aria-expanded="true" class="layer-category-header" data-layer-category="publicTransport" type="button">
+<button aria-expanded="true" class="layer-category-header" data-layer-category="publicTransport" aria-controls="layerCategoryContentPublicTransport" type="button">
 <span class="layer-category-icon">⌁</span>
 <span>
 <strong>Pengangkutan Awam Rel</strong>
@@ -309,7 +310,7 @@
 </span>
 <span class="layer-category-chevron">⌄</span>
 </button>
-<div class="layer-category-content" data-layer-category-content="publicTransport">
+<div class="layer-category-content" id="layerCategoryContentPublicTransport" data-layer-category-content="publicTransport">
 <div class="layer-group nested-layer-group">
 <div class="layer-item layer-item-expandable">
 <button aria-controls="railLegendPanel" aria-expanded="false" class="layer-expand-btn" id="railLegendBtn" title="Buka legend rangkaian rel" type="button">▸</button>
@@ -318,7 +319,7 @@
 <strong>Rangkaian Rel</strong>
 <small>Line rail finalized • 15 feature</small>
 </span>
-<input checked="" id="railToggle" type="checkbox"/>
+<input checked="" id="railToggle" aria-label="Papar atau sembunyikan rangkaian rel" type="checkbox"/>
 </div>
 <div class="layer-legend-panel" hidden="" id="railLegendPanel">
 <div class="legend-heading">
@@ -357,7 +358,7 @@
 <strong>Stesen Rel</strong>
 <small>234 station-line records finalized</small>
 </span>
-<input checked="" id="railStationToggle" type="checkbox"/>
+<input checked="" id="railStationToggle" aria-label="Papar atau sembunyikan stesen rel" type="checkbox"/>
 </div>
 <div class="layer-legend-panel" hidden="" id="railStationLegendPanel">
 <div class="legend-heading">
@@ -380,7 +381,7 @@
 </div>
 </div>
 </section><section class="layer-category">
-<button aria-expanded="true" class="layer-category-header" data-layer-category="traffic" type="button">
+<button aria-expanded="true" class="layer-category-header" data-layer-category="traffic" aria-controls="layerCategoryContentTraffic" type="button">
 <span class="layer-category-icon">≡</span>
 <span>
 <strong>Live Traffic</strong>
@@ -388,16 +389,16 @@
 </span>
 <span class="layer-category-chevron">⌄</span>
 </button>
-<div class="layer-category-content" data-layer-category-content="traffic">
+<div class="layer-category-content" id="layerCategoryContentTraffic" data-layer-category-content="traffic">
 <div class="layer-group nested-layer-group">
 <div class="layer-item layer-item-expandable">
 <button aria-controls="trafficLegendPanel" aria-expanded="false" class="layer-expand-btn" id="trafficLegendBtn" title="Buka legend trafik" type="button">▸</button>
 <span class="legend-symbol traffic-layer-symbol"></span>
 <span class="layer-copy">
-<strong>Live Traffic</strong>
-<small>Keadaan kesesakan jalan masa nyata</small>
+<strong>Keadaan Trafik Semasa</strong>
+<small>Maklumat trafik masa nyata</small>
 </span>
-<input checked="" id="trafficToggle" type="checkbox"/>
+<input checked="" id="trafficToggle" aria-label="Papar atau sembunyikan trafik masa nyata" type="checkbox"/>
 </div>
 <div class="layer-legend-panel" hidden="" id="trafficLegendPanel">
 <div class="legend-heading">
@@ -417,7 +418,7 @@
 </section>
 
 <section class="layer-category">
-<button aria-expanded="false" class="layer-category-header" data-layer-category="administration" type="button">
+<button aria-expanded="false" class="layer-category-header" data-layer-category="administration" aria-controls="layerCategoryContentAdministration" type="button">
 <span class="layer-category-icon">▱</span>
 <span>
 <strong>Pentadbiran</strong>
@@ -425,7 +426,7 @@
 </span>
 <span class="layer-category-chevron">⌄</span>
 </button>
-<div class="layer-category-content" data-layer-category-content="administration" hidden="">
+<div class="layer-category-content" id="layerCategoryContentAdministration" data-layer-category-content="administration" hidden="">
 <div class="layer-group nested-layer-group">
 <div class="layer-item layer-item-expandable">
 <button aria-controls="pbtLegendPanel" aria-expanded="false" class="layer-expand-btn" id="pbtLegendBtn" title="Buka legend PBT" type="button">▸</button>
@@ -434,7 +435,7 @@
 <strong>Sempadan PBT Selangor 2024</strong>
 <small>12 kawasan pentadbiran PBT</small>
 </span>
-<input checked="" id="pbtToggle" type="checkbox"/>
+<input checked="" id="pbtToggle" aria-label="Papar atau sembunyikan sempadan PBT" type="checkbox"/>
 </div>
 <div class="layer-legend-panel" hidden="" id="pbtLegendPanel">
 <div class="legend-heading">
@@ -456,7 +457,7 @@
 <strong>Sempadan Daerah</strong>
 <small>9 daerah Negeri Selangor</small>
 </span>
-<input checked="" id="districtToggle" type="checkbox"/>
+<input checked="" id="districtToggle" aria-label="Papar atau sembunyikan sempadan daerah" type="checkbox"/>
 </div>
 <div class="layer-legend-panel" hidden="" id="districtLegendPanel">
 <div class="legend-heading">
@@ -473,7 +474,7 @@
 </div>
 </section>
 <section class="layer-category">
-<button aria-expanded="false" class="layer-category-header" data-layer-category="baseMap" type="button">
+<button aria-expanded="false" class="layer-category-header" data-layer-category="baseMap" aria-controls="layerCategoryContentBaseMap" type="button">
 <span class="layer-category-icon">◇</span>
 <span>
 <strong>Peta Asas</strong>
@@ -481,14 +482,14 @@
 </span>
 <span class="layer-category-chevron">⌄</span>
 </button>
-<div class="layer-category-content" data-layer-category-content="baseMap" hidden="">
+<div class="layer-category-content" id="layerCategoryContentBaseMap" data-layer-category-content="baseMap" hidden="">
 <label class="layer-item">
 <span class="legend-symbol terrain-symbol"></span>
 <span class="layer-copy">
 <strong>Terrain 3D</strong>
 <small>Bentuk muka bumi</small>
 </span>
-<input checked="" id="terrainToggle" type="checkbox"/>
+<input checked="" id="terrainToggle" aria-label="Papar atau sembunyikan terrain 3D" type="checkbox"/>
 </label>
 <label class="layer-item">
 <span class="legend-symbol building-symbol"></span>
@@ -496,7 +497,7 @@
 <strong>Bangunan 3D</strong>
 <small>Objek 3D Mapbox Standard</small>
 </span>
-<input checked="" id="buildingToggle" type="checkbox"/>
+<input checked="" id="buildingToggle" aria-label="Papar atau sembunyikan bangunan 3D" type="checkbox"/>
 </label>
 </div>
 </section>
@@ -1431,7 +1432,7 @@ Pilih kawasan
       return;
     }
 
-    import("./js/app.js?v=9.7.4").catch(function (error) {
+    import("./js/app.js?v=9.7.5").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
