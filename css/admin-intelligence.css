@@ -50,3 +50,70 @@
   .admin-intel-stats { grid-template-columns: 1fr; }
   .admin-intel-panel .panel-heading { flex-wrap: wrap; }
 }
+
+
+/* P2 Expansion: four compact analysis dimensions with honest spatial indicators. */
+.admin-insight-tabs { display:flex; gap:5px; margin:13px 0 12px; overflow-x:auto;
+  padding-bottom:5px; scrollbar-width:thin; }
+.admin-insight-tabs button { border:1px solid #eadbc4; border-radius:9px; background:#fffaf3;
+  flex:0 0 auto; padding:9px 8px; color:#685649; font-size:10.5px; font-weight:800;
+  white-space:nowrap; min-height:36px; }
+.admin-insight-tabs button.active { background:#a83b40; border-color:#a83b40; color:#fff; }
+.admin-intel-details [data-admin-pane][hidden] { display:none !important; }
+.admin-insight-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-bottom:9px; }
+.admin-insight-pair > div { background:#fff8ed; border:1px solid #ead9c3;
+  padding:10px; border-radius:11px; min-width:0; }
+.admin-insight-pair span, .admin-insight-pair small { display:block; font-size:10px;
+  line-height:1.4; color:#76685d; }
+.admin-insight-pair strong { display:block; margin:7px 0 3px; font-size:17px;
+  color:#9a3439; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.admin-insight-compare { display:grid; gap:6px; margin:12px 0; }
+.admin-insight-bar-label { display:flex; justify-content:space-between; gap:8px;
+  font-size:11px; color:#67574c; }
+.admin-insight-bar-label span { font-weight:750; font-variant-numeric:tabular-nums; }
+.admin-insight-bar { height:8px; overflow:hidden; border-radius:999px; background:#f2eadf; }
+.admin-insight-bar > div { height:100%; border-radius:999px; background:#d6b178; }
+.admin-insight-bar > div.selected { background:#b33d43; }
+.admin-insight-bar > div.median { background:#c5a36b; }
+.admin-insight-detail { padding:9px 10px; border-radius:8px; background:#fff1d8;
+  font-size:11px; line-height:1.5; color:#76542f; }
+.admin-insight-interpret, .admin-insight-note, .admin-insight-missing,
+.admin-insight-loading { font-size:10.5px; line-height:1.6; color:#73665d; margin:10px 0; }
+.admin-insight-subtitle { font-size:11px; font-weight:800; color:#58443a;
+  margin:15px 0 8px; padding-bottom:5px; border-bottom:1px solid #ebdfce; }
+.admin-insight-category { display:grid; grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:center; gap:7px; padding:6px 0; font-size:11px; color:#65564d; }
+.admin-insight-category strong { color:#a5383f; font-variant-numeric:tabular-nums; }
+.admin-insight-category small { color:#8c7c6d; white-space:nowrap; }
+.admin-insight-tier { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px; }
+.admin-insight-tier span { font-size:10px; font-weight:750; padding:5px 7px;
+  border-radius:7px; color:#523b33; background:#fff3e5; }
+.admin-insight-tier .tier-one { background:#fae7e8; color:#983a40; }
+.admin-insight-tier .tier-two { background:#fff0c5; color:#8b6a17; }
+.admin-insight-tier .tier-three { background:#f3e4d9; color:#825a48; }
+.admin-insight-city-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px; }
+.admin-insight-city-list button { display:flex; align-items:flex-start; flex-direction:column; gap:3px;
+  padding:8px; border:1px solid #e7d9c8; border-radius:8px; background:#fffbf5;
+  text-align:left; color:#483c36; min-height:45px; font-size:11px; font-weight:750; }
+.admin-insight-city-list button:hover { border-color:#b53d43; background:#fff2e9; }
+.admin-insight-city-list small { font-size:9px; color:#8c7164; }
+.admin-insight-rail-list { display:grid; gap:5px; }
+.admin-insight-rail-list > div { display:flex; align-items:center;
+  justify-content:space-between; gap:8px; padding:6px 8px;
+  border-radius:8px; background:#fff9ee; font-size:11px; color:#55473f; }
+.admin-insight-rail-list small { font-size:10px; color:#8a7568; text-align:right; }
+.admin-insight-trend { display:grid; gap:4px; }
+.admin-insight-trend > div { display:flex; justify-content:space-between; gap:12px;
+  padding:8px; border:1px solid #eee0ce; border-radius:8px; color:#6e5c52;
+  font-size:10.5px; }
+.admin-insight-trend strong { color:#a83b40; text-align:right; font-variant-numeric:tabular-nums; }
+.admin-insight-link { display:block; text-align:center; padding:10px;
+  border:1px solid #dcbf86; border-radius:9px; background:#fff3d5;
+  color:#79542b; font-size:11px; font-weight:850; text-decoration:none; }
+.admin-insight-link:hover { background:#f8e7bd; }
+@media (max-width:390px) {
+  .admin-insight-pair { grid-template-columns:1fr; }
+  .admin-insight-city-list { grid-template-columns:1fr; }
+  .admin-insight-category { grid-template-columns:1fr auto; }
+  .admin-insight-category small { grid-column:1/-1; }
+}

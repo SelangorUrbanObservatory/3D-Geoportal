@@ -1,0 +1,203 @@
+{
+  "title": "Indikator Pendapatan dan Kemiskinan Isi Rumah mengikut Daerah Selangor",
+  "scope": "Daerah sahaja — bukan PBT",
+  "source": "DOSM/OpenDOSM via SUO Dashboard Demografi & Sosioekonomi",
+  "source_repository": "SelangorUrbanObservatory/Dashboard-Demografi-Sosioekonomi-Negeri-Selangor",
+  "source_files": [
+    "data/hh_income_district_selangor.csv",
+    "data/hh_poverty_district_selangor.csv"
+  ],
+  "years": [
+    2019,
+    2022,
+    2024
+  ],
+  "units": {
+    "income_mean": "RM sebulan",
+    "income_median": "RM sebulan",
+    "poverty_absolute": "peratus isi rumah",
+    "poverty_relative": "peratus isi rumah"
+  },
+  "districts": {
+    "Gombak": {
+      "2019": {
+        "income_mean": 11536,
+        "income_median": 8501,
+        "poverty_absolute": 0.4,
+        "poverty_relative": 14.5
+      },
+      "2022": {
+        "income_mean": 13523,
+        "income_median": 10180,
+        "poverty_absolute": 2.4,
+        "poverty_relative": 13.8
+      },
+      "2024": {
+        "income_mean": 14168,
+        "income_median": 10777,
+        "poverty_absolute": 2.1,
+        "poverty_relative": 9.8
+      }
+    },
+    "Hulu Langat": {
+      "2019": {
+        "income_mean": 10252,
+        "income_median": 8361,
+        "poverty_absolute": 0.6,
+        "poverty_relative": 10.5
+      },
+      "2022": {
+        "income_mean": 13386,
+        "income_median": 11210,
+        "poverty_absolute": 0.5,
+        "poverty_relative": 7
+      },
+      "2024": {
+        "income_mean": 13822,
+        "income_median": 11404,
+        "poverty_absolute": 0.1,
+        "poverty_relative": 0.3
+      }
+    },
+    "Hulu Selangor": {
+      "2019": {
+        "income_mean": 7598,
+        "income_median": 6249,
+        "poverty_absolute": 1.5,
+        "poverty_relative": 26.6
+      },
+      "2022": {
+        "income_mean": 8779,
+        "income_median": 7678,
+        "poverty_absolute": 1.7,
+        "poverty_relative": 23.9
+      },
+      "2024": {
+        "income_mean": 9499,
+        "income_median": 8485,
+        "poverty_absolute": 0.4,
+        "poverty_relative": 16.7
+      }
+    },
+    "Klang": {
+      "2019": {
+        "income_mean": 9980,
+        "income_median": 7888,
+        "poverty_absolute": 1.7,
+        "poverty_relative": 16.6
+      },
+      "2022": {
+        "income_mean": 10278,
+        "income_median": 8203,
+        "poverty_absolute": 2.2,
+        "poverty_relative": 20.3
+      },
+      "2024": {
+        "income_mean": 10912,
+        "income_median": 8837,
+        "poverty_absolute": 1,
+        "poverty_relative": 12
+      }
+    },
+    "Kuala Langat": {
+      "2019": {
+        "income_mean": 8375,
+        "income_median": 6950,
+        "poverty_absolute": 2.4,
+        "poverty_relative": 19.7
+      },
+      "2022": {
+        "income_mean": 11048,
+        "income_median": 10093,
+        "poverty_absolute": 0.3,
+        "poverty_relative": 9.4
+      },
+      "2024": {
+        "income_mean": 11714,
+        "income_median": 10583,
+        "poverty_absolute": 0.3,
+        "poverty_relative": 2.2
+      }
+    },
+    "Kuala Selangor": {
+      "2019": {
+        "income_mean": 7866,
+        "income_median": 5855,
+        "poverty_absolute": 3.5,
+        "poverty_relative": 30.4
+      },
+      "2022": {
+        "income_mean": 9410,
+        "income_median": 7644,
+        "poverty_absolute": 2.8,
+        "poverty_relative": 25.2
+      },
+      "2024": {
+        "income_mean": 10584,
+        "income_median": 8046,
+        "poverty_absolute": 1.8,
+        "poverty_relative": 21
+      }
+    },
+    "Petaling": {
+      "2019": {
+        "income_mean": 12145,
+        "income_median": 8993,
+        "poverty_absolute": 1.1,
+        "poverty_relative": 14.4
+      },
+      "2022": {
+        "income_mean": 12760,
+        "income_median": 9618,
+        "poverty_absolute": 1.6,
+        "poverty_relative": 14.9
+      },
+      "2024": {
+        "income_mean": 14422,
+        "income_median": 10688,
+        "poverty_absolute": 1,
+        "poverty_relative": 10.8
+      }
+    },
+    "Sabak Bernam": {
+      "2019": {
+        "income_mean": 6042,
+        "income_median": 4454,
+        "poverty_absolute": 4.7,
+        "poverty_relative": 46.2
+      },
+      "2022": {
+        "income_mean": 6930,
+        "income_median": 5533,
+        "poverty_absolute": 5.3,
+        "poverty_relative": 42.6
+      },
+      "2024": {
+        "income_mean": 8033,
+        "income_median": 6941,
+        "poverty_absolute": 2.7,
+        "poverty_relative": 25.7
+      }
+    },
+    "Sepang": {
+      "2019": {
+        "income_mean": 12254,
+        "income_median": 8937,
+        "poverty_absolute": 0.7,
+        "poverty_relative": 7.9
+      },
+      "2022": {
+        "income_mean": 13673,
+        "income_median": 12608,
+        "poverty_absolute": 0,
+        "poverty_relative": 3.4
+      },
+      "2024": {
+        "income_mean": 15906,
+        "income_median": 11131,
+        "poverty_absolute": 0.1,
+        "poverty_relative": 1.1
+      }
+    }
+  }
+}
