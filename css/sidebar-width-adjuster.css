@@ -7,6 +7,12 @@
   .workspace {
     --suo-left-grid-track: var(--suo-left-panel-width, 318px);
     --suo-right-grid-track: var(--suo-right-panel-width, 330px);
+  }
+  /* Match higher specificity of legacy <=1100px collapse rules. */
+  .workspace,
+  .workspace.left-panel-collapsed,
+  .workspace.right-panel-collapsed,
+  .workspace.left-panel-collapsed.right-panel-collapsed {
     grid-template-columns:
       var(--suo-left-grid-track)
       minmax(0, 1fr)
