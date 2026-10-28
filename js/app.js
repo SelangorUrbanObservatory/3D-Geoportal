@@ -10,7 +10,7 @@ import {
   facilitySubState
 } from "./layers.js";
 import { initUrbanExplorer } from "./urban-explorer.js";
-import { AdminIntelligence } from "./admin-intelligence.js?v=1.1";
+import { AdminIntelligence } from "./admin-intelligence.js?v=1.2";
 import { UrbanTour } from "./urban-tour.js";
 import { CompareEngine } from "./compare.js";
 import { ComparePanelUI } from "./compare-panel-ui.js";
