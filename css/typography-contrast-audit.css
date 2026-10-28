@@ -1,0 +1,403 @@
+/*
+ * SUO 3D GeoPortal — Portal-Wide Typography & Contrast Audit
+ * 28 Oct 2026. Light Selangor palette. UI only; no Mapbox layer paint changes.
+ * Keep semantic white text on actual red/dark buttons and dark map overlays.
+ * Source scan uncovered legacy pale-on-pale text and < 10px metadata.
+ */
+:root {
+  --suo-type-primary: #352c27; /* 13.4:1 on #fffdf9 */
+  --suo-type-secondary: #625247; /* 7.3:1 on #fffdf9 */
+  --suo-type-muted: #64574c; /* 6.8:1 on #fffdf9 */
+  --suo-type-accent: #87343b; /* 8.0:1 on #fffdf9 */
+  --suo-type-paper: #fffdf9;
+}
+:where(.left-sidebar,.right-sidebar,.compare-panel,.enterprise-compare-panel,
+       .weather-panel,.flood-panel,.suo-about-dialog,.standard-popup-content) {
+  color: var(--suo-type-primary);
+}
+:where(.left-sidebar,.right-sidebar,.compare-panel,.enterprise-compare-panel,
+       .weather-panel,.flood-panel) :where(p,li,button,label,select,input,small) {
+  line-height: 1.45;
+}
+/* Semantic heading labels across left/right panes. */
+.sidebar :is(.section-label,.eyebrow),
+.compare-panel :is(.compare-kicker,.section-label),
+.enterprise-compare-panel .compare-kicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .055em;
+  color: var(--suo-type-accent);
+}
+.sidebar :is(.panel-heading h2,.panel-heading h3),
+.suo-about-dialog h2,
+.enterprise-compare-panel .panel-heading h2 {
+  color: var(--suo-type-primary);
+}
+.sidebar :is(.muted,.panel-heading .muted,.feature-info,.policy-status,.tour-meta,
+ .tour-counter,.chat-assistant-intro span,.layer-copy small) {
+  color: var(--suo-type-secondary);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.sidebar :is(.kpi-card span,.kpi-card small,.donut-hole span,.chart-legend,
+  .legend-heading small,.legend-row,.layer-group-status) {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--suo-type-secondary);
+}
+.sidebar :is(.kpi-card strong,.chart-panel h3,.info-panel strong) {
+  color: var(--suo-type-primary);
+}
+.sidebar :is(.policy-badge,.network-version-badge) {
+  font-size: 11px;
+}
+.sidebar .sidebar-collapse-bar span {
+  font-size: 11px;
+  color: var(--suo-type-accent) !important;
+}
+.sidebar .layer-catalog-filter :is(label,small) {
+  color: var(--suo-type-secondary);
+  font-size: 11.5px;
+}
+/* Search autocomplete: a legacy midnight backdrop vs the current cream UI.
+   Make the entire result surface light rather than leaving mixed text palettes. */
+.left-sidebar .smart-search-results {
+  background: #fffdf9;
+  color: var(--suo-type-primary);
+  border: 1px solid #decbb6;
+  box-shadow: 0 10px 24px rgba(73,43,28,.16);
+}
+.left-sidebar .smart-search-group + .smart-search-group {
+  border-top-color: #e8dcca;
+}
+.left-sidebar .smart-search-group-title {
+  color: var(--suo-type-accent);
+  font-size: 11px;
+  letter-spacing: .055em;
+}
+.left-sidebar .smart-search-result {
+  background: transparent;
+  color: var(--suo-type-primary);
+  min-height: 45px;
+}
+.left-sidebar .smart-search-result:hover,
+.left-sidebar .smart-search-result.active {
+  background: #fff0d8;
+}
+.left-sidebar .smart-result-copy strong {
+  color: var(--suo-type-primary);
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+.left-sidebar .smart-result-copy small,
+.left-sidebar .smart-search-status,
+.left-sidebar .smart-search-empty {
+  color: var(--suo-type-secondary);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.left-sidebar .smart-result-arrow { color: #805c42; }
+.left-sidebar .smart-result-icon {
+  color: var(--suo-type-accent);
+  background: #fff1d7;
+  border-color: #ead5b6;
+}
+.left-sidebar .smart-search-box input,
+.left-sidebar .smart-search-submit { font-size: 12px; }
+.left-sidebar .smart-search-hint {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--suo-type-secondary);
+}
+.left-sidebar .smart-search-box input::placeholder {
+  color: #6a5a50;
+  opacity: 1;
+}
+/* Assistant: avoid leftover near-white-on-cream badges and microscopic labels. */
+.sidebar .assistant-examples button {
+  color: var(--suo-type-accent);
+  background: #fff2da;
+  border: 1px solid #e7cda6;
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+.sidebar .assistant-examples button:hover {
+  background: #f3c654;
+  color: #352c27;
+}
+.sidebar :is(.assistant-role,.assistant-capabilities span,
+  .assistant-system-strip > span,.assistant-system-strip strong) {
+  color: var(--suo-type-secondary);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.sidebar .assistant-capabilities span,
+.sidebar .assistant-system-strip > span {
+  border-color: #eadbc8;
+  background: #fff5e6;
+}
+.sidebar .assistant-system-strip strong {
+  color: var(--suo-type-accent);
+  font-weight: 800;
+}
+.sidebar .assistant-status-badge,
+.sidebar .assistant-live-badge {
+  font-size: 11px;
+  color: #276345;
+  background: #e4f5e9;
+}
+/* Map compare dialog: text and label controls on its light corporate surface. */
+.enterprise-compare-panel .compare-side-card,
+.enterprise-compare-panel .compare-layer-row,
+.enterprise-compare-panel .compare-switch-row {
+  color: var(--suo-type-primary);
+  border-color: #e8d9c6;
+  background: #fffaf2;
+}
+.enterprise-compare-panel .compare-side-title,
+.enterprise-compare-panel .compare-sync-grid label,
+.enterprise-compare-panel .compare-side-title button {
+  color: var(--suo-type-primary);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.enterprise-compare-panel .compare-side-title button {
+  background: #fff1d8;
+  border-color: #e5d5be;
+}
+.enterprise-compare-panel :is(.compare-tab,.compare-layer-row,.compare-switch-row,
+ .compare-basemap-card select,.compare-basemap-note,.compare-status,
+ .compare-panel-hint,.compare-grid label > span,.compare-field-label) {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--suo-type-secondary);
+}
+.enterprise-compare-panel .compare-tab.active,
+.enterprise-compare-panel .compare-wide-btn {
+  color: #352c27;
+}
+.enterprise-compare-panel .compare-sync-grid label { color: var(--suo-type-primary); }
+.enterprise-compare-panel .compare-side-title { color: var(--suo-type-primary); }
+.enterprise-compare-panel .compare-layer-row,
+.enterprise-compare-panel .compare-switch-row { color: var(--suo-type-primary); }
+/* Spatial measurement, routing and buffer: readable metadata with light controls. */
+.right-sidebar :is(.spatial-tool-grid button,.spatial-tool-grid button strong,
+ .buffer-tool-heading strong,.route-tool-heading strong,.network-section-title strong,
+ .network-result-box strong) {
+  color: var(--suo-type-primary);
+}
+.right-sidebar :is(.spatial-tool-grid button small,.buffer-tool-heading small,
+ .route-tool-heading small,.route-option-grid > label,.spatial-tool-status,
+ .secondary-tool-grid button,.network-status,.network-beta-note,
+ .network-field label,.network-form-grid label) {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--suo-type-secondary);
+}
+.right-sidebar :is(.buffer-input-row input,.buffer-input-row select,
+ .route-option-grid select,.buffer-run-btn,.route-run-btn,
+ .network-primary-btn,.network-mode-grid button,.network-feature-list button) {
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+.right-sidebar .spatial-tool-grid button,
+.right-sidebar .secondary-tool-grid button {
+  background: #fff8ed;
+  border-color: #e7d8c5;
+  color: var(--suo-type-primary);
+}
+.right-sidebar :is(.spatial-tool-status,.cadastral-status) {
+  background: #fff6e9;
+  color: var(--suo-type-secondary);
+  border-color: #e4d0b7;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.right-sidebar .cadastral-status.warning {
+  color: var(--suo-type-accent);
+  background: #faebdf;
+}
+.right-sidebar .network-tab { font-size: 11.5px; line-height: 1.35; }
+/* Landuse Intelligence still carried pale lettering from its old midnight cards. */
+.right-sidebar .landuse-live-badge {
+  color: #246143;
+  background: #e6f4e9;
+  border-color: #b8d9c4;
+  font-size: 11px;
+}
+.right-sidebar .executive-landuse-kpis article {
+  background: #fff8ee;
+  border-color: #e6d8c7;
+}
+.right-sidebar .executive-landuse-kpis :is(span,small) {
+  color: var(--suo-type-secondary);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+.right-sidebar .executive-landuse-kpis strong {
+  color: var(--suo-type-accent);
+  font-size: 16px;
+}
+.right-sidebar .landuse-legend > div {
+  color: var(--suo-type-primary);
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+.right-sidebar .landuse-donut > div {
+  background: #fffdf9;
+}
+.right-sidebar .landuse-donut strong {
+  color: var(--suo-type-primary);
+  font-size: 13px;
+}
+.right-sidebar .landuse-donut span {
+  color: var(--suo-type-secondary);
+  font-size: 10.5px;
+}
+.right-sidebar .landuse-secondary-link {
+  background: #fff3df;
+  border-color: #e7cfa9;
+  color: var(--suo-type-accent);
+}
+.right-sidebar .executive-landuse-tools a,
+.right-sidebar .landuse-intelligence-actions button {
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+.right-sidebar .landuse-intelligence-actions button {
+  background: #fff8ee;
+  border-color: #e6d5c1;
+  color: var(--suo-type-primary);
+}
+.right-sidebar .landuse-intelligence-status {
+  color: var(--suo-type-secondary);
+  background: #fff8ee;
+  border-color: #e8d5be;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.right-sidebar .landuse-intelligence-status.ready {
+  color: #276345;
+  background: #eaf4ec;
+}
+.right-sidebar .landuse-intelligence-status.warning {
+  color: var(--suo-type-accent);
+  background: #fff1d9;
+}
+/* Weather + Flood: enlarge microtype; retain semantic status/selected surfaces. */
+:is(.flood-panel,.weather-panel) :is(.flood-panel-header p,.weather-panel-header p,
+ .flood-source-note,.weather-source-note,.flood-layer-note,.flood-disclaimer,
+ .flood-warning-empty,.weather-warning-empty,.weather-current-main small,
+ .flood-quick-reading span,.weather-quick-reading span,.flood-launch-copy small,
+ .weather-launch-copy small,.flood-summary-card span,.flood-summary-card small,
+ .weather-current-grid span,.weather-hour-card > span,.weather-hour-card small,
+ .weather-day-card span,.weather-day-card small,.weather-day-card em,
+ .weather-hour-card em,.flood-rain-row small,.flood-rain-value span,
+ .flood-warning-card p,.weather-warning-card p,.flood-warning-card small,
+ .weather-warning-card small,.weather-radar-card p,.flood-resource-card p,
+ .flood-static-placeholder p,.flood-static-placeholder code,
+ .weather-section-heading > span,.flood-section-heading > span) {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--suo-type-secondary) !important;
+}
+:is(.flood-panel,.weather-panel) :is(.flood-rain-value b,.weather-current-grid strong) {
+  color: var(--suo-type-primary) !important;
+}
+:is(.flood-panel,.weather-panel) :is(.flood-panel-actions button,
+ .weather-panel-actions button,.weather-parameter-grid button,
+ .flood-resource-actions a,.weather-radar-card a) {
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+:is(.flood-panel,.weather-panel) :is(.flood-live-pill,.weather-live-pill) {
+  font-size: 11px;
+  line-height: 1.35;
+}
+.flood-launch-card :is(.flood-open-btn,.flood-launch-copy small),
+.weather-launch-card :is(.weather-open-btn,.weather-launch-copy small) {
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+/* Map popups: text on a white balloon, not the translucent basemap. */
+.mapboxgl-popup-content,
+.mapboxgl-popup-content .standard-popup-content,
+.mapboxgl-popup-content .suo-popup {
+  color: var(--suo-type-primary);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.mapboxgl-popup-content :is(.popup-kicker,.popup-info-grid span,
+ .suo-popup-row > span,.standard-popup-content small,.suo-popup small) {
+  color: var(--suo-type-secondary) !important;
+  font-size: 11.5px;
+}
+.mapboxgl-popup-content :is(.popup-info-grid strong,.suo-popup-row > b) {
+  color: var(--suo-type-primary) !important;
+  font-size: 12px;
+}
+.mapboxgl-popup-content :is(h3,.suo-popup-title) {
+  color: var(--suo-type-primary) !important;
+  font-size: 14px;
+}
+.mapboxgl-popup-content a:not(.mapboxgl-popup-close-button) {
+  color: var(--suo-type-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+/* Map overlays and labels must remain readable without changing map geometry. */
+.map-status,.view-mode-control,.basemap-control,.compare-panel {
+  color: var(--suo-type-primary);
+}
+.map-status :is(span,small),
+.view-mode-control label,.basemap-control label {
+  color: var(--suo-type-secondary);
+  font-size: 11.5px;
+}
+.mapboxgl-ctrl-attrib, .mapboxgl-ctrl-attrib a { font-size: 11px; }
+/* Responsive area profile: improved metadata but keep the existing two-column
+   card layout, and white text on active red tabs. */
+.right-sidebar .admin-intel-stat :is(span,small),
+.right-sidebar .admin-intel-selected small,
+.right-sidebar .admin-insight-note,
+.right-sidebar .admin-insight-interpret {
+  color: var(--suo-type-secondary);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.right-sidebar .admin-insight-tabs button.active,
+.right-sidebar .network-tab.active {
+  color: #fffdf9 !important;
+}
+/* Loading/About text remains on the light brand backdrop. */
+.loading-screen .suo-loading-subtitle { color: var(--suo-type-secondary) !important; font-size: 12.5px; }
+.suo-about-brand small,.suo-about-credit { font-size: 11.5px; }
+/* On narrower screens, keep the readable type rather than zooming old 9px labels. */
+@media (max-width: 760px) {
+  .left-sidebar .smart-result-copy strong { font-size: 12.5px; }
+  .right-sidebar :is(.executive-landuse-kpis span,.executive-landuse-kpis small) { font-size: 11px; }
+  .mapboxgl-popup-content { font-size: 12px; }
+}
+
+/* Final pass over small legacy captions and map/compare controls. */
+.brand-wrap .eyebrow { font-size: 11px; color: var(--suo-type-accent); }
+#layerManagementPanel .layer-category-header small { font-size: 11.5px; color: var(--suo-type-secondary); }
+.sidebar .live-pill { font-size: 11px; }
+.enterprise-compare-panel .compare-segment button,
+.enterprise-compare-panel .sync-control,
+.enterprise-compare-panel.unpinned::after {
+  font-size: 11.5px;
+}
+.enterprise-compare-panel .sync-control { color: var(--suo-type-secondary); }
+.flood-panel .flood-rain-rank { font-size: 11px; }
+.left-sidebar .smart-search-clear { font-size: 12px; color: var(--suo-type-accent); }
+.left-sidebar .chat-assistant-avatar { font-size: 11px; }
+.workspace .sidebar-reopen-tab b { font-size: 13px; }
+.right-sidebar .cadastral-legend-label { font-size: 11px; }
+.mapboxgl-popup-content em,
+.mapboxgl-popup-content .standard-popup-content .popup-kicker {
+  font-size: 11.5px;
+  color: var(--suo-type-secondary) !important;
+}
+.map-shell.split-active::before,
+.map-shell.split-active::after { font-size: 11px; }
