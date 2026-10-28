@@ -267,11 +267,11 @@
 }
 @container (max-width: 255px) {
   /* The panel can occasionally be embedded into narrower resizable sidebars. */
-  .admin-intel-stats,
-  .admin-insight-pair {
+  .admin-intel-panel .admin-intel-stats,
+  .admin-intel-panel .admin-insight-pair {
     grid-template-columns: minmax(0, 1fr);
   }
-  .admin-insight-tabs button {
+  .admin-intel-panel .admin-insight-tabs button {
     flex-direction: column;
     gap: 3px;
   }
