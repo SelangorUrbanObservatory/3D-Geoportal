@@ -17,7 +17,7 @@
 <link href="css/layer-management-refinement.css?v=1.1" rel="stylesheet"/>
 <link href="css/typography-contrast-audit.css?v=1.0" rel="stylesheet"/>
 <link href="css/compare-engine-refinement.css?v=1.0" rel="stylesheet"/>
-<link href="css/planning-intelligence.css?v=1.2" rel="stylesheet"/>
+<link href="css/planning-intelligence.css?v=1.3" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
@@ -608,6 +608,11 @@
       <span><i class="planning-map-dot school"></i>Pendidikan</span>
       <span><i class="planning-map-dot health"></i>Kesihatan</span>
       <span><i class="planning-map-dot safety"></i>Keselamatan</span>
+    </div>
+    <div class="planning-time-key" data-planning-guide-times hidden aria-label="Petunjuk kawasan masa perjalanan">
+      <span><i class="planning-time-swatch five"></i>5 min</span>
+      <span><i class="planning-time-swatch ten"></i>10 min</span>
+      <span><i class="planning-time-swatch fifteen"></i>15 min</span>
     </div>
   </div>
 </aside>
@@ -1256,11 +1261,12 @@ Pilih kawasan
 <div class="network-feature-list planning-feature-actions">
 <button id="serviceAreaBtn" type="button">◎ Service Area</button>
 <button id="coverageBtn" type="button">▦ Coverage Analysis</button>
+<button id="planningCompareBtn" class="planning-compare-btn" type="button">◉ Perbandingan 5 / 10 / 15 minit</button>
 <button id="gapAnalysisBtn" type="button">Gap Analysis · Fasa 2</button>
 <button id="accessibilityScoreBtn" type="button">Accessibility Score · Fasa 2</button>
 </div>
 <div class="network-result-box planning-result" id="planningResult" role="status" aria-live="polite">
-Pilih fungsi Service Area atau Coverage Analysis, kemudian klik lokasi pusat pada peta.
+Pilih Service Area, Coverage Analysis atau Perbandingan 5/10/15 minit, kemudian klik lokasi pada peta.
 </div>
 <div class="network-beta-note">
 <strong>Had analisis:</strong> Service Area berdasarkan poligon Isochrone Mapbox.
@@ -1490,7 +1496,7 @@ Gap Analysis dan Accessibility Score memerlukan data permintaan penduduk serta p
       return;
     }
 
-    import("./js/app.js?v=9.8.2").catch(function (error) {
+    import("./js/app.js?v=9.8.3").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
