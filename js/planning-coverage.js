@@ -7,6 +7,14 @@ const FACILITY_GROUPS = Object.freeze([
   { key: "safety", cacheKey: "police", url: DATA_URLS.police, label: "Keselamatan", property: "AGENSI" }
 ]);
 
+// Distribute visual markers across the original record order, instead of
+// plotting only the first 80 records (which can be geographically clustered).
+function sampleForMap(items, limit = 80) {
+  if (items.length <= limit) return items;
+  return Array.from({ length: limit }, (_, i) =>
+    items[Math.floor(i * items.length / limit)]);
+}
+
 function validPoint(f) {
   const p = f?.geometry?.coordinates;
   return f?.geometry?.type === "Point" &&
@@ -62,10 +70,19 @@ export async function summarizePlanningCoverage(polygon, selectedType = "all") {
     groups: grouped.map(({inside, ...group}) => group),
     // Mark a limited sample as map points to keep mobile rendering fast.
     // The full count is ALWAYS based on all records, not this sample.
-    visibleFacilities: grouped.flatMap(group => group.inside.slice(0,80)
+    visibleFacilities: grouped.flatMap(group => sampleForMap(group.inside, 80)
       .map(f => ({
         type: "Feature",
-        properties: { role: "facility", group: group.key },
+        properties: {
+          role: "facility",
+          analysis: "planning",
+          group: group.key,
+          groupLabel: group.label,
+          name: String(f.properties?.web_name || f.properties?.NAMA ||
+            f.properties?.nama || "Kemudahan tanpa nama").trim(),
+          typeLabel: String(f.properties?.[FACILITY_GROUPS.find(g =>
+            g.key === group.key)?.property] || "Tidak dinyatakan").trim()
+        },
         geometry: f.geometry
       }))),
     markerLimitPerGroup: 80

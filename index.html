@@ -17,7 +17,7 @@
 <link href="css/layer-management-refinement.css?v=1.1" rel="stylesheet"/>
 <link href="css/typography-contrast-audit.css?v=1.0" rel="stylesheet"/>
 <link href="css/compare-engine-refinement.css?v=1.0" rel="stylesheet"/>
-<link href="css/planning-intelligence.css?v=1.1" rel="stylesheet"/>
+<link href="css/planning-intelligence.css?v=1.2" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
@@ -1238,6 +1238,21 @@ Pilih kawasan
 <option value="cycling">Berbasikal</option>
 </select></label>
 </div>
+<div class="planning-visual-controls" aria-label="Kawalan visual analisis Planning">
+<div class="planning-visual-heading">
+<strong>Penampilan Peta</strong>
+<small>Laras warna dan penanda tanpa mengubah hasil pengiraan</small>
+</div>
+<label class="planning-opacity-label" for="planningOpacity">
+<span>Kelegapan kawasan</span><output id="planningOpacityValue" for="planningOpacity">38%</output>
+</label>
+<input id="planningOpacity" type="range" min="12" max="65" step="1" value="38" aria-label="Kelegapan poligon analisis Planning" />
+<div class="planning-visual-actions">
+<label class="planning-marker-label" for="planningMarkerToggle"><input id="planningMarkerToggle" type="checkbox" checked />Papar titik kemudahan</label>
+<button type="button" id="planningFocusBtn" disabled>Fokus Kawasan</button>
+<button type="button" id="planningClearBtn">Padam Hasil</button>
+</div>
+</div>
 <div class="network-feature-list planning-feature-actions">
 <button id="serviceAreaBtn" type="button">◎ Service Area</button>
 <button id="coverageBtn" type="button">▦ Coverage Analysis</button>
@@ -1475,7 +1490,7 @@ Gap Analysis dan Accessibility Score memerlukan data permintaan penduduk serta p
       return;
     }
 
-    import("./js/app.js?v=9.8.1").catch(function (error) {
+    import("./js/app.js?v=9.8.2").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +

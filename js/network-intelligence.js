@@ -1,5 +1,5 @@
 import { MAPBOX_TOKEN, DATA_URLS } from "./config.js";
-import { summarizePlanningCoverage } from "./planning-coverage.js?v=1.0";
+import { summarizePlanningCoverage } from "./planning-coverage.js?v=1.1";
 import { addLayerCompat } from "./utils.js";
 
 let activeInstance = null;
@@ -71,6 +71,11 @@ export class NetworkIntelligence {
     this.nearestResult = document.getElementById("nearestFacilityResult");
     this.planningResult = document.getElementById("planningResult");
     this.mapGuide = document.getElementById("planningMapGuide");
+    this.opacityControl = document.getElementById("planningOpacity");
+    this.opacityOutput = document.getElementById("planningOpacityValue");
+    this.markerToggle = document.getElementById("planningMarkerToggle");
+    this.focusPlanningButton = document.getElementById("planningFocusBtn");
+    this.lastPlanningPolygon = null;
     this.planningAction = null;
     this.requestSerial = 0;
     this.lastNetworkFeatures = [];
@@ -129,6 +134,16 @@ export class NetworkIntelligence {
     this.clearButton.addEventListener("click", () => {
       this.clear();
     });
+    this.opacityControl?.addEventListener("input", () => {
+      if (this.opacityOutput) this.opacityOutput.textContent = this.opacityControl.value + "%";
+      this.applyPlanningAppearance();
+    });
+    this.markerToggle?.addEventListener("change", () => this.applyPlanningAppearance());
+    this.focusPlanningButton?.addEventListener("click", () => {
+      if (this.lastPlanningPolygon) this.fitPlanningArea(this.lastPlanningPolygon);
+    });
+    document.getElementById("planningClearBtn")
+      ?.addEventListener("click", () => this.clear());
 
     document.getElementById("serviceAreaBtn")
       .addEventListener("click", () => this.startPlanning("service"));
@@ -178,6 +193,36 @@ export class NetworkIntelligence {
       this.map.getSource("network-intelligence-source")?.setData(featureCollection(this.lastNetworkFeatures));
     });
 
+    this.map.on("click", "network-intelligence-points", (event) => {
+      if (this.mode) return;
+      const facility = event.features?.[0];
+      if (facility?.properties?.role !== "facility" ||
+          facility.properties?.analysis !== "planning" ||
+          !facility.properties?.name) return;
+      const details = facility.properties;
+      const coords = facility.geometry?.coordinates;
+      if (!Array.isArray(coords)) return;
+      this.popup?.remove();
+      this.popup = new mapboxgl.Popup({ closeOnClick: false })
+        .setLngLat(coords)
+        .setHTML(
+          '<div class="planning-facility-popup">' +
+          '<strong>' + escapeHtml(details.name) + '</strong>' +
+          '<span>' + escapeHtml(details.groupLabel || "Kemudahan") +
+          ' · ' + escapeHtml(details.typeLabel || "Jenis tidak dinyatakan") + '</span>' +
+          '<small>Rekod titik dalam kawasan capaian, bukan pengesahan jarak jalan ke kemudahan.</small>' +
+          '</div>'
+        ).addTo(this.map);
+    });
+    this.map.on("mouseenter", "network-intelligence-points", (event) => {
+      if (!this.mode && event.features?.some(f =>
+        f.properties?.role === "facility" && f.properties?.analysis === "planning")) {
+        this.map.getCanvas().style.cursor = "pointer";
+      }
+    });
+    this.map.on("mouseleave", "network-intelligence-points", () => {
+      if (!this.mode) this.map.getCanvas().style.cursor = "";
+    });
     this.map.on("click", (event) => {
       if (!this.mode) return;
 
@@ -287,6 +332,25 @@ export class NetworkIntelligence {
         catch (error) { console.info("Network overlay layer order:", id, error); }
       }
     }
+    this.applyPlanningAppearance();
+  }
+
+  applyPlanningAppearance() {
+    if (!this.map.isStyleLoaded()) return;
+    const opacityPercent = Math.min(65, Math.max(12, Number(this.opacityControl?.value) || 38));
+    if (this.map.getLayer("network-intelligence-fill")) {
+      this.map.setPaintProperty("network-intelligence-fill", "fill-opacity",
+        ["match", ["get", "analysis"], "planning", opacityPercent / 100, 0.22]);
+    }
+    const displayMarkers = this.markerToggle?.checked !== false;
+    const pointsFilter = displayMarkers
+      ? ["==", ["geometry-type"], "Point"]
+      : ["all", ["==", ["geometry-type"], "Point"],
+         ["any", ["!=", ["get", "role"], "facility"],
+           ["!=", ["get", "analysis"], "planning"]]];
+    for (const id of ["network-intelligence-point-halo", "network-intelligence-points"]) {
+      if (this.map.getLayer(id)) this.map.setFilter(id, pointsFilter);
+    }
   }
 
   showMapGuide(title, description, completed = false) {
@@ -339,6 +403,8 @@ export class NetworkIntelligence {
     this.planningAction = action;
     this.mode = "isochrone";
     this.origin = null;
+    this.lastPlanningPolygon = null;
+    if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     this.lastNetworkFeatures = [];
     this.map.getSource("network-intelligence-source")?.setData(featureCollection());
     this.popup?.remove();
@@ -369,6 +435,8 @@ export class NetworkIntelligence {
 
     this.mode = mode;
     this.origin = null;
+    this.lastPlanningPolygon = null;
+    if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     this.lastNetworkFeatures = [];
     this.map.getSource("network-intelligence-source")?.setData(featureCollection());
     for (const name of ["serviceAreaBtn", "coverageBtn"]) {
@@ -460,6 +528,8 @@ export class NetworkIntelligence {
       }
 
       this.origin = origin;
+      this.lastPlanningPolygon = planning ? polygon : null;
+      if (this.focusPlanningButton) this.focusPlanningButton.disabled = !planning;
       this.lastNetworkFeatures = [
         { ...polygon, properties: { ...(polygon.properties || {}), analysis: planning ? "planning" : "network" } },
         { type: "Feature", properties: { role: "origin" },
@@ -497,21 +567,44 @@ export class NetworkIntelligence {
             ' rekod kategori terpilih dalam dataset seluruh Selangor</small></div>'
           : "";
         const groups = coverage
-          ? coverage.groups.map(g =>
-              '<div class="planning-group-row"><span>' + escapeHtml(g.label) +
-              '</span><strong>' + g.insideCount.toLocaleString("ms-MY") + '</strong></div>'
-            ).join("")
+          ? coverage.groups.map(g => {
+              const fraction = coverage.insideCount > 0
+                ? Math.min(100, (100 * g.insideCount / coverage.insideCount))
+                : 0;
+              const categoryDetails = g.categories?.length
+                ? '<details class="planning-breakdown"><summary>Lihat kategori utama</summary>' +
+                  g.categories.map(category =>
+                    '<div class="planning-breakdown-row"><span>' +
+                    escapeHtml(category.label) + '</span><b>' +
+                    category.count.toLocaleString("ms-MY") +
+                    '</b></div>').join("") + '</details>'
+                : "";
+              const composition = coverage.groups.length > 1
+                ? '<div class="planning-group-meter" role="img" aria-label="' +
+                  escapeHtml(g.label) + ': ' + g.insideCount +
+                  ' daripada ' + coverage.insideCount + ' rekod dalam kawasan">' +
+                  '<span style="width:' + fraction.toFixed(1) + '%"></span></div>'
+                : "";
+              return '<div class="planning-group-block planning-group-' + g.key + '">' +
+                '<div class="planning-group-row"><span>' + escapeHtml(g.label) +
+                '</span><strong>' + g.insideCount.toLocaleString("ms-MY") +
+                '</strong></div>' + composition +
+                categoryDetails + '</div>';
+            }).join("")
           : "";
         const interpretation = coverage
           ? "Bilangan ini ialah lokasi titik kemudahan dalam poligon perjalanan dari satu pusat. Ia bukan liputan penduduk, masa perjalanan ke setiap kemudahan atau tahap kecukupan perkhidmatan."
           : "Poligon menunjukkan anggaran kawasan yang boleh dicapai dari titik pusat melalui rangkaian jalan Mapbox, bukan sempadan perkhidmatan rasmi.";
         const markerNote = coverage
-          ? '<p class="planning-source-note">Sumber: dataset titik SUO. Maksimum 80 penanda dipaparkan bagi setiap kategori; jumlah dikira daripada semua rekod.</p>'
+          ? '<p class="planning-source-note">Sumber: dataset titik SUO. Maksimum 80 penanda bagi setiap kategori dipaparkan, tetapi kiraan menggunakan semua rekod. Klik titik berwarna untuk butiran; gunakan Penampilan Peta untuk menyembunyikannya.</p>'
           : "";
         this.planningResult.innerHTML =
           '<div class="planning-result-heading"><strong>' + heading +
           '</strong><span>' + minutes + ' min · ' + escapeHtml(modeLabel) +
           '</span></div>' + mainStat + groups +
+          (coverage?.groups.length > 1
+            ? '<p class="planning-composition-note">Bar menunjukkan komposisi rekod dalam poligon, bukan kadar liputan penduduk.</p>'
+            : "") +
           '<p class="planning-interpretation">' + interpretation + '</p>' + markerNote;
       }
 
@@ -695,6 +788,8 @@ export class NetworkIntelligence {
     this.stopMode();
     this.lastNetworkFeatures = [];
     this.origin = null;
+    this.lastPlanningPolygon = null;
+    if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     if (this.mapGuide) this.mapGuide.hidden = true;
     for (const name of ["serviceAreaBtn", "coverageBtn"]) {
       document.getElementById(name)?.classList.remove("has-planning-result", "is-planning-active");
