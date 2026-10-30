@@ -379,6 +379,12 @@
   outline: 3px solid #96363c;
   outline-offset: 2px;
 }
+.network-intelligence-panel .planning-composition-note {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #68584b;
+}
 .network-intelligence-panel .planning-group-block {
   border: 1px solid #e9dac6;
   padding: 9px;
