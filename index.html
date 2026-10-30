@@ -18,7 +18,7 @@
 <link href="css/typography-contrast-audit.css?v=1.0" rel="stylesheet"/>
 <link href="css/compare-engine-refinement.css?v=1.0" rel="stylesheet"/>
 <link href="css/planning-intelligence.css?v=1.4" rel="stylesheet"/>
-<link href="css/cadastral-main-refinement.css?v=1.0" rel="stylesheet"/>
+<link href="css/cadastral-main-refinement.css?v=1.1" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
@@ -260,7 +260,7 @@
 </div>
 </div>
 </section>
-<section class="layer-category cadastral-category">
+<section class="layer-category cadastral-category" data-suo-paused="cadastral" hidden="" inert="" aria-hidden="true">
 <button aria-expanded="false" class="layer-category-header" data-layer-category="cadastral" aria-controls="layerCategoryContentCadastral" type="button">
 <span class="layer-category-icon">▦</span>
 <span>
@@ -667,7 +667,7 @@
 <input checked="" data-compare-layer="traffic" data-compare-side="left" type="checkbox"/>
 <span>Trafik Semasa</span>
 </label>
-<label class="compare-layer-row">
+<label class="compare-layer-row" data-suo-paused="cadastral" hidden="" inert="" aria-hidden="true">
 <input data-compare-layer="cadastral" data-compare-side="left" type="checkbox"/>
 <span>Lot Kadaster MBSA 2023</span>
 </label>
@@ -708,7 +708,7 @@
 <input checked="" data-compare-layer="traffic" data-compare-side="right" type="checkbox"/>
 <span>Trafik Semasa</span>
 </label>
-<label class="compare-layer-row">
+<label class="compare-layer-row" data-suo-paused="cadastral" hidden="" inert="" aria-hidden="true">
 <input data-compare-layer="cadastral" data-compare-side="right" type="checkbox"/>
 <span>Lot Kadaster MBSA 2023</span>
 </label>
@@ -1270,7 +1270,7 @@ Pilih kawasan
 <div class="network-result-box planning-result" id="planningResult" role="status" aria-live="polite">
 Pilih Service Area, Coverage Analysis atau Perbandingan 5/10/15 minit, kemudian klik lokasi pada peta.
 </div>
-<details class="planning-spatial-panel" id="planningSpatialPanel">
+<details class="planning-spatial-panel" id="planningSpatialPanel" data-suo-paused="cadastral" hidden="" inert="" aria-hidden="true">
 <summary><span>Lot Kadaster &amp; Guna Tanah</span><small>Sumber spatial · Integrasi P3</small></summary>
 <div class="planning-spatial-content">
 <p class="planning-spatial-intro">Gabungkan kawasan capaian P3 dengan poligon lot dan guna tanah melalui analisis spatial di pelayan SUO. Paparan Vector Tile tidak digunakan untuk mengira jumlah lot.</p>
@@ -1524,7 +1524,7 @@ Gap Analysis dan Accessibility Score memerlukan data permintaan penduduk serta p
       return;
     }
 
-    import("./js/app.js?v=9.9.1").catch(function (error) {
+    import("./js/app.js?v=9.9.2").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
