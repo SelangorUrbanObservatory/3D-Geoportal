@@ -123,6 +123,10 @@ export async function summarizeTravelTimeComparison(polygons, selectedType = "al
     const inBands = new Map(PLANNING_COMPARE_MINUTES.map(m => [m, []]));
     for (const facility of records) {
       const coordinate = facility.geometry.coordinates;
+      // The largest (15-minute) contour sets the comparison population.
+      // Generalized contours sometimes intersect without perfect nesting;
+      // never count a point outside the 15-minute polygon as within 15 minutes.
+      if (!pointInFeature(coordinate, byMinute.get(15))) continue;
       const earliest = PLANNING_COMPARE_MINUTES.find(minutes =>
         pointInFeature(coordinate, byMinute.get(minutes))
       );
