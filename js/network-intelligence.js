@@ -1,5 +1,5 @@
 import { MAPBOX_TOKEN, DATA_URLS } from "./config.js";
-import { summarizePlanningCoverage } from "./planning-coverage.js?v=1.1";
+import { summarizePlanningCoverage, summarizeTravelTimeComparison, PLANNING_COMPARE_MINUTES } from "./planning-coverage.js?v=1.2";
 import { addLayerCompat } from "./utils.js";
 
 let activeInstance = null;
@@ -151,6 +151,9 @@ export class NetworkIntelligence {
     document.getElementById("coverageBtn")
       .addEventListener("click", () => this.startPlanning("coverage"));
 
+    document.getElementById("planningCompareBtn")
+      ?.addEventListener("click", () => this.startPlanning("compare"));
+
     document.getElementById("gapAnalysisBtn")
       .addEventListener("click", () => {
         ++this.requestSerial;
@@ -231,7 +234,9 @@ export class NetworkIntelligence {
         event.lngLat.lat
       ];
 
-      if (this.mode === "isochrone") {
+      if (this.mode === "isochrone" && this.planningAction === "compare") {
+        this.runTravelTimeComparison(origin);
+      } else if (this.mode === "isochrone") {
         this.runIsochrone(origin);
       } else if (this.mode === "nearest") {
         this.runNearestFacility(origin);
@@ -359,6 +364,8 @@ export class NetworkIntelligence {
     this.mapGuide.classList.toggle("complete", completed);
     const legend = this.mapGuide.querySelector("[data-planning-guide-legend]");
     if (legend) legend.hidden = !completed || !title.startsWith("Coverage Analysis");
+    const timeLegend = this.mapGuide.querySelector("[data-planning-guide-times]");
+    if (timeLegend) timeLegend.hidden = !completed || !title.startsWith("Perbandingan");
     const heading = this.mapGuide.querySelector("[data-planning-guide-title]");
     const body = this.mapGuide.querySelector("[data-planning-guide-body]");
     if (heading) heading.textContent = title;
@@ -397,7 +404,7 @@ export class NetworkIntelligence {
   }
 
   startPlanning(action) {
-    if (!["service", "coverage"].includes(action)) return;
+    if (!["service", "coverage", "compare"].includes(action)) return;
     if (this.spatialTools?.mode) this.spatialTools.stopMode();
     ++this.requestSerial;
     this.planningAction = action;
@@ -412,12 +419,14 @@ export class NetworkIntelligence {
     this.map.getCanvas().classList.add("spatial-tool-cursor");
     this.driveTimeButton.classList.add("active");
     this.nearestButton.classList.remove("active");
-    const label = action === "coverage" ? "Coverage Analysis" : "Service Area";
+    const label = action === "coverage" ? "Coverage Analysis" :
+      action === "compare" ? "Perbandingan 5/10/15 minit" : "Service Area";
     this.planningResult.textContent = label + " aktif. Klik pusat analisis pada peta.";
+    this.planningResult.classList.toggle("comparison-ready", false);
     this.showMapGuide(label, "Klik satu lokasi pada peta untuk menjana kawasan capaian.", false);
-    for (const name of ["serviceAreaBtn", "coverageBtn"]) {
+    for (const name of ["serviceAreaBtn", "coverageBtn", "planningCompareBtn"]) {
       const button = document.getElementById(name);
-      button?.classList.toggle("is-planning-active", name === (action === "service" ? "serviceAreaBtn" : "coverageBtn"));
+      button?.classList.toggle("is-planning-active", name === (action === "service" ? "serviceAreaBtn" : action === "coverage" ? "coverageBtn" : "planningCompareBtn"));
       button?.classList.remove("has-planning-result");
     }
     this.setStatus(label + ": klik lokasi pusat pada peta.");
@@ -439,7 +448,7 @@ export class NetworkIntelligence {
     if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     this.lastNetworkFeatures = [];
     this.map.getSource("network-intelligence-source")?.setData(featureCollection());
-    for (const name of ["serviceAreaBtn", "coverageBtn"]) {
+    for (const name of ["serviceAreaBtn", "coverageBtn", "planningCompareBtn"]) {
       document.getElementById(name)?.classList.remove("has-planning-result", "is-planning-active");
     }
     this.map.getCanvas().classList.add("spatial-tool-cursor");
@@ -468,7 +477,7 @@ export class NetworkIntelligence {
   stopMode() {
     this.mode = null;
     this.planningAction = null;
-    for (const name of ["serviceAreaBtn", "coverageBtn"]) {
+    for (const name of ["serviceAreaBtn", "coverageBtn", "planningCompareBtn"]) {
       document.getElementById(name)?.classList.remove("is-planning-active");
     }
     this.map.getCanvas().classList.remove("spatial-tool-cursor");
@@ -791,7 +800,7 @@ export class NetworkIntelligence {
     this.lastPlanningPolygon = null;
     if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     if (this.mapGuide) this.mapGuide.hidden = true;
-    for (const name of ["serviceAreaBtn", "coverageBtn"]) {
+    for (const name of ["serviceAreaBtn", "coverageBtn", "planningCompareBtn"]) {
       document.getElementById(name)?.classList.remove("has-planning-result", "is-planning-active");
     }
     if (this.planningResult) this.planningResult.textContent = "Pilih fungsi Service Area atau Coverage Analysis, kemudian klik lokasi pusat pada peta.";
