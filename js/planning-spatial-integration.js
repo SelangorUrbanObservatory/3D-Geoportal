@@ -55,7 +55,12 @@ export function validatePlanningSpatialSummary(payload, requested) {
     if (!Number.isSafeInteger(partialCount) || partialCount > count) {
       throw new Error("Bilangan lot separa tidak sah.");
     }
+    const year = nonnegative(p.sourceYear, "tahun sumber lot");
+    if (!Number.isSafeInteger(year) || year < 2000) {
+      throw new Error("Tahun data lot tidak sah.");
+    }
     summary.cadastral = {
+      sourceYear: year,
       parcelCount: count,
       partialParcelCount: partialCount,
       intersectedAreaHa: nonnegative(p.intersectedAreaHa, "keluasan pertindihan lot")
@@ -70,7 +75,12 @@ export function validatePlanningSpatialSummary(payload, requested) {
       label: String(item?.label || "Tidak dinyatakan").slice(0, 110),
       areaHa: nonnegative(item?.areaHa, "keluasan kategori")
     }));
+    const year = nonnegative(p.sourceYear, "tahun data guna tanah");
+    if (!Number.isSafeInteger(year) || year < 2000) {
+      throw new Error("Tahun data guna tanah tidak sah.");
+    }
     summary.landUse = {
+      sourceYear: year,
       totalAreaHa: nonnegative(p.totalAreaHa, "keluasan guna tanah"),
       categories: categories.sort((a, b) => b.areaHa - a.areaHa)
     };
@@ -141,7 +151,7 @@ export class PlanningSpatialIntegration {
   }
 
   async refresh() {
-    ++this.sequence;
+    const serial = ++this.sequence;
     if (this.analyzeButton) this.analyzeButton.disabled = true;
     if (this.visualButton) this.visualButton.disabled = true;
     this.setStatus("Menyemak sumber Lot Kadaster dan Guna Tanah...");
@@ -149,6 +159,7 @@ export class PlanningSpatialIntegration {
       const [integration, cadastral, landuse] = await Promise.all([
         readJson(INTEGRATION_CONFIG), readJson(CADASTRAL_CONFIG), readJson(LANDUSE_SUMMARY)
       ]);
+      if (serial !== this.sequence) return;
       this.config = integration;
       this.displayReady = cadastralDisplayConfigured(cadastral);
       this.capabilities = planningQueryCapabilities(integration);
@@ -173,6 +184,7 @@ export class PlanningSpatialIntegration {
       }
       this.setStatus("Semakan konfigurasi selesai. Tiada angka lot atau guna tanah diandaikan.");
     } catch (error) {
+      if (serial !== this.sequence) return;
       console.warn("P3 spatial source readiness:", error);
       this.config = null;
       this.displayReady = false;
@@ -264,7 +276,7 @@ export class PlanningSpatialIntegration {
     if (!this.result) return;
     this.result.replaceChildren();
     if (summary.cadastral) {
-      this.result.append(heading("Lot Kadaster · " + integration.cadastral.year));
+      this.result.append(heading("Lot Kadaster · " + summary.cadastral.sourceYear));
       this.result.append(valueLine("Lot berpotongan (UPI unik)",
         summary.cadastral.parcelCount.toLocaleString("ms-MY")));
       this.result.append(valueLine("Lot bersilang separa",
@@ -274,7 +286,7 @@ export class PlanningSpatialIntegration {
           { maximumFractionDigits: 2 }) + " ha"));
     }
     if (summary.landUse) {
-      this.result.append(heading("Guna Tanah · " + integration.landUse.year));
+      this.result.append(heading("Guna Tanah · " + summary.landUse.sourceYear));
       this.result.append(valueLine("Keluasan terklasifikasi",
         summary.landUse.totalAreaHa.toLocaleString("ms-MY",
           { maximumFractionDigits: 2 }) + " ha"));
@@ -283,10 +295,19 @@ export class PlanningSpatialIntegration {
           category.areaHa.toLocaleString("ms-MY", { maximumFractionDigits: 2 }) + " ha"));
       }
     }
+    const expectedYears = [];
+    if (summary.cadastral && summary.cadastral.sourceYear !== Number(integration.cadastral.year)) {
+      expectedYears.push("Lot: tahun API tidak sama dengan konfigurasi.");
+    }
+    if (summary.landUse && summary.landUse.sourceYear !== Number(integration.landUse.year)) {
+      expectedYears.push("Guna tanah: tahun API tidak sama dengan konfigurasi.");
+    }
     const note = document.createElement("p");
     note.className = "planning-spatial-source-note";
     note.textContent = "Kiraan daripada API spatial SUO menggunakan pertindihan geometri; " +
-      "bukan jumlah lot yang kelihatan pada skrin. Sumber/tahun dataset perlu disahkan.";
+      "bukan jumlah lot yang kelihatan pada skrin. " +
+      (expectedYears.length ? "AMARAN: " + expectedYears.join(" ") :
+        "Tahun dataset disahkan daripada metadata API.");
     this.result.append(note);
   }
 }
