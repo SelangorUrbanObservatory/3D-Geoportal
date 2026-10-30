@@ -642,3 +642,10 @@
     flex-basis: 100%;
   }
 }
+
+.network-intelligence-panel .planning-compare-hint {
+  margin: -3px 0 8px;
+  color: #64554A;
+  font-size: 11px;
+  line-height: 1.5;
+}
