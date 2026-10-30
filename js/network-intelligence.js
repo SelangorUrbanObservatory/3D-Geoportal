@@ -136,12 +136,16 @@ export class NetworkIntelligence {
 
     document.getElementById("gapAnalysisBtn")
       .addEventListener("click", () => {
+        ++this.requestSerial;
+        this.stopMode();
         this.planningResult.textContent = "Gap Analysis Fasa 2 memerlukan grid penduduk dan takrif kawasan perkhidmatan. Tiada jurang akses penduduk dikira dalam Fasa 1.";
         this.setStatus("Gap Analysis: menunggu data permintaan yang disahkan.");
       });
 
     document.getElementById("accessibilityScoreBtn")
       .addEventListener("click", () => {
+        ++this.requestSerial;
+        this.stopMode();
         this.planningResult.textContent = "Accessibility Score Fasa 2 memerlukan data penduduk dan piawaian perkhidmatan. Tiada skor andaian ditunjukkan.";
         this.setStatus("Accessibility Score: metodologi dan data perlu disahkan.");
       });
@@ -205,7 +209,7 @@ export class NetworkIntelligence {
         source: "network-intelligence-source",
         filter: ["==", ["geometry-type"], "Polygon"],
         paint: {
-          "fill-color": "#38BDF8",
+          "fill-color": ["match", ["get", "analysis"], "planning", "#E1A735", "#38BDF8"],
           "fill-opacity": 0.22
         }
       });
@@ -218,7 +222,7 @@ export class NetworkIntelligence {
         source: "network-intelligence-source",
         filter: ["==", ["geometry-type"], "Polygon"],
         paint: {
-          "line-color": "#38BDF8",
+          "line-color": ["match", ["get", "analysis"], "planning", "#A97822", "#38BDF8"],
           "line-width": 2.4
         }
       });
@@ -370,7 +374,7 @@ export class NetworkIntelligence {
 
       this.origin = origin;
       this.lastNetworkFeatures = [
-        polygon,
+        { ...polygon, properties: { ...(polygon.properties || {}), analysis: planning ? "planning" : "network" } },
         { type: "Feature", properties: { role: "origin" },
           geometry: { type: "Point", coordinates: origin } },
         ...(coverage?.visibleFacilities || [])
