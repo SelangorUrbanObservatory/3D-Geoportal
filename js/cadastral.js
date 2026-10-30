@@ -62,7 +62,8 @@ export async function addCadastralLayer(map, prefix = "") {
   if (!config.enabled || !sourceDefinition) {
     return {
       configured: false,
-      config
+      config,
+      reason: "Lot Kadaster MBSA 2023 belum mempunyai endpoint Vector Tile yang diluluskan."
     };
   }
 
@@ -74,6 +75,9 @@ export async function addCadastralLayer(map, prefix = "") {
     sourceDefinition.type === "vector"
       ? config.sourceLayer
       : undefined;
+  if (sourceDefinition.type === "vector" && !sourceLayer) {
+    throw new Error("Nama source-layer kadaster belum ditetapkan.");
+  }
 
   if (!map.getLayer(fillId)) {
     addLayerCompat(map, {
@@ -86,14 +90,14 @@ export async function addCadastralLayer(map, prefix = "") {
       minzoom: config.minzoom ?? 11,
       slot: "middle",
       paint: {
-        "fill-color": "#EAB308",
+        "fill-color": "#E1A93A",
         "fill-opacity": [
           "interpolate",
           ["linear"],
           ["zoom"],
-          11, 0.01,
-          14, 0.055,
-          17, 0.10
+          12, 0.02,
+          14, 0.08,
+          17, 0.16
         ]
       }
     });
@@ -110,17 +114,17 @@ export async function addCadastralLayer(map, prefix = "") {
       minzoom: config.minzoom ?? 11,
       slot: "top",
       paint: {
-        "line-color": "#FACC15",
+        "line-color": "#9D4244",
         "line-width": [
           "interpolate",
           ["linear"],
           ["zoom"],
-          11, 0.15,
-          14, 0.45,
-          17, 1.15,
+          12, 0.35,
+          14, 0.85,
+          17, 1.3,
           20, 2
         ],
-        "line-opacity": 0.92
+        "line-opacity": 0.96
       }
     });
   }
@@ -136,18 +140,13 @@ export async function addCadastralLayer(map, prefix = "") {
       minzoom: 16,
       slot: "top",
       layout: {
-        "text-field": [
-          "coalesce",
-          ["get", config.fields?.lot || "LOT"],
-          ["get", config.fields?.upi || "UPI"],
-          ""
-        ],
+        "text-field": ["coalesce", ["get", config.fields?.lot || "lot_number"], ""],
         "text-size": [
           "interpolate",
           ["linear"],
           ["zoom"],
-          16, 8,
-          20, 11
+          16, 10,
+          20, 12
         ],
         "text-font": [
           "DIN Pro Medium",
@@ -189,30 +188,49 @@ export function setCadastralVisibility(
   });
 }
 
+function escapeCadastreText(value) {
+  return String(value ?? "-")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+/** Display only explicitly approved fields from cadastral-layer.json.
+ *  No owner name/address, land title information, or raw attributes.
+ */
 export function cadastralPopupHtml(properties, config) {
-  const fields = config.fields || {};
-  const value = (key, fallback = "-") =>
-    properties?.[fields[key]] ?? fallback;
-
-  const area = Number(value("area", NaN));
-  const areaText = Number.isFinite(area)
-    ? area.toLocaleString("ms-MY", {
-        maximumFractionDigits: 2
-      })
-    : "-";
-
-  return `
-    <strong>Lot ${value("lot")}</strong><br>
-    UPI: ${value("upi")}<br>
-    Daerah: ${value("district")}<br>
-    Mukim: ${value("mukim")}<br>
-    Seksyen: ${value("section")}<br>
-    Keluasan: ${areaText}<br>
-    Kod Kegunaan: ${value("landUseCode")}<br>
-    Status: ${value("status")}<br>
-    Fail Ukur: ${value("surveyFile")}<br>
-    Tarikh Kemas Kini: ${value("updated")}
-  `;
+  const fields = config?.fields || {};
+  const value = key => fields[key] && properties?.[fields[key]] != null
+    ? String(properties[fields[key]]).trim()
+    : "";
+  const lot = value("lot") || "tidak dinyatakan";
+  const rows = [
+    ["Daerah (kod)", value("district")],
+    ["Mukim (kod)", value("mukim")],
+    ["Seksyen", value("section")]
+  ];
+  const areaM2 = Number(value("area"));
+  if (value("area") && Number.isFinite(areaM2) && areaM2 >= 0) {
+    rows.push(["Keluasan geometri",
+      (areaM2 / 10000).toLocaleString("ms-MY", {maximumFractionDigits: 4}) +
+      " ha"]);
+  }
+  const year = value("sourceYear") || String(config?.sourceYear || "2023");
+  rows.push(["Tahun data", year]);
+  const updated = value("updated");
+  if (updated) rows.push(["Tarikh sumber", updated.slice(0, 10)]);
+  return '<div class="cadastral-popup">' +
+    '<strong>Lot ' + escapeCadastreText(lot) + ' · ' +
+    escapeCadastreText(config?.coverage || "MBSA") + '</strong>' +
+    rows.filter(row => row[1]).map(([label, text]) =>
+      '<div class="cadastral-popup-row"><span>' +
+      escapeCadastreText(label) + '</span><b>' +
+      escapeCadastreText(text) + '</b></div>'
+    ).join("") +
+    '<small>Maklumat kadaster untuk rujukan perancangan. Tidak membuktikan hak milik atau kegunaan tanah.</small>' +
+    '</div>';
 }
 
 export async function getCadastralConfig() {
