@@ -1,5 +1,5 @@
 import { MAPBOX_TOKEN, DATA_URLS } from "./config.js";
-import { summarizePlanningCoverage } from "./planning-coverage.js?v=1.0";
+import { summarizePlanningCoverage } from "./planning-coverage.js?v=1.1";
 import { addLayerCompat } from "./utils.js";
 
 let activeInstance = null;
