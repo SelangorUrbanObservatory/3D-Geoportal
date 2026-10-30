@@ -17,8 +17,8 @@
   const reduced=window.matchMedia("(prefers-reduced-motion: reduce)");
   const element=document.createElement("div");
   element.id="suoRainAnimationControl";
-  element.style.cssText="position:absolute;right:12px;bottom:110px;z-index:6;background:rgba(255,255,255,.97);color:#333;border:1px solid #ddd;border-radius:10px;padding:9px 11px;max-width:205px;box-shadow:0 2px 14px #0002;font:12px/1.4 system-ui,sans-serif;";
-  element.innerHTML='<label style="display:flex;align-items:center;gap:7px;font-weight:700;cursor:pointer"><input type="checkbox" id="suoRainToggle"> 🌧 Animasi hujan</label><div id="suoRainStatus" role="status" aria-live="polite" style="margin-top:5px;color:#626262">Anggaran model cuaca · OFF</div><div style="margin-top:3px;color:#737373;font-size:10px">Bukan radar hujan masa nyata</div>';
+  element.style.cssText="position:absolute;right:16px;bottom:88px;z-index:30;background:rgba(255,255,255,.96);color:#333;border:1px solid #d9e1e8;border-radius:999px;padding:9px 12px;max-width:210px;box-shadow:0 3px 18px #0003;font:12px/1.4 system-ui,sans-serif;backdrop-filter:blur(8px);";
+  element.innerHTML='<label style="display:flex;align-items:center;gap:7px;font-weight:700;cursor:pointer"><input type="checkbox" id="suoRainToggle"> 🌧 Animasi hujan</label><div id="suoRainStatus" role="status" aria-live="polite" style="margin-top:4px;color:#626262;font-size:11px">Anggaran model cuaca · OFF</div><div style="margin-top:2px;color:#737373;font-size:9px">Bukan radar hujan masa nyata</div>';
   const status=()=>element.querySelector("#suoRainStatus");
   const toggle=()=>element.querySelector("#suoRainToggle");
   function projectRain(){
