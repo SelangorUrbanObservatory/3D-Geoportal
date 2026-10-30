@@ -1,6 +1,7 @@
 import { MAPBOX_TOKEN, DATA_URLS } from "./config.js";
 import { summarizePlanningCoverage, summarizeTravelTimeComparison, PLANNING_COMPARE_MINUTES } from "./planning-coverage.js?v=1.2";
 import { addLayerCompat } from "./utils.js";
+import { PlanningSpatialIntegration } from "./planning-spatial-integration.js?v=1.0";
 
 let activeInstance = null;
 
@@ -84,6 +85,9 @@ export class NetworkIntelligence {
 
     this.bind();
     this.ensureLayers();
+    this.spatialIntegration = new PlanningSpatialIntegration({
+      getPolygon: () => this.lastPlanningPolygon
+    });
   }
 
   bind() {
@@ -448,6 +452,7 @@ export class NetworkIntelligence {
     this.mode = "isochrone";
     this.origin = null;
     this.lastPlanningPolygon = null;
+    this.spatialIntegration?.updatePolygon();
     if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     this.lastNetworkFeatures = [];
     this.map.getSource("network-intelligence-source")?.setData(featureCollection());
@@ -482,6 +487,7 @@ export class NetworkIntelligence {
     this.mode = mode;
     this.origin = null;
     this.lastPlanningPolygon = null;
+    this.spatialIntegration?.updatePolygon();
     if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     this.lastNetworkFeatures = [];
     this.map.getSource("network-intelligence-source")?.setData(featureCollection());
@@ -551,6 +557,7 @@ export class NetworkIntelligence {
       if (requestId !== this.requestSerial) return;
 
       this.lastPlanningPolygon = comparison.polygons[2];
+      this.spatialIntegration?.updatePolygon();
       if (this.focusPlanningButton) this.focusPlanningButton.disabled = false;
       this.origin = origin;
       this.lastNetworkFeatures = [
@@ -691,6 +698,7 @@ export class NetworkIntelligence {
 
       this.origin = origin;
       this.lastPlanningPolygon = planning ? polygon : null;
+      this.spatialIntegration?.updatePolygon();
       if (this.focusPlanningButton) this.focusPlanningButton.disabled = !planning;
       this.lastNetworkFeatures = [
         { ...polygon, properties: { ...(polygon.properties || {}), analysis: planning ? "planning" : "network" } },
@@ -951,6 +959,7 @@ export class NetworkIntelligence {
     this.lastNetworkFeatures = [];
     this.origin = null;
     this.lastPlanningPolygon = null;
+    this.spatialIntegration?.updatePolygon();
     if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     if (this.mapGuide) this.mapGuide.hidden = true;
     for (const name of ["serviceAreaBtn", "coverageBtn", "planningCompareBtn"]) {
