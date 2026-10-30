@@ -249,3 +249,33 @@
 @media (prefers-reduced-motion: reduce) {
   .planning-map-guide { transition: none; }
 }
+
+.planning-map-key[hidden] { display: none !important; }
+.planning-map-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  padding-top: 7px;
+  border-top: 1px solid #ead9c0;
+  margin-top: 5px;
+}
+.planning-map-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #51443e;
+  font-weight: 700;
+  font-size: 10.5px;
+}
+.planning-map-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  box-shadow: 0 0 0 1px rgba(51,35,30,.5);
+}
+.planning-map-dot.school { background: #E5A523; }
+.planning-map-dot.health { background: #D9434B; }
+.planning-map-dot.safety { background: #2866BC; }
