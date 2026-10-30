@@ -75,6 +75,7 @@ export async function summarizePlanningCoverage(polygon, selectedType = "all") {
         type: "Feature",
         properties: {
           role: "facility",
+          analysis: "planning",
           group: group.key,
           groupLabel: group.label,
           name: String(f.properties?.web_name || f.properties?.NAMA ||
