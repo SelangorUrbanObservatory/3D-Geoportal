@@ -197,6 +197,7 @@ export class NetworkIntelligence {
       if (this.mode) return;
       const facility = event.features?.[0];
       if (facility?.properties?.role !== "facility" ||
+          facility.properties?.analysis !== "planning" ||
           !facility.properties?.name) return;
       const details = facility.properties;
       const coords = facility.geometry?.coordinates;
@@ -214,7 +215,8 @@ export class NetworkIntelligence {
         ).addTo(this.map);
     });
     this.map.on("mouseenter", "network-intelligence-points", (event) => {
-      if (!this.mode && event.features?.some(f => f.properties?.role === "facility")) {
+      if (!this.mode && event.features?.some(f =>
+        f.properties?.role === "facility" && f.properties?.analysis === "planning")) {
         this.map.getCanvas().style.cursor = "pointer";
       }
     });
@@ -344,7 +346,8 @@ export class NetworkIntelligence {
     const pointsFilter = displayMarkers
       ? ["==", ["geometry-type"], "Point"]
       : ["all", ["==", ["geometry-type"], "Point"],
-         ["!=", ["get", "role"], "facility"]];
+         ["any", ["!=", ["get", "role"], "facility"],
+           ["!=", ["get", "analysis"], "planning"]]];
     for (const id of ["network-intelligence-point-halo", "network-intelligence-points"]) {
       if (this.map.getLayer(id)) this.map.setFilter(id, pointsFilter);
     }
