@@ -1,4 +1,5 @@
 import { MAPBOX_TOKEN, DATA_URLS } from "./config.js";
+import { summarizePlanningCoverage } from "./planning-coverage.js?v=1.0";
 
 let activeInstance = null;
 
@@ -67,6 +68,10 @@ export class NetworkIntelligence {
     this.driveTimeButton = document.getElementById("driveTimeBtn");
     this.nearestButton = document.getElementById("nearestFacilityBtn");
     this.nearestResult = document.getElementById("nearestFacilityResult");
+    this.planningResult = document.getElementById("planningResult");
+    this.planningAction = null;
+    this.requestSerial = 0;
+    this.lastNetworkFeatures = [];
 
     activeInstance = this;
 
@@ -111,6 +116,7 @@ export class NetworkIntelligence {
       });
 
     this.driveTimeButton.addEventListener("click", () => {
+      this.planningAction = null;
       this.toggleMode("isochrone");
     });
 
@@ -123,33 +129,21 @@ export class NetworkIntelligence {
     });
 
     document.getElementById("serviceAreaBtn")
-      .addEventListener("click", () => {
-        this.activateTab("accessibility");
-        this.setStatus(
-          "Service Area menggunakan modul Drive-Time. Pilih masa dan klik titik pusat."
-        );
-      });
+      .addEventListener("click", () => this.startPlanning("service"));
 
     document.getElementById("coverageBtn")
-      .addEventListener("click", () => {
-        this.activateTab("accessibility");
-        this.setStatus(
-          "Coverage Analysis: jana drive-time dahulu untuk menilai liputan."
-        );
-      });
+      .addEventListener("click", () => this.startPlanning("coverage"));
 
     document.getElementById("gapAnalysisBtn")
       .addEventListener("click", () => {
-        this.setStatus(
-          "Gap Analysis memerlukan layer penduduk atau grid permintaan untuk hasil penuh."
-        );
+        this.planningResult.textContent = "Gap Analysis Fasa 2 memerlukan grid penduduk dan takrif kawasan perkhidmatan. Tiada jurang akses penduduk dikira dalam Fasa 1.";
+        this.setStatus("Gap Analysis: menunggu data permintaan yang disahkan.");
       });
 
     document.getElementById("accessibilityScoreBtn")
       .addEventListener("click", () => {
-        this.setStatus(
-          "Accessibility Score akan menggunakan masa perjalanan dan bilangan kemudahan terdekat."
-        );
+        this.planningResult.textContent = "Accessibility Score Fasa 2 memerlukan data penduduk dan piawaian perkhidmatan. Tiada skor andaian ditunjukkan.";
+        this.setStatus("Accessibility Score: metodologi dan data perlu disahkan.");
       });
 
     document.querySelectorAll("[data-emergency-type]")
@@ -175,6 +169,7 @@ export class NetworkIntelligence {
 
     this.map.on("style.load", () => {
       this.ensureLayers();
+      this.map.getSource("network-intelligence-source")?.setData(featureCollection(this.lastNetworkFeatures));
     });
 
     this.map.on("click", (event) => {
@@ -265,7 +260,25 @@ export class NetworkIntelligence {
     button?.click();
   }
 
+  startPlanning(action) {
+    if (!["service", "coverage"].includes(action)) return;
+    if (this.spatialTools?.mode) this.spatialTools.stopMode();
+    ++this.requestSerial;
+    this.planningAction = action;
+    this.mode = "isochrone";
+    this.origin = null;
+    this.map.getCanvas().classList.add("spatial-tool-cursor");
+    this.driveTimeButton.classList.add("active");
+    this.nearestButton.classList.remove("active");
+    const label = action === "coverage" ? "Coverage Analysis" : "Service Area";
+    this.planningResult.textContent = label + " aktif. Klik pusat analisis pada peta.";
+    this.setStatus(label + ": klik lokasi pusat pada peta.");
+  }
+
   toggleMode(mode) {
+    ++this.requestSerial;
+    this.planningAction = null;
+    if (this.spatialTools?.mode) this.spatialTools.stopMode();
     if (this.mode === mode) {
       this.stopMode();
       return;
@@ -298,6 +311,7 @@ export class NetworkIntelligence {
 
   stopMode() {
     this.mode = null;
+    this.planningAction = null;
     this.map.getCanvas().classList.remove("spatial-tool-cursor");
     this.driveTimeButton.classList.remove("active");
     this.nearestButton.classList.remove("active");
@@ -522,7 +536,11 @@ export class NetworkIntelligence {
   }
 
   clear() {
+    ++this.requestSerial;
     this.stopMode();
+    this.lastNetworkFeatures = [];
+    this.origin = null;
+    if (this.planningResult) this.planningResult.textContent = "Pilih fungsi Service Area atau Coverage Analysis, kemudian klik lokasi pusat pada peta.";
     this.popup?.remove();
     this.popup = null;
 
