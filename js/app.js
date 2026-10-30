@@ -89,7 +89,10 @@ const DEEP_LINK_ALIASES = {
   trafik: "traffic"
 };
 
-const deepLinkFocus = DEEP_LINK_ALIASES[rawDeepLinkFocus] || rawDeepLinkFocus;
+// Cadastre remains in the codebase for future authorized data deployment,
+// but must not be enabled by direct links while its UI is paused.
+const resolvedDeepLinkFocus = DEEP_LINK_ALIASES[rawDeepLinkFocus] || rawDeepLinkFocus;
+const deepLinkFocus = resolvedDeepLinkFocus === "cadastral" ? "" : resolvedDeepLinkFocus;
 
 const DEEP_LINK_PRESETS = {
   health: {
@@ -547,6 +550,13 @@ document.getElementById("cityHierarchyToggle").addEventListener("change", (event
 document.getElementById("cadastralToggle").addEventListener("change", async (event) => {
   const status = document.getElementById("cadastralStatus");
   const toggle = event.target;
+  if (document.querySelector('[data-suo-paused="cadastral"]')?.hidden) {
+    toggle.checked = false;
+    layerState.cadastral = false;
+    applyLayerVisibility(map);
+    updateLayerCount();
+    return;
+  }
 
   if (toggle.checked) {
     toggle.disabled = true;
@@ -1129,6 +1139,7 @@ const ASSISTANT_LAYER_LABELS = {
 };
 
 function setAssistantLayerVisibility(layer, visible) {
+  if (layer === "cadastral") return false; // Temporarily unavailable; no approved tile source.
   const toggleMap = {
     traffic: "trafficToggle",
     floodRain: "floodRainToggle",
