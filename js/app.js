@@ -360,7 +360,8 @@ map.on("click", async (event) => {
   if (map.getLayer("network-intelligence-points") &&
       map.queryRenderedFeatures(event.point, {
         layers: ["network-intelligence-points"]
-      }).some(f => f.properties?.role === "facility")) return;
+      }).some(f => f.properties?.role === "facility" &&
+        f.properties?.analysis === "planning")) return;
   const layerIds = ["cadastral-fill", "district-fill", "pbt-fill", "school-symbol", "fire-station-point", "civil-defence-point", "police-symbol", "health-symbol", "city-circle"]
     .filter((id) => map.getLayer(id));
 
