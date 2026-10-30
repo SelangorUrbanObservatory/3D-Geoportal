@@ -29,3 +29,13 @@ Aktifkan fungsi Planning Intelligence yang sebelumnya hanya menyampaikan status;
 
 ## Langkah P3 Fasa 2
 Data taburan penduduk / grid permintaan dan standard capaian mengikut jenis kemudahan diperlukan sebelum menjalankan Gap Analysis dan Accessibility Score yang benar-benar boleh dipertahankan.
+
+## Penambahbaikan UX Visual v1.2 (30 Oktober 2026)
+- Kawalan **Kelegapan kawasan** 12–65% mengubah `fill-opacity` pada contour P3 tanpa menjalankan semula analisis atau menukar bilangan rekod.
+- Checkbox **Papar titik kemudahan** hanya menyorok simbol kemudahan, bukan titik pusat, poligon atau pengiraan spatial. Keadaan kawalan digunakan semula apabila gaya Mapbox dimuat semula.
+- **Fokus Kawasan** zoom semula kepada poligon hasil terakhir; **Padam Hasil** mengosongkan peta dan panel keputusan.
+- Klik titik berwarna pada peta untuk popup nama kemudahan, kumpulan dan kategori. Popup menerangkan had tafsiran dan data yang diperoleh daripada atribut sedia ada; kawalan klik kawasan PBT/daerah di bawah tidak dibuka serentak.
+- Kiraan Coverage dipersembahkan dalam kad jenis kemudahan dan senarai kategori utama (*details* boleh dikembangkan). Bar komposisi hanya untuk pilihan semua kategori dan **bukan kadar liputan penduduk**.
+- Penanda visual dihadkan kepada 80 bagi setiap kumpulan, dipilih secara tersebar daripada turutan rekod. Kiraan **tidak** disampel.
+- Kemudahan P3 yang tidak tersedia disampaikan melalui ralat data sedia ada, bukan sifar atau andaian.
+- Pengesahan statik dan simulasi JavaScript dilakukan; ujian interaksi visual pada GitHub Pages desktop/iPhone masih diperlukan.
