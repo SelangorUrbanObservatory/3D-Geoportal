@@ -21,7 +21,7 @@ import {
 import {
   NetworkIntelligence,
   isNetworkIntelligenceActive
-} from "./network-intelligence.js?v=9.8.1";
+} from "./network-intelligence.js?v=9.8.2";
 import { SpatialAssistant } from "./ai-assistant.js";
 import { SmartSearch } from "./smart-search.js";
 import { createMainMap } from "./core/map-engine.js";
@@ -355,6 +355,12 @@ map.on("click", async (event) => {
     isSpatialToolActive() ||
     isNetworkIntelligenceActive()
   ) return;
+  // A click on a P3 facility marker opens its own information popup.
+  // Do not simultaneously open a PBT/District polygon profile underneath it.
+  if (map.getLayer("network-intelligence-points") &&
+      map.queryRenderedFeatures(event.point, {
+        layers: ["network-intelligence-points"]
+      }).some(f => f.properties?.role === "facility")) return;
   const layerIds = ["cadastral-fill", "district-fill", "pbt-fill", "school-symbol", "fire-station-point", "civil-defence-point", "police-symbol", "health-symbol", "city-circle"]
     .filter((id) => map.getLayer(id));
 
