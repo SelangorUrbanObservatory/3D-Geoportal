@@ -17,6 +17,7 @@
 <link href="css/layer-management-refinement.css?v=1.1" rel="stylesheet"/>
 <link href="css/typography-contrast-audit.css?v=1.0" rel="stylesheet"/>
 <link href="css/compare-engine-refinement.css?v=1.0" rel="stylesheet"/>
+<link href="css/planning-intelligence.css?v=1.0" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
@@ -1200,17 +1201,45 @@ Pilih kawasan
 <div class="network-tab-panel" data-network-panel="planning" hidden="">
 <div class="network-section-title">
 <strong>Planning Intelligence</strong>
-<small>Analisis liputan berasaskan hasil network</small>
+<small>P3 Fasa 1 · Analisis capaian berdasarkan rangkaian jalan dan lokasi kemudahan</small>
 </div>
-<div class="network-feature-list">
-<button id="serviceAreaBtn" type="button">Service Area</button>
-<button id="coverageBtn" type="button">Coverage Analysis</button>
-<button id="gapAnalysisBtn" type="button">Gap Analysis</button>
-<button id="accessibilityScoreBtn" type="button">Accessibility Score</button>
+<div class="planning-settings" role="group" aria-label="Tetapan analisis perancangan">
+<label><span>Jenis kemudahan</span>
+<select id="planningFacilityType">
+<option value="all">Semua kemudahan</option>
+<option value="school">Pendidikan</option>
+<option value="health">Kesihatan</option>
+<option value="safety">Keselamatan</option>
+</select></label>
+<label><span>Masa perjalanan</span>
+<select id="planningMinutes">
+<option value="5">5 minit</option>
+<option selected="" value="10">10 minit</option>
+<option value="15">15 minit</option>
+<option value="20">20 minit</option>
+<option value="30">30 minit</option>
+</select></label>
+<label><span>Mod perjalanan</span>
+<select id="planningProfile">
+<option value="driving">Memandu</option>
+<option value="walking">Berjalan kaki</option>
+<option value="cycling">Berbasikal</option>
+</select></label>
+</div>
+<div class="network-feature-list planning-feature-actions">
+<button id="serviceAreaBtn" type="button">◎ Service Area</button>
+<button id="coverageBtn" type="button">▦ Coverage Analysis</button>
+<button id="gapAnalysisBtn" type="button">Gap Analysis · Fasa 2</button>
+<button id="accessibilityScoreBtn" type="button">Accessibility Score · Fasa 2</button>
+</div>
+<div class="network-result-box planning-result" id="planningResult" role="status" aria-live="polite">
+Pilih fungsi Service Area atau Coverage Analysis, kemudian klik lokasi pusat pada peta.
 </div>
 <div class="network-beta-note">
-            Modul perancangan menggunakan hasil drive-time dan nearest facility sebagai input.
-          </div>
+<strong>Had analisis:</strong> Service Area berdasarkan poligon Isochrone Mapbox.
+Coverage Analysis mengira titik kemudahan dalam poligon perjalanan, bukan peratus penduduk mendapat akses.
+Gap Analysis dan Accessibility Score memerlukan data permintaan penduduk serta piawaian perkhidmatan yang disahkan.
+</div>
 </div>
 <div class="network-tab-panel" data-network-panel="emergency" hidden="">
 <div class="network-section-title">
@@ -1434,7 +1463,7 @@ Pilih kawasan
       return;
     }
 
-    import("./js/app.js?v=9.7.6").catch(function (error) {
+    import("./js/app.js?v=9.8.0").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
