@@ -16,6 +16,7 @@
 <link href="css/sidebar-width-adjuster.css?v=1.0" rel="stylesheet"/>
 <link href="css/layer-management-refinement.css?v=1.1" rel="stylesheet"/>
 <link href="css/typography-contrast-audit.css?v=1.0" rel="stylesheet"/>
+<link href="css/compare-engine-refinement.css?v=1.0" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
@@ -597,31 +598,31 @@
 </div>
 </div>
 </div>
-<section aria-label="Enterprise Compare Engine" class="compare-panel enterprise-compare-panel" id="comparePanel">
+<section aria-label="Mod Perbandingan Peta" class="compare-panel enterprise-compare-panel" id="comparePanel">
 <div class="compare-panel-heading">
 <div>
-<span class="compare-kicker">ENTERPRISE COMPARE ENGINE</span><span class="compare-version-badge">v6.1 • FLOATING PANEL</span>
-<strong>Compare Mode v6.1</strong>
+<span class="compare-kicker">PERBANDINGAN PETA</span><span class="compare-version-badge">v6.1 • PANEL TERAPUNG</span>
+<strong>Mod Perbandingan Peta</strong>
 </div>
 <div class="compare-window-controls">
 <button aria-label="Pin atau auto-hide panel" aria-pressed="true" id="comparePinBtn" title="Pin panel" type="button">📌</button>
-<button aria-expanded="true" aria-label="Minimize panel" id="compareMinimizeBtn" title="Minimize panel" type="button">—</button>
+<button aria-expanded="true" aria-label="Minimumkan panel" id="compareMinimizeBtn" title="Minimumkan panel" type="button">—</button>
 <button aria-label="Reset kedudukan panel" id="compareResetPositionBtn" title="Kembalikan kedudukan panel" type="button">□</button>
-<button aria-label="Tutup compare mode" id="closeSplitBtn" title="Tutup Compare Mode" type="button">✕</button>
+<button aria-label="Tutup mod perbandingan" id="closeSplitBtn" title="Tutup mod perbandingan" type="button">✕</button>
 </div>
 </div>
 <div class="compare-panel-hint" id="comparePanelHint">
-          Seret header untuk alih panel. Minimize untuk melihat peta di belakang.
+          Seret bahagian tajuk untuk mengalihkan panel. Minimumkan panel untuk melihat peta di belakang.
         </div>
 <div class="compare-tabs" role="tablist">
-<button class="compare-tab active" data-compare-tab="layers" type="button">Layers</button>
-<button class="compare-tab" data-compare-tab="basemap" type="button">Basemap</button>
-<button class="compare-tab" data-compare-tab="display" type="button">Display</button>
+<button class="compare-tab active" id="compareTabLayers" role="tab" aria-controls="comparePaneLayers" aria-selected="true" tabindex="0" data-compare-tab="layers" type="button">Lapisan</button>
+<button class="compare-tab" id="compareTabBasemap" role="tab" aria-controls="comparePaneBasemap" aria-selected="false" tabindex="-1" data-compare-tab="basemap" type="button">Peta Asas</button>
+<button class="compare-tab" id="compareTabDisplay" role="tab" aria-controls="comparePaneDisplay" aria-selected="false" tabindex="-1" data-compare-tab="display" type="button">Paparan</button>
 </div>
-<div class="compare-tab-panel active" data-compare-panel="layers">
+<div class="compare-tab-panel active" id="comparePaneLayers" role="tabpanel" aria-labelledby="compareTabLayers" data-compare-panel="layers">
 <div class="compare-side-grid">
 <section class="compare-side-card">
-<div class="compare-side-title"><span>LEFT MAP</span><button data-select-all="left" type="button">Semua</button></div>
+<div class="compare-side-title"><span>PETA KIRI</span><button data-select-all="left" type="button">Semua</button></div>
 <div class="compare-layer-list">
 <label class="compare-layer-row">
 <input checked="" data-compare-layer="cityHierarchy" data-compare-side="left" type="checkbox"/>
@@ -641,11 +642,11 @@
 </label>
 <label class="compare-layer-row">
 <input checked="" data-compare-layer="floodRain" data-compare-side="left" type="checkbox"/>
-<span>Flood Intelligence</span>
+<span>Ramalan Hujan</span>
 </label>
 <label class="compare-layer-row">
 <input checked="" data-compare-layer="traffic" data-compare-side="left" type="checkbox"/>
-<span>Live Traffic</span>
+<span>Trafik Semasa</span>
 </label>
 <label class="compare-layer-row">
 <input data-compare-layer="cadastral" data-compare-side="left" type="checkbox"/>
@@ -662,7 +663,7 @@
 </div>
 </section>
 <section class="compare-side-card">
-<div class="compare-side-title"><span>RIGHT MAP</span><button data-select-all="right" type="button">Semua</button></div>
+<div class="compare-side-title"><span>PETA KANAN</span><button data-select-all="right" type="button">Semua</button></div>
 <div class="compare-layer-list">
 <label class="compare-layer-row">
 <input checked="" data-compare-layer="cityHierarchy" data-compare-side="right" type="checkbox"/>
@@ -682,11 +683,11 @@
 </label>
 <label class="compare-layer-row">
 <input checked="" data-compare-layer="floodRain" data-compare-side="right" type="checkbox"/>
-<span>Flood Intelligence</span>
+<span>Ramalan Hujan</span>
 </label>
 <label class="compare-layer-row">
 <input checked="" data-compare-layer="traffic" data-compare-side="right" type="checkbox"/>
-<span>Live Traffic</span>
+<span>Trafik Semasa</span>
 </label>
 <label class="compare-layer-row">
 <input data-compare-layer="cadastral" data-compare-side="right" type="checkbox"/>
@@ -704,11 +705,11 @@
 </section>
 </div>
 </div>
-<div class="compare-tab-panel" data-compare-panel="basemap" hidden="">
+<div class="compare-tab-panel" id="comparePaneBasemap" role="tabpanel" aria-labelledby="compareTabBasemap" data-compare-panel="basemap" hidden="">
 <div class="compare-side-grid">
 <label class="compare-side-card compare-basemap-card">
-<span class="compare-side-title">LEFT MAP</span>
-<select id="leftBasemapSelect">
+<span class="compare-side-title">PETA KIRI</span>
+<select id="leftBasemapSelect" aria-label="Peta asas untuk peta kiri">
 <option value="standard">Standard</option>
 <option value="satellite">Satellite</option>
 <option value="hybrid">Hybrid</option>
@@ -723,8 +724,8 @@
 </select>
 </label>
 <label class="compare-side-card compare-basemap-card">
-<span class="compare-side-title">RIGHT MAP</span>
-<select id="rightBasemapSelect">
+<span class="compare-side-title">PETA KANAN</span>
+<select id="rightBasemapSelect" aria-label="Peta asas untuk peta kanan">
 <option value="standard">Standard</option>
 <option selected="" value="satellite">Satellite</option>
 <option value="hybrid">Hybrid</option>
@@ -739,36 +740,36 @@
 </select>
 </label>
 </div>
-<div class="compare-basemap-note">Semua pilihan basemap tersedia secara bebas untuk kedua-dua paparan. <strong>OpenStreetMap dikunci kepada 2D</strong> bagi mengelakkan distorsi raster.</div>
-<button class="compare-wide-btn" id="swapMapsBtn" type="button">⇄ Tukar Basemap Kiri/Kanan</button>
+<div class="compare-basemap-note">Pilih peta asas secara berasingan untuk kedua-dua paparan. <strong>OpenStreetMap hanya menyokong paparan 2D</strong> bagi mengelakkan herotan raster.</div>
+<button class="compare-wide-btn" id="swapMapsBtn" type="button">⇄ Tukar Peta Asas Kiri / Kanan</button>
 </div>
-<div class="compare-tab-panel" data-compare-panel="display" hidden="">
+<div class="compare-tab-panel" id="comparePaneDisplay" role="tabpanel" aria-labelledby="compareTabDisplay" data-compare-panel="display" hidden="">
 <div class="compare-side-grid">
 <section class="compare-side-card">
-<span class="compare-side-title">LEFT MAP</span>
+<span class="compare-side-title">PETA KIRI</span>
 <div class="compare-segment">
 <button id="left2DBtn" type="button">2D</button>
 <button class="active" id="left3DBtn" type="button">3D</button>
 </div>
-<label class="compare-switch-row"><span>Basemap Labels</span><input checked="" id="leftLabelsToggle" type="checkbox"/></label>
+<label class="compare-switch-row"><span>Label Peta Asas</span><input checked="" id="leftLabelsToggle" type="checkbox"/></label>
 </section>
 <section class="compare-side-card">
-<span class="compare-side-title">RIGHT MAP</span>
+<span class="compare-side-title">PETA KANAN</span>
 <div class="compare-segment">
 <button id="right2DBtn" type="button">2D</button>
 <button class="active" id="right3DBtn" type="button">3D</button>
 </div>
-<label class="compare-switch-row"><span>Basemap Labels</span><input checked="" id="rightLabelsToggle" type="checkbox"/></label>
+<label class="compare-switch-row"><span>Label Peta Asas</span><input checked="" id="rightLabelsToggle" type="checkbox"/></label>
 </section>
 </div>
 <div class="compare-sync-grid">
-<label><input checked="" id="syncPanToggle" type="checkbox"/> Sync Pan</label>
-<label><input checked="" id="syncZoomToggle" type="checkbox"/> Sync Zoom</label>
-<label><input checked="" id="syncBearingToggle" type="checkbox"/> Sync Bearing</label>
-<label><input checked="" id="syncPitchToggle" type="checkbox"/> Sync Pitch</label>
+<label><input checked="" id="syncPanToggle" type="checkbox"/> Segerak Gerakan</label>
+<label><input checked="" id="syncZoomToggle" type="checkbox"/> Segerak Zum</label>
+<label><input checked="" id="syncBearingToggle" type="checkbox"/> Segerak Putaran</label>
+<label><input checked="" id="syncPitchToggle" type="checkbox"/> Segerak Kecondongan</label>
 </div>
 </div>
-<div class="compare-status" id="compareStatus">Left dan Right Map mempunyai state berasingan.</div>
+<div class="compare-status" id="compareStatus">Peta kiri dan kanan mempunyai tetapan berasingan.</div>
 </section>
 <section class="tour-panel" hidden="" id="tourPanel">
 <div class="tour-heading">
@@ -1433,7 +1434,7 @@ Pilih kawasan
       return;
     }
 
-    import("./js/app.js?v=9.7.5").catch(function (error) {
+    import("./js/app.js?v=9.7.6").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
