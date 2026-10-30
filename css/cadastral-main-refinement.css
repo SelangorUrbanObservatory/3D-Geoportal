@@ -1,0 +1,66 @@
+/*
+ * Main SUO GeoPortal cadastral pilot visual language.
+ * Only layer UI + popup; never makes restricted polygon data public.
+ */
+#layerManagementPanel .cadastral-category .layer-copy strong {
+  color: #723338;
+  font-size: 12px;
+  line-height: 1.45;
+}
+#layerManagementPanel .cadastral-category .layer-copy small {
+  display: block;
+  color: #68554a;
+  font-size: 11px;
+  line-height: 1.45;
+}
+#layerManagementPanel .cadastral-category .cadastral-status {
+  border: 1px solid #e4cbab;
+  color: #775048;
+  background: #fff8e9;
+  border-radius: 7px;
+  padding: 9px 10px;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+#layerManagementPanel .cadastral-category .cadastral-status.warning {
+  border-color: #e1a5a0;
+  background: #fff0e8;
+  color: #89323a;
+}
+.mapboxgl-popup-content .cadastral-popup {
+  min-width: 190px;
+  max-width: 290px;
+  color: #382f29;
+  display: grid;
+  gap: 7px;
+}
+.mapboxgl-popup-content .cadastral-popup > strong {
+  font-size: 13px;
+  color: #8a323a;
+  line-height: 1.4;
+}
+.mapboxgl-popup-content .cadastral-popup-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 5px 11px;
+  border-bottom: 1px solid #eaded1;
+  padding: 4px 0 6px;
+}
+.mapboxgl-popup-content .cadastral-popup-row > span {
+  font-size: 11.5px;
+  color: #6a584c;
+}
+.mapboxgl-popup-content .cadastral-popup-row > b {
+  font-size: 11.5px;
+  color: #42332e;
+  font-weight: 800;
+  max-width: 155px;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.mapboxgl-popup-content .cadastral-popup > small {
+  font-size: 10.5px;
+  color: #70584b;
+  line-height: 1.5;
+}
