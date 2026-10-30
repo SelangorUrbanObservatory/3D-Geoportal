@@ -1,4 +1,5 @@
 import { MAPBOX_TOKEN, DATA_URLS } from "./config.js";
+import { summarizePlanningCoverage } from "./planning-coverage.js?v=1.0";
 
 let activeInstance = null;
 
@@ -67,6 +68,10 @@ export class NetworkIntelligence {
     this.driveTimeButton = document.getElementById("driveTimeBtn");
     this.nearestButton = document.getElementById("nearestFacilityBtn");
     this.nearestResult = document.getElementById("nearestFacilityResult");
+    this.planningResult = document.getElementById("planningResult");
+    this.planningAction = null;
+    this.requestSerial = 0;
+    this.lastNetworkFeatures = [];
 
     activeInstance = this;
 
@@ -111,6 +116,7 @@ export class NetworkIntelligence {
       });
 
     this.driveTimeButton.addEventListener("click", () => {
+      this.planningAction = null;
       this.toggleMode("isochrone");
     });
 
@@ -123,33 +129,25 @@ export class NetworkIntelligence {
     });
 
     document.getElementById("serviceAreaBtn")
-      .addEventListener("click", () => {
-        this.activateTab("accessibility");
-        this.setStatus(
-          "Service Area menggunakan modul Drive-Time. Pilih masa dan klik titik pusat."
-        );
-      });
+      .addEventListener("click", () => this.startPlanning("service"));
 
     document.getElementById("coverageBtn")
-      .addEventListener("click", () => {
-        this.activateTab("accessibility");
-        this.setStatus(
-          "Coverage Analysis: jana drive-time dahulu untuk menilai liputan."
-        );
-      });
+      .addEventListener("click", () => this.startPlanning("coverage"));
 
     document.getElementById("gapAnalysisBtn")
       .addEventListener("click", () => {
-        this.setStatus(
-          "Gap Analysis memerlukan layer penduduk atau grid permintaan untuk hasil penuh."
-        );
+        ++this.requestSerial;
+        this.stopMode();
+        this.planningResult.textContent = "Gap Analysis Fasa 2 memerlukan grid penduduk dan takrif kawasan perkhidmatan. Tiada jurang akses penduduk dikira dalam Fasa 1.";
+        this.setStatus("Gap Analysis: menunggu data permintaan yang disahkan.");
       });
 
     document.getElementById("accessibilityScoreBtn")
       .addEventListener("click", () => {
-        this.setStatus(
-          "Accessibility Score akan menggunakan masa perjalanan dan bilangan kemudahan terdekat."
-        );
+        ++this.requestSerial;
+        this.stopMode();
+        this.planningResult.textContent = "Accessibility Score Fasa 2 memerlukan data penduduk dan piawaian perkhidmatan. Tiada skor andaian ditunjukkan.";
+        this.setStatus("Accessibility Score: metodologi dan data perlu disahkan.");
       });
 
     document.querySelectorAll("[data-emergency-type]")
@@ -175,6 +173,7 @@ export class NetworkIntelligence {
 
     this.map.on("style.load", () => {
       this.ensureLayers();
+      this.map.getSource("network-intelligence-source")?.setData(featureCollection(this.lastNetworkFeatures));
     });
 
     this.map.on("click", (event) => {
@@ -210,7 +209,7 @@ export class NetworkIntelligence {
         source: "network-intelligence-source",
         filter: ["==", ["geometry-type"], "Polygon"],
         paint: {
-          "fill-color": "#38BDF8",
+          "fill-color": ["match", ["get", "analysis"], "planning", "#E1A735", "#38BDF8"],
           "fill-opacity": 0.22
         }
       });
@@ -223,7 +222,7 @@ export class NetworkIntelligence {
         source: "network-intelligence-source",
         filter: ["==", ["geometry-type"], "Polygon"],
         paint: {
-          "line-color": "#38BDF8",
+          "line-color": ["match", ["get", "analysis"], "planning", "#A97822", "#38BDF8"],
           "line-width": 2.4
         }
       });
@@ -265,7 +264,25 @@ export class NetworkIntelligence {
     button?.click();
   }
 
+  startPlanning(action) {
+    if (!["service", "coverage"].includes(action)) return;
+    if (this.spatialTools?.mode) this.spatialTools.stopMode();
+    ++this.requestSerial;
+    this.planningAction = action;
+    this.mode = "isochrone";
+    this.origin = null;
+    this.map.getCanvas().classList.add("spatial-tool-cursor");
+    this.driveTimeButton.classList.add("active");
+    this.nearestButton.classList.remove("active");
+    const label = action === "coverage" ? "Coverage Analysis" : "Service Area";
+    this.planningResult.textContent = label + " aktif. Klik pusat analisis pada peta.";
+    this.setStatus(label + ": klik lokasi pusat pada peta.");
+  }
+
   toggleMode(mode) {
+    ++this.requestSerial;
+    this.planningAction = null;
+    if (this.spatialTools?.mode) this.spatialTools.stopMode();
     if (this.mode === mode) {
       this.stopMode();
       return;
@@ -298,26 +315,39 @@ export class NetworkIntelligence {
 
   stopMode() {
     this.mode = null;
+    this.planningAction = null;
     this.map.getCanvas().classList.remove("spatial-tool-cursor");
     this.driveTimeButton.classList.remove("active");
     this.nearestButton.classList.remove("active");
   }
 
   async runIsochrone(origin) {
-    const minutes = Number(
-      document.getElementById("isochroneMinutes").value
-    );
-
+    const action = this.planningAction;
+    const planning = Boolean(action);
+    const minutes = Number(document.getElementById(
+      planning ? "planningMinutes" : "isochroneMinutes"
+    ).value);
     const profile = document.getElementById(
-      "isochroneProfile"
+      planning ? "planningProfile" : "isochroneProfile"
     ).value;
+    const facilityType = planning
+      ? document.getElementById("planningFacilityType").value
+      : null;
 
-    this.setStatus("Menjana kawasan capaian perjalanan...");
+    if (![5, 10, 15, 20, 30].includes(minutes) ||
+        !["driving", "walking", "cycling"].includes(profile)) {
+      this.setStatus("Tetapan masa atau mod perjalanan tidak sah.");
+      return;
+    }
+
+    const requestId = ++this.requestSerial;
+    this.setStatus("Menjana kawasan capaian berdasarkan rangkaian jalan...");
+    if (planning) this.planningResult.textContent = "Mendapatkan poligon Isochrone Mapbox...";
 
     const url = new URL(
-      `https://api.mapbox.com/isochrone/v1/mapbox/${profile}/${origin[0]},${origin[1]}`
+      "https://api.mapbox.com/isochrone/v1/mapbox/" +
+      profile + "/" + origin[0] + "," + origin[1]
     );
-
     url.searchParams.set("contours_minutes", String(minutes));
     url.searchParams.set("polygons", "true");
     url.searchParams.set("denoise", "1");
@@ -326,55 +356,88 @@ export class NetworkIntelligence {
 
     try {
       const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`Isochrone API ${response.status}`);
-      }
+      if (!response.ok) throw new Error("Isochrone API " + response.status);
 
       const data = await response.json();
-      const polygon = data.features?.[0];
+      const polygon = data.features?.find(f =>
+        ["Polygon", "MultiPolygon"].includes(f.geometry?.type)
+      );
+      if (!polygon) throw new Error("Tiada poligon perjalanan yang sah.");
+      if (requestId !== this.requestSerial) return;
 
-      if (!polygon) {
-        throw new Error("Tiada polygon isochrone.");
+      let coverage = null;
+      if (action === "coverage") {
+        this.planningResult.textContent = "Mengira titik kemudahan dalam kawasan perjalanan...";
+        coverage = await summarizePlanningCoverage(polygon, facilityType);
+        if (requestId !== this.requestSerial) return;
       }
 
-      const source = this.map.getSource(
-        "network-intelligence-source"
+      this.origin = origin;
+      this.lastNetworkFeatures = [
+        { ...polygon, properties: { ...(polygon.properties || {}), analysis: planning ? "planning" : "network" } },
+        { type: "Feature", properties: { role: "origin" },
+          geometry: { type: "Point", coordinates: origin } },
+        ...(coverage?.visibleFacilities || [])
+      ];
+      this.map.getSource("network-intelligence-source")?.setData(
+        featureCollection(this.lastNetworkFeatures)
       );
 
-      source?.setData(featureCollection([
-        polygon,
-        {
-          type: "Feature",
-          properties: { role: "origin" },
-          geometry: {
-            type: "Point",
-            coordinates: origin
-          }
-        }
-      ]));
-
       this.popup?.remove();
-      this.popup = new mapboxgl.Popup({
-        closeOnClick: false
-      })
+      this.popup = new mapboxgl.Popup({ closeOnClick: false })
         .setLngLat(origin)
         .setHTML(
-          `<strong>Drive-Time Isochrone</strong><br>
-           Masa: ${minutes} minit<br>
-           Mod: ${escapeHtml(profile)}`
+          "<strong>" + (planning ? "Planning Intelligence" : "Drive-Time Isochrone") +
+          "</strong><br>Masa: " + minutes + " minit<br>Mod: " + escapeHtml(profile)
         )
         .addTo(this.map);
 
+      if (planning) {
+        const modeLabel = {
+          driving: "Memandu", walking: "Berjalan kaki", cycling: "Berbasikal"
+        }[profile];
+        const heading = action === "coverage" ? "Coverage Analysis" : "Service Area";
+        const mainStat = coverage
+          ? '<div class="planning-stat"><span>Rekod kemudahan dalam kawasan capaian</span><strong>' +
+            coverage.insideCount.toLocaleString("ms-MY") +
+            '</strong><small>Daripada ' + coverage.totalRecords.toLocaleString("ms-MY") +
+            ' rekod kategori terpilih dalam dataset seluruh Selangor</small></div>'
+          : "";
+        const groups = coverage
+          ? coverage.groups.map(g =>
+              '<div class="planning-group-row"><span>' + escapeHtml(g.label) +
+              '</span><strong>' + g.insideCount.toLocaleString("ms-MY") + '</strong></div>'
+            ).join("")
+          : "";
+        const interpretation = coverage
+          ? "Bilangan ini ialah lokasi titik kemudahan dalam poligon perjalanan dari satu pusat. Ia bukan liputan penduduk, masa perjalanan ke setiap kemudahan atau tahap kecukupan perkhidmatan."
+          : "Poligon menunjukkan anggaran kawasan yang boleh dicapai dari titik pusat melalui rangkaian jalan Mapbox, bukan sempadan perkhidmatan rasmi.";
+        const markerNote = coverage
+          ? '<p class="planning-source-note">Sumber: dataset titik SUO. Maksimum 80 penanda dipaparkan bagi setiap kategori; jumlah dikira daripada semua rekod.</p>'
+          : "";
+        this.planningResult.innerHTML =
+          '<div class="planning-result-heading"><strong>' + heading +
+          '</strong><span>' + minutes + ' min · ' + escapeHtml(modeLabel) +
+          '</span></div>' + mainStat + groups +
+          '<p class="planning-interpretation">' + interpretation + '</p>' + markerNote;
+      }
+
       this.setStatus(
-        `Kawasan capaian ${minutes} minit berjaya dijana.`
+        (planning ? (action === "coverage" ? "Coverage Analysis" : "Service Area") : "Drive-Time") +
+        ": kawasan " + minutes + " minit berjaya dijana."
       );
       this.stopMode();
     } catch (error) {
-      console.error(error);
+      if (requestId !== this.requestSerial) return;
+      console.error("Isochrone/Planning:", error);
+      if (planning) {
+        this.planningResult.textContent =
+          "Analisis tidak dapat disiapkan. Semak sambungan Mapbox dan dataset kemudahan. Tiada keputusan separa dilaporkan.";
+      }
       this.setStatus(
-        "Isochrone gagal dijana. Semak token Mapbox atau had penggunaan API."
+        "Isochrone atau data kemudahan gagal dimuatkan. Semak sambungan dan had API."
       );
+      this.stopMode();
     }
   }
 
@@ -424,6 +487,7 @@ export class NetworkIntelligence {
   }
 
   async runNearestFacility(origin) {
+    const requestId = ++this.requestSerial;
     const type = document.getElementById(
       "nearestFacilityType"
     ).value;
@@ -446,6 +510,7 @@ export class NetworkIntelligence {
         }))
         .sort((a, b) => a.distance - b.distance);
 
+      if (requestId !== this.requestSerial) return;
       const nearest = ranked[0];
 
       if (!nearest) {
@@ -462,7 +527,7 @@ export class NetworkIntelligence {
         "network-intelligence-source"
       );
 
-      source?.setData(featureCollection([
+      this.lastNetworkFeatures = [
         {
           type: "Feature",
           properties: { role: "origin" },
@@ -482,7 +547,8 @@ export class NetworkIntelligence {
             coordinates: nearest.coordinate
           }
         }
-      ]));
+      ];
+      source?.setData(featureCollection(this.lastNetworkFeatures));
 
       this.nearestResult.innerHTML = `
         <strong>${escapeHtml(name)}</strong>
@@ -522,7 +588,11 @@ export class NetworkIntelligence {
   }
 
   clear() {
+    ++this.requestSerial;
     this.stopMode();
+    this.lastNetworkFeatures = [];
+    this.origin = null;
+    if (this.planningResult) this.planningResult.textContent = "Pilih fungsi Service Area atau Coverage Analysis, kemudian klik lokasi pusat pada peta.";
     this.popup?.remove();
     this.popup = null;
 

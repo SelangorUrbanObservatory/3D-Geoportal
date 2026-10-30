@@ -1,0 +1,150 @@
+/* P3 Planning Intelligence — readable, responsive analysis controls. */
+.network-intelligence-panel .planning-settings {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 9px;
+  margin: 12px 0;
+}
+.network-intelligence-panel .planning-settings label {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  min-width: 0;
+  color: #5f5147;
+  font-size: 11.5px;
+  font-weight: 750;
+}
+.network-intelligence-panel .planning-settings label:first-child {
+  grid-column: 1 / -1;
+}
+.network-intelligence-panel .planning-settings select {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  border-radius: 9px;
+  border: 1px solid #dfc8a8;
+  color: #352c27;
+  background: #fffdf9;
+  font-size: 12px;
+  padding: 8px 9px;
+  color-scheme: light;
+}
+.network-intelligence-panel .planning-feature-actions {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 7px;
+  margin: 12px 0;
+}
+.network-intelligence-panel .planning-feature-actions button {
+  min-height: 43px;
+  color: #71353a;
+  background: #fff7e9;
+  border: 1px solid #e6d0ae;
+  border-radius: 9px;
+  font-size: 11.5px;
+  font-weight: 750;
+  line-height: 1.35;
+  white-space: normal;
+  padding: 9px 7px;
+}
+.network-intelligence-panel .planning-feature-actions button:hover {
+  background: #f8e4bb;
+  color: #55262a;
+}
+.network-intelligence-panel .planning-feature-actions button:nth-child(n+3) {
+  background: #f5f0e9;
+  color: #665b52;
+  border-color: #e6dfd4;
+  font-weight: 650;
+}
+.network-intelligence-panel .planning-result {
+  display: grid;
+  gap: 9px;
+  min-width: 0;
+  padding: 12px;
+  margin-top: 10px;
+  background: #fffdf8;
+  border: 1px solid #e5d2b7;
+  border-radius: 11px;
+  color: #493c34;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.network-intelligence-panel .planning-result-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  flex-wrap: wrap;
+  color: #43322a;
+  font-size: 12px;
+}
+.network-intelligence-panel .planning-result-heading strong {
+  color: #8b3339;
+  font-size: 13px;
+}
+.network-intelligence-panel .planning-result-heading span {
+  color: #68594e;
+  font-weight: 750;
+}
+.network-intelligence-panel .planning-stat {
+  padding: 11px;
+  border-radius: 9px;
+  background: #fff3d9;
+  border: 1px solid #eed5a7;
+}
+.network-intelligence-panel .planning-stat span,
+.network-intelligence-panel .planning-stat small {
+  display: block;
+  font-size: 11px;
+  color: #665649;
+  line-height: 1.5;
+}
+.network-intelligence-panel .planning-stat strong {
+  display: block;
+  font-size: 23px;
+  line-height: 1.2;
+  color: #93353b;
+  margin: 5px 0;
+  font-variant-numeric: tabular-nums;
+}
+.network-intelligence-panel .planning-group-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  border-bottom: 1px solid #eee2d2;
+  font-size: 11.5px;
+  color: #54463d;
+}
+.network-intelligence-panel .planning-group-row strong { color: #91383d; }
+.network-intelligence-panel .planning-interpretation,
+.network-intelligence-panel .planning-source-note {
+  color: #625247;
+  font-size: 11.5px;
+  line-height: 1.55;
+  margin: 0;
+}
+.network-intelligence-panel .planning-source-note {
+  border-top: 1px solid #eddfcc;
+  padding-top: 8px;
+}
+.network-intelligence-panel .planning-settings :is(select):focus-visible,
+.network-intelligence-panel .planning-feature-actions button:focus-visible {
+  outline: 3px solid #96363c;
+  outline-offset: 2px;
+}
+@container suo-sidebar (max-width: 285px) {
+  .network-intelligence-panel .planning-settings,
+  .network-intelligence-panel .planning-feature-actions {
+    grid-template-columns: minmax(0,1fr);
+  }
+  .network-intelligence-panel .planning-settings label:first-child {
+    grid-column: auto;
+  }
+}
+@media (max-width:380px) {
+  .network-intelligence-panel .planning-settings { grid-template-columns: minmax(0,1fr); }
+  .network-intelligence-panel .planning-settings label:first-child { grid-column: auto; }
+}
