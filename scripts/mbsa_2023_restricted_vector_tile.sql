@@ -54,7 +54,16 @@ BEGIN
     WHERE geom IS NOT NULL
   ), ''::bytea);
 END;
-$$ LANGUAGE plpgsql STABLE PARALLEL SAFE;
+$ LANGUAGE plpgsql STABLE PARALLEL SAFE
+SECURITY DEFINER SET search_path = pg_catalog, public;
+
+REVOKE ALL ON FUNCTION suo_tiles.mbsa_parcels_2023(integer,integer,integer)
+  FROM PUBLIC;
+
+-- Explicit GRANT EXECUTE belongs in the secure DB deploy process after
+-- the approved tile service role is provisioned. No grants to anon users.
+-- GRANT EXECUTE ON FUNCTION suo_tiles.mbsa_parcels_2023(integer,integer,integer)
+--   TO approved_suo_tile_service_role;
 
 COMMENT ON FUNCTION suo_tiles.mbsa_parcels_2023(integer,integer,integer)
   IS 'MBSA 2023 minimal authorized parcel MVT. No owner or UPI in tile output.';
