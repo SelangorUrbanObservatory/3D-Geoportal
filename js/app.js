@@ -33,7 +33,7 @@ import {
   addCadastralLayer,
   cadastralPopupHtml,
   getCadastralConfig
-} from "./cadastral.js";
+} from "./cadastral.js?v=1.1";
 
 const map = createMainMap();
 window.__SUO_MAIN_MAP__ = map;
@@ -541,25 +541,40 @@ document.getElementById("cityHierarchyToggle").addEventListener("change", (event
 
 document.getElementById("cadastralToggle").addEventListener("change", async (event) => {
   const status = document.getElementById("cadastralStatus");
+  const toggle = event.target;
 
-  if (event.target.checked) {
-    const result = await addCadastralLayer(map);
-
-    if (!result.configured) {
-      event.target.checked = false;
+  if (toggle.checked) {
+    toggle.disabled = true;
+    status.textContent = "Menyemak sumber Lot Kadaster MBSA 2023...";
+    try {
+      const result = await addCadastralLayer(map);
+      if (!result.configured) {
+        toggle.checked = false;
+        layerState.cadastral = false;
+        status.textContent = result.reason ||
+          "Pilot MBSA belum diterbitkan sebagai Vector Tile yang diluluskan.";
+        status.classList.add("warning");
+        showStartupWarning("Lot Kadaster MBSA 2023: sumber tile belum tersedia pada portal awam.");
+      } else {
+        layerState.cadastral = true;
+        status.textContent =
+          "Sumber MBSA 2023 dikonfigurasi. Semak paparan lot selepas zoom 12; statistik P3 menggunakan API berasingan.";
+        status.classList.remove("warning");
+      }
+    } catch (error) {
+      console.error("Sumber Lot Kadaster MBSA:", error);
+      toggle.checked = false;
       layerState.cadastral = false;
-      status.textContent =
-        "Vector Tile belum dikonfigurasi. Isi URL dalam config/cadastral-layer.json.";
+      status.textContent = "Sumber lot MBSA gagal dimuatkan. Semak konfigurasi dan akses servis tile.";
       status.classList.add("warning");
-      updateLayerCount();
-      return;
+    } finally {
+      toggle.disabled = false;
     }
-
-    status.textContent = "Lot Kadaster aktif. Paparan bermula pada zoom 11.";
-    status.classList.remove("warning");
+  } else {
+    layerState.cadastral = false;
+    status.textContent = "Paparan Lot Kadaster MBSA 2023 dimatikan.";
   }
 
-  layerState.cadastral = event.target.checked;
   applyLayerVisibility(map);
   compare.refreshLayers();
   updateLayerCount();
@@ -1096,7 +1111,7 @@ const smartSearch = new SmartSearch({
 const ASSISTANT_LAYER_LABELS = {
   traffic: "Live Traffic",
   floodRain: "Flood Intelligence Fasa 1",
-  cadastral: "Lot Kadaster Selangor 2023",
+  cadastral: "Lot Kadaster MBSA 2023 (pilot data terkawal)",
   pbt: "Sempadan PBT",
   districts: "Sempadan Daerah",
   healthFacilities: "Kemudahan Kesihatan",
