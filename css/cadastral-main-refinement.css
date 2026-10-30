@@ -64,3 +64,13 @@
   color: #70584b;
   line-height: 1.5;
 }
+
+
+/*
+ * Temporary UI pause, 30 October 2026.
+ * Cadastre source is not connected/authorized for public portal use yet.
+ * Preserve all DOM IDs and integrations for later reactivation.
+ */
+[data-suo-paused="cadastral"] {
+  display: none !important;
+}
