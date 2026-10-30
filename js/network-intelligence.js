@@ -213,6 +213,10 @@ export class NetworkIntelligence {
           '<strong>' + escapeHtml(details.name) + '</strong>' +
           '<span>' + escapeHtml(details.groupLabel || "Kemudahan") +
           ' · ' + escapeHtml(details.typeLabel || "Jenis tidak dinyatakan") + '</span>' +
+          (details.bandMinutes
+            ? '<span>Julat masa: ' + (Number(details.bandMinutes) === 5
+              ? '0–5' : Number(details.bandMinutes) === 10 ? '5–10' : '10–15') +
+              ' minit</span>' : '') +
           '<small>Rekod titik dalam kawasan capaian, bukan pengesahan jarak jalan ke kemudahan.</small>' +
           '</div>'
         ).addTo(this.map);
@@ -516,6 +520,122 @@ export class NetworkIntelligence {
     this.map.getCanvas().classList.remove("spatial-tool-cursor");
     this.driveTimeButton.classList.remove("active");
     this.nearestButton.classList.remove("active");
+  }
+
+  async runTravelTimeComparison(origin) {
+    const profile = document.getElementById("planningProfile").value;
+    const facilityType = document.getElementById("planningFacilityType").value;
+    if (!["driving", "walking", "cycling"].includes(profile)) {
+      this.setStatus("Mod perjalanan tidak sah.");
+      return;
+    }
+    const requestId = ++this.requestSerial;
+    this.planningResult.textContent =
+      "Menjana tiga kawasan capaian 5, 10 dan 15 minit daripada Mapbox...";
+    this.setStatus("Perbandingan masa perjalanan sedang diproses...");
+
+    const url = new URL("https://api.mapbox.com/isochrone/v1/mapbox/" +
+      profile + "/" + origin[0] + "," + origin[1]);
+    url.searchParams.set("contours_minutes", PLANNING_COMPARE_MINUTES.join(","));
+    url.searchParams.set("polygons", "true");
+    url.searchParams.set("denoise", "1");
+    url.searchParams.set("generalize", "30");
+    url.searchParams.set("access_token", MAPBOX_TOKEN);
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Mapbox Isochrone API " + response.status);
+      const data = await response.json();
+      // Validate all three contours and group records without double-counting.
+      const comparison = await summarizeTravelTimeComparison(data.features, facilityType);
+      if (requestId !== this.requestSerial) return;
+
+      this.lastPlanningPolygon = comparison.polygons[2];
+      if (this.focusPlanningButton) this.focusPlanningButton.disabled = false;
+      this.origin = origin;
+      this.lastNetworkFeatures = [
+        ...comparison.polygons.map((p, i) => ({
+          ...p,
+          properties: {
+            ...(p.properties || {}),
+            analysis: "planning-compare",
+            minutes: PLANNING_COMPARE_MINUTES[i]
+          }
+        })),
+        {
+          type: "Feature",
+          properties: { role: "origin" },
+          geometry: { type: "Point", coordinates: origin }
+        },
+        ...comparison.markers
+      ];
+      this.map.getSource("network-intelligence-source")?.setData(
+        featureCollection(this.lastNetworkFeatures)
+      );
+      this.promoteLayers();
+      try { this.fitPlanningArea(this.lastPlanningPolygon); }
+      catch (error) { console.warn("P3 comparison framing:", error); }
+
+      const mode = {
+        driving: "Memandu", walking: "Berjalan kaki", cycling: "Berbasikal"
+      }[profile];
+      const fmt = number => number.toLocaleString("ms-MY");
+      const rows = comparison.bands.map(band => {
+        const increase = band.added > 0 ? "+" + fmt(band.added) : "0";
+        const groups = comparison.selectedType === "all"
+          ? '<div class="planning-time-groups">' + band.perGroup.map(group =>
+              '<span>' + escapeHtml(group.label) + ': <b>' + fmt(group.count) +
+              '</b></span>').join("") + '</div>'
+          : "";
+        return '<div class="planning-time-card time-' + band.minutes + '">' +
+          '<div class="planning-time-top"><span class="planning-time-symbol" aria-hidden="true"></span>' +
+          '<strong>' + band.minutes + ' minit</strong>' +
+          '<span class="planning-time-cumulative">' + fmt(band.cumulative) +
+          ' rekod terkumpul</span></div>' +
+          '<div class="planning-time-additions"><span>' + escapeHtml(band.bandLabel) +
+          ' · tambahan</span><strong>' + increase + '</strong></div>' +
+          groups + '</div>';
+      }).join("");
+      this.planningResult.classList.add("comparison-ready");
+      this.planningResult.innerHTML =
+        '<div class="planning-result-heading"><strong>Perbandingan Masa Capaian</strong>' +
+        '<span>' + escapeHtml(mode) + ' · 5 / 10 / 15 min</span></div>' +
+        '<div class="planning-compare-total"><span>Rekod dalam kawasan sehingga 15 minit</span>' +
+        '<strong>' + fmt(comparison.totalInside15) + '</strong>' +
+        '<small>Daripada ' + fmt(comparison.totalRecords) +
+        ' rekod kemudahan dalam dataset terpilih di Selangor</small></div>' +
+        '<div class="planning-time-cards">' + rows + '</div>' +
+        '<p class="planning-interpretation">Jumlah terkumpul dan tambahan bagi setiap julat dikira ' +
+        'daripada titik kemudahan yang dikelaskan sekali sahaja mengikut kontur masa paling awal yang meliputinya. ' +
+        'Ini bukan peratus penduduk mendapat akses atau masa perjalanan tepat ke setiap kemudahan.</p>' +
+        '<p class="planning-source-note">Sumber: Mapbox Isochrone (satu titik pusat) dan dataset GIS SUO. ' +
+        'Penyederhanaan geometri boleh menghasilkan kontur yang tidak bersarang sempurna. ' +
+        'Hanya sehingga 35 titik bagi setiap kumpulan dan julat dipaparkan, manakala jumlah menggunakan semua rekod.</p>';
+
+      this.popup?.remove();
+      this.popup = new mapboxgl.Popup({ closeOnClick: false })
+        .setLngLat(origin)
+        .setHTML("<strong>Perbandingan Masa Capaian</strong><br>" +
+          escapeHtml(mode) + " · 5 / 10 / 15 minit")
+        .addTo(this.map);
+
+      this.showMapGuide("Perbandingan · 5/10/15 min",
+        fmt(comparison.totalInside15) +
+        " rekod kemudahan dalam kawasan sehingga 15 minit.", true);
+      document.getElementById("planningCompareBtn")?.classList.add("has-planning-result");
+      this.setStatus("Perbandingan 5/10/15 minit siap — " +
+        fmt(comparison.totalInside15) + " rekod dalam kawasan 15 minit.");
+      this.stopMode();
+    } catch (error) {
+      if (requestId !== this.requestSerial) return;
+      console.error("P3 multi-contour comparison:", error);
+      this.planningResult.textContent =
+        "Perbandingan tidak dapat disiapkan. Semua tiga kontur dan dataset mesti tersedia; tiada kiraan separa dipaparkan.";
+      this.planningResult.classList.remove("comparison-ready");
+      if (this.mapGuide) this.mapGuide.hidden = true;
+      this.setStatus("Perbandingan 5/10/15 minit gagal. Semak sambungan atau had API.");
+      this.stopMode();
+    }
   }
 
   async runIsochrone(origin) {
