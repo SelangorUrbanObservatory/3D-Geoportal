@@ -293,6 +293,8 @@ export class NetworkIntelligence {
     if (!this.mapGuide) return;
     this.mapGuide.hidden = false;
     this.mapGuide.classList.toggle("complete", completed);
+    const legend = this.mapGuide.querySelector("[data-planning-guide-legend]");
+    if (legend) legend.hidden = !completed || !title.startsWith("Coverage Analysis");
     const heading = this.mapGuide.querySelector("[data-planning-guide-title]");
     const body = this.mapGuide.querySelector("[data-planning-guide-body]");
     if (heading) heading.textContent = title;
@@ -337,6 +339,10 @@ export class NetworkIntelligence {
     this.planningAction = action;
     this.mode = "isochrone";
     this.origin = null;
+    this.lastNetworkFeatures = [];
+    this.map.getSource("network-intelligence-source")?.setData(featureCollection());
+    this.popup?.remove();
+    this.popup = null;
     this.map.getCanvas().classList.add("spatial-tool-cursor");
     this.driveTimeButton.classList.add("active");
     this.nearestButton.classList.remove("active");
@@ -363,6 +369,8 @@ export class NetworkIntelligence {
 
     this.mode = mode;
     this.origin = null;
+    this.lastNetworkFeatures = [];
+    this.map.getSource("network-intelligence-source")?.setData(featureCollection());
     this.map.getCanvas().classList.add("spatial-tool-cursor");
 
     this.driveTimeButton.classList.toggle(
