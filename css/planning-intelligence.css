@@ -148,3 +148,104 @@
   .network-intelligence-panel .planning-settings { grid-template-columns: minmax(0,1fr); }
   .network-intelligence-panel .planning-settings label:first-child { grid-column: auto; }
 }
+
+/* P3 visual clarity v1.1: visible map guide, selected actions and map legend. */
+.planning-map-guide {
+  position: absolute;
+  left: 16px;
+  bottom: 77px;
+  z-index: 19;
+  max-width: min(355px, calc(100% - 32px));
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: rgba(255,253,248,.97);
+  border: 2px solid #B33D43;
+  border-left: 6px solid #B33D43;
+  border-radius: 11px;
+  padding: 12px 14px;
+  color: #362923;
+  box-shadow: 0 7px 25px rgba(29,19,10,.24);
+  pointer-events: none;
+}
+.planning-map-guide[hidden] { display: none !important; }
+.planning-map-guide.complete {
+  border-color: #9B3A40;
+  border-left-color: #E5AB28;
+}
+.planning-map-guide-symbol {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #FFE1A2;
+  color: #87343B;
+  border: 2px solid #B43B42;
+  font-weight: 900;
+  font-size: 18px;
+}
+.planning-map-guide-copy { min-width: 0; display: grid; gap: 3px; }
+.planning-map-guide-copy strong {
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.35;
+  color: #7B2E36;
+}
+.planning-map-guide-copy span {
+  color: #52443B;
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+.network-intelligence-panel .planning-feature-actions button:first-child,
+.network-intelligence-panel .planning-feature-actions button:nth-child(2) {
+  border: 1px solid #B53B43;
+  background: #FFF0D3;
+  color: #842E36;
+  font-size: 12px;
+  font-weight: 850;
+}
+.network-intelligence-panel .planning-feature-actions button:is(.is-planning-active,.has-planning-result) {
+  background: #B53B43;
+  border-color: #8D2B32;
+  color: #FFFDF9;
+  box-shadow: 0 3px 9px rgba(131,47,52,.23);
+}
+.network-intelligence-panel .planning-feature-actions button.is-planning-active {
+  outline: 2px solid #E9B442;
+  outline-offset: 2px;
+}
+.network-intelligence-panel .planning-feature-actions button:is(.is-planning-active,.has-planning-result):hover {
+  background: #943037;
+  color: #FFFDF9;
+}
+.network-intelligence-panel .planning-result {
+  border: 2px solid #E8C06D;
+  background: #FFF9EE;
+  padding: 13px;
+  font-size: 12px;
+}
+.network-intelligence-panel .planning-result-heading strong {
+  color: #842D35;
+  font-size: 14px;
+}
+.network-intelligence-panel .planning-stat {
+  background: #FFF0C8;
+  border-color: #E5BC68;
+}
+.network-intelligence-panel .planning-stat strong { font-size: 27px; }
+.network-intelligence-panel .planning-interpretation,
+.network-intelligence-panel .planning-source-note { font-size: 11.5px; }
+@media (max-width: 640px) {
+  .planning-map-guide {
+    left: 10px;
+    bottom: 92px;
+    max-width: calc(100% - 20px);
+    padding: 10px 12px;
+  }
+  .planning-map-guide-copy strong { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .planning-map-guide { transition: none; }
+}
