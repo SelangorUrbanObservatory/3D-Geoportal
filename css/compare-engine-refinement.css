@@ -1,0 +1,291 @@
+/*
+ * SUO GeoPortal — Compare Engine UI refinement, 30 Oct 2026.
+ * Light Selangor palette, scoped to #comparePanel.
+ * Visual/typographic changes only: map synchronization and basemap logic preserved.
+ */
+#comparePanel {
+  --compare-ink: #352c27;
+  --compare-muted: #625247;
+  --compare-red: #93353b;
+  --compare-red-dark: #752b31;
+  --compare-surface: #fffdf9;
+  --compare-soft: #fff6e7;
+  --compare-line: #e7d5be;
+  --compare-yellow: #f3c24b;
+  color: var(--compare-ink);
+  background: rgba(255, 253, 249, .98);
+  border-color: var(--compare-line);
+}
+#comparePanel .compare-panel-heading {
+  gap: 10px;
+}
+#comparePanel .compare-panel-heading > div {
+  min-width: 0;
+}
+#comparePanel .compare-panel-heading strong {
+  color: var(--compare-ink);
+  font-size: 15px;
+  line-height: 1.35;
+}
+#comparePanel .compare-kicker {
+  color: var(--compare-red);
+  font-size: 11px;
+  letter-spacing: .07em;
+}
+#comparePanel .compare-version-badge {
+  color: var(--compare-red-dark);
+  background: #fff1d5;
+  border-color: #e6cca0;
+  font-size: 10.5px;
+}
+#comparePanel .compare-panel-hint {
+  color: var(--compare-muted);
+  background: #fff9ed;
+  border-color: #e8d8c1;
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+#comparePanel .compare-window-controls button {
+  color: var(--compare-red-dark);
+  background: #fff6e8;
+  border-color: #e2cdb1;
+  font-size: 13px;
+}
+#comparePanel .compare-window-controls button:hover {
+  color: #fffdf9;
+  background: var(--compare-red);
+  border-color: var(--compare-red);
+}
+/* The selected tab should not compete visually with the primary swap action. */
+#comparePanel .compare-tabs {
+  background: #fff8ec;
+  border-color: var(--compare-line);
+  gap: 5px;
+  padding: 4px;
+}
+#comparePanel .compare-tab {
+  color: #5b4b41;
+  background: transparent;
+  border: 1px solid transparent;
+  min-height: 38px;
+  min-width: 0;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.35;
+  white-space: normal;
+}
+#comparePanel .compare-tab:hover:not(.active) {
+  color: var(--compare-red-dark);
+  background: #fff0d7;
+}
+#comparePanel .compare-tab.active {
+  color: var(--compare-red-dark);
+  background: #f9dc91;
+  border-color: #e9bd54;
+  box-shadow: 0 1px 3px rgba(86, 56, 25, .1);
+}
+/* Both map groups share one visual hierarchy on every tab. */
+#comparePanel .compare-side-grid {
+  gap: 10px;
+  min-width: 0;
+}
+#comparePanel .compare-side-card {
+  background: var(--compare-surface);
+  border: 1px solid var(--compare-line);
+  padding: 12px;
+  border-radius: 11px;
+  gap: 10px;
+}
+#comparePanel .compare-side-title,
+#comparePanel .compare-side-title span {
+  color: var(--compare-ink);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .025em;
+  line-height: 1.45;
+}
+#comparePanel .compare-side-title button {
+  background: #fff1db;
+  border-color: #e6cfae;
+  color: var(--compare-red-dark);
+  font-size: 11.5px;
+  min-height: 30px;
+}
+#comparePanel .compare-side-title button:hover {
+  background: #f4cf72;
+  color: var(--compare-ink);
+}
+#comparePanel .compare-layer-list { gap: 6px; }
+#comparePanel .compare-layer-row,
+#comparePanel .compare-switch-row,
+#comparePanel .compare-sync-grid label {
+  background: #fff9f0;
+  border: 1px solid #ebddca;
+  color: var(--compare-ink);
+  border-radius: 8px;
+  font-size: 12px;
+  min-height: 39px;
+  line-height: 1.45;
+  gap: 8px;
+  padding: 8px 9px;
+  cursor: pointer;
+}
+#comparePanel .compare-layer-row:hover,
+#comparePanel .compare-switch-row:hover,
+#comparePanel .compare-sync-grid label:hover {
+  background: #fff1dd;
+}
+#comparePanel .compare-layer-row input,
+#comparePanel .compare-switch-row input,
+#comparePanel .compare-sync-grid input {
+  accent-color: var(--compare-red);
+  flex-shrink: 0;
+}
+/* Root fix: legacy #0e1d31 select background + dark text.
+   Apply to the select and option popup, including focus/hover states. */
+#comparePanel .compare-basemap-card select {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-height: 43px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.4;
+  color: var(--compare-ink) !important;
+  -webkit-text-fill-color: var(--compare-ink);
+  background-color: #fffdf9 !important;
+  border: 1px solid #d4bfa3 !important;
+  color-scheme: light;
+  border-radius: 9px;
+  opacity: 1;
+}
+#comparePanel .compare-basemap-card select option,
+#comparePanel .compare-basemap-card select optgroup {
+  color: var(--compare-ink);
+  background: #fffdf9;
+}
+#comparePanel .compare-basemap-card select:focus-visible {
+  outline: 3px solid var(--compare-red) !important;
+  outline-offset: 2px;
+}
+#comparePanel .compare-basemap-card select:disabled {
+  background: #f1e8dd !important;
+  color: #60534c !important;
+  -webkit-text-fill-color: #60534c;
+  opacity: .8;
+}
+#comparePanel .compare-basemap-note {
+  margin: 12px 0;
+  padding: 11px 12px;
+  background: #fff9ef;
+  color: var(--compare-muted);
+  border: 1px solid #ead7b9;
+  font-size: 12px;
+  line-height: 1.6;
+}
+#comparePanel .compare-basemap-note strong {
+  color: var(--compare-red) !important;
+  font-weight: 800;
+}
+#comparePanel .compare-wide-btn {
+  min-height: 43px;
+  width: 100%;
+  padding: 10px 12px;
+  color: #fffdf9 !important;
+  background: var(--compare-red);
+  border: 1px solid var(--compare-red-dark);
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.4;
+  white-space: normal;
+}
+#comparePanel .compare-wide-btn:hover {
+  color: #fffdf9 !important;
+  background: var(--compare-red-dark);
+  border-color: var(--compare-red-dark);
+}
+/* Paparan tab: 2D/3D segments and synchronization controls. */
+#comparePanel .compare-segment {
+  background: #fff4e5;
+  border-color: var(--compare-line);
+  border-radius: 9px;
+}
+#comparePanel .compare-segment button {
+  color: var(--compare-ink);
+  background: transparent;
+  font-size: 12px;
+  min-height: 36px;
+  font-weight: 750;
+}
+#comparePanel .compare-segment button.active {
+  color: #382c20;
+  background: #f6cc68;
+  border-color: #e8b846;
+}
+#comparePanel .compare-segment button:disabled {
+  color: #7b6c61;
+  background: #f2e9df;
+  opacity: .8;
+}
+#comparePanel .compare-sync-grid { gap: 8px; }
+#comparePanel .compare-status {
+  margin-top: 10px;
+  padding: 10px 11px;
+  color: var(--compare-muted);
+  background: #fff9ed;
+  border: 1px solid var(--compare-line);
+  border-radius: 8px;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+/* Preserve map overlay clarity on satellite AND street basemaps. */
+.map-shell.split-active::before {
+  content: "PETA KIRI";
+}
+.map-shell.split-active::after {
+  content: "PETA KANAN";
+}
+.map-shell.split-active::before,
+.map-shell.split-active::after {
+  color: #fffdf9;
+  background: rgba(44, 34, 30, .88);
+  border-color: rgba(255,255,255,.4);
+  font-size: 11px;
+  line-height: 1.35;
+}
+/* Keep minimized mode and the draggable header intact. */
+#comparePanel.minimized > :not(.compare-panel-heading) {
+  display: none !important;
+}
+#comparePanel.unpinned::after {
+  content: "AUTO-SEMBUNYI";
+  color: var(--compare-red);
+  font-size: 10.5px;
+}
+/* Focus states are visible with keyboard on all three tabs. */
+#comparePanel :is(.compare-tab,.compare-wide-btn,.compare-window-controls button,
+  .compare-segment button,.compare-side-title button):focus-visible {
+  outline: 3px solid var(--compare-red) !important;
+  outline-offset: 2px;
+}
+@media (max-width: 760px) {
+  #comparePanel .compare-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #fff8ec;
+    border-color: var(--compare-line);
+  }
+  #comparePanel .compare-side-grid,
+  #comparePanel .compare-sync-grid { grid-template-columns: minmax(0, 1fr); }
+  #comparePanel .compare-panel-hint,
+  #comparePanel .compare-basemap-note { font-size: 12px; }
+  #comparePanel .compare-tab { min-height: 42px; padding: 8px 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #comparePanel :is(button,select) { transition: none; }
+}

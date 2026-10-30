@@ -161,7 +161,10 @@ export class CompareEngine {
 
           document.querySelectorAll("[data-compare-tab]")
             .forEach((item) => {
-              item.classList.toggle("active", item === button);
+              const selected = item === button;
+              item.classList.toggle("active", selected);
+              item.setAttribute("aria-selected", String(selected));
+              item.tabIndex = selected ? 0 : -1;
             });
 
           document.querySelectorAll("[data-compare-panel]")
@@ -174,6 +177,20 @@ export class CompareEngine {
             });
         });
       });
+
+    // Keyboard-accessible tab navigation; keeps existing data selectors unchanged.
+    document.querySelector(".compare-tabs")?.addEventListener("keydown", (event) => {
+      const current = event.target.closest?.("[data-compare-tab]");
+      if (!current || !["ArrowLeft","ArrowRight","Home","End"].includes(event.key)) return;
+      const tabs = [...document.querySelectorAll("[data-compare-tab]")];
+      const index = tabs.indexOf(current);
+      if (index < 0) return;
+      event.preventDefault();
+      const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 :
+        (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+      tabs[next].click();
+      tabs[next].focus();
+    });
 
     document.querySelectorAll("[data-compare-layer]")
       .forEach((checkbox) => {
@@ -863,9 +880,15 @@ export class CompareEngine {
       .filter(([, enabled]) => enabled)
       .map(([key]) => key);
 
+    const labels = {
+      pan: "gerakan peta",
+      zoom: "zum",
+      bearing: "putaran",
+      pitch: "kecondongan"
+    };
     this.status.textContent = activeSync.length
-      ? `Sync aktif: ${activeSync.join(", ")}`
-      : "Kedua-dua paparan bergerak secara bebas";
+      ? `Penyegerakan aktif: ${activeSync.map(key => labels[key] || key).join(", ")}`
+      : "Penyegerakan dimatikan — peta kiri dan kanan bergerak secara bebas.";
   }
 
   refreshLayers() {

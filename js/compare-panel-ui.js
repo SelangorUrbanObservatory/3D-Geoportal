@@ -231,25 +231,27 @@ export class ComparePanelUI {
     this.minimizeButton.title =
       this.state.minimized
         ? "Buka semula panel"
-        : "Minimize panel";
+        : "Minimumkan panel";
 
     this.minimizeButton.setAttribute(
       "aria-expanded",
       String(!this.state.minimized)
     );
+    this.minimizeButton.setAttribute("aria-label", this.minimizeButton.title);
 
     this.pinButton.textContent =
       this.state.pinned ? "📌" : "📍";
 
     this.pinButton.title =
       this.state.pinned
-        ? "Unpin dan aktifkan auto-hide"
+        ? "Nyahpin dan aktifkan sembunyi automatik"
         : "Pin panel supaya kekal terbuka";
 
     this.pinButton.setAttribute(
       "aria-pressed",
       String(this.state.pinned)
     );
+    this.pinButton.setAttribute("aria-label", this.pinButton.title);
   }
 
   keepWithinBounds() {
