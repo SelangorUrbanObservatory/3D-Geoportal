@@ -371,7 +371,12 @@ map.on("click", async (event) => {
 
   if (!features.length) return;
 
-  const feature = features[0];
+  // A visible cadastral lot must win over PBT/District polygons beneath it.
+  // Otherwise clicking a small parcel can incorrectly open the PBT profile.
+  const cadastralFeature = layerState.cadastral
+    ? features.find(item => item.layer.id === "cadastral-fill")
+    : null;
+  const feature = cadastralFeature || features[0];
   // P2: polygon selection opens the interactive area profile instead of
   // passing nested Polygon coordinates to a point-based Mapbox popup.
   if (adminIntelligence && ["pbt-fill", "district-fill"].includes(feature.layer.id)) {
