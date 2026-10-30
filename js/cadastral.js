@@ -90,14 +90,14 @@ export async function addCadastralLayer(map, prefix = "") {
       minzoom: config.minzoom ?? 11,
       slot: "middle",
       paint: {
-        "fill-color": "#EAB308",
+        "fill-color": "#E1A93A",
         "fill-opacity": [
           "interpolate",
           ["linear"],
           ["zoom"],
-          11, 0.01,
-          14, 0.055,
-          17, 0.10
+          12, 0.02,
+          14, 0.08,
+          17, 0.16
         ]
       }
     });
@@ -114,17 +114,17 @@ export async function addCadastralLayer(map, prefix = "") {
       minzoom: config.minzoom ?? 11,
       slot: "top",
       paint: {
-        "line-color": "#FACC15",
+        "line-color": "#9D4244",
         "line-width": [
           "interpolate",
           ["linear"],
           ["zoom"],
-          11, 0.15,
-          14, 0.45,
-          17, 1.15,
+          12, 0.35,
+          14, 0.85,
+          17, 1.3,
           20, 2
         ],
-        "line-opacity": 0.92
+        "line-opacity": 0.96
       }
     });
   }
@@ -140,12 +140,7 @@ export async function addCadastralLayer(map, prefix = "") {
       minzoom: 16,
       slot: "top",
       layout: {
-        "text-field": [
-          "coalesce",
-          ["get", config.fields?.lot || "LOT"],
-          ["get", config.fields?.upi || "UPI"],
-          ""
-        ],
+        "text-field": ["coalesce", ["get", config.fields?.lot || "lot_number"], ""],
         "text-size": [
           "interpolate",
           ["linear"],
