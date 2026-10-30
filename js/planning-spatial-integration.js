@@ -145,8 +145,11 @@ export class PlanningSpatialIntegration {
     }
     // Any earlier result belongs to a different analysis origin.
     if (this.result) this.result.replaceChildren();
+    const queryReady = this.capabilities.cadastral || this.capabilities.landUse;
     this.setStatus(this.getPolygon?.()
-      ? "Poligon P3 sedia. Analisis lot memerlukan sambungan API spatial."
+      ? (queryReady
+        ? "Poligon P3 sedia. Jalankan analisis menggunakan API spatial SUO."
+        : "Poligon P3 sedia. Analisis lot memerlukan sambungan API spatial.")
       : "Jana Service Area, Coverage Analysis atau Perbandingan Masa terlebih dahulu.");
   }
 
