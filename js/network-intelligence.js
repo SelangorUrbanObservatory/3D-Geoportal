@@ -71,6 +71,11 @@ export class NetworkIntelligence {
     this.nearestResult = document.getElementById("nearestFacilityResult");
     this.planningResult = document.getElementById("planningResult");
     this.mapGuide = document.getElementById("planningMapGuide");
+    this.opacityControl = document.getElementById("planningOpacity");
+    this.opacityOutput = document.getElementById("planningOpacityValue");
+    this.markerToggle = document.getElementById("planningMarkerToggle");
+    this.focusPlanningButton = document.getElementById("planningFocusBtn");
+    this.lastPlanningPolygon = null;
     this.planningAction = null;
     this.requestSerial = 0;
     this.lastNetworkFeatures = [];
@@ -129,6 +134,16 @@ export class NetworkIntelligence {
     this.clearButton.addEventListener("click", () => {
       this.clear();
     });
+    this.opacityControl?.addEventListener("input", () => {
+      if (this.opacityOutput) this.opacityOutput.textContent = this.opacityControl.value + "%";
+      this.applyPlanningAppearance();
+    });
+    this.markerToggle?.addEventListener("change", () => this.applyPlanningAppearance());
+    this.focusPlanningButton?.addEventListener("click", () => {
+      if (this.lastPlanningPolygon) this.fitPlanningArea(this.lastPlanningPolygon);
+    });
+    document.getElementById("planningClearBtn")
+      ?.addEventListener("click", () => this.clear());
 
     document.getElementById("serviceAreaBtn")
       .addEventListener("click", () => this.startPlanning("service"));
@@ -178,6 +193,34 @@ export class NetworkIntelligence {
       this.map.getSource("network-intelligence-source")?.setData(featureCollection(this.lastNetworkFeatures));
     });
 
+    this.map.on("click", "network-intelligence-points", (event) => {
+      if (this.mode) return;
+      const facility = event.features?.[0];
+      if (facility?.properties?.role !== "facility" ||
+          !facility.properties?.name) return;
+      const details = facility.properties;
+      const coords = facility.geometry?.coordinates;
+      if (!Array.isArray(coords)) return;
+      this.popup?.remove();
+      this.popup = new mapboxgl.Popup({ closeOnClick: false })
+        .setLngLat(coords)
+        .setHTML(
+          '<div class="planning-facility-popup">' +
+          '<strong>' + escapeHtml(details.name) + '</strong>' +
+          '<span>' + escapeHtml(details.groupLabel || "Kemudahan") +
+          ' · ' + escapeHtml(details.typeLabel || "Jenis tidak dinyatakan") + '</span>' +
+          '<small>Rekod titik dalam kawasan capaian, bukan pengesahan jarak jalan ke kemudahan.</small>' +
+          '</div>'
+        ).addTo(this.map);
+    });
+    this.map.on("mouseenter", "network-intelligence-points", (event) => {
+      if (!this.mode && event.features?.some(f => f.properties?.role === "facility")) {
+        this.map.getCanvas().style.cursor = "pointer";
+      }
+    });
+    this.map.on("mouseleave", "network-intelligence-points", () => {
+      if (!this.mode) this.map.getCanvas().style.cursor = "";
+    });
     this.map.on("click", (event) => {
       if (!this.mode) return;
 
@@ -287,6 +330,24 @@ export class NetworkIntelligence {
         catch (error) { console.info("Network overlay layer order:", id, error); }
       }
     }
+    this.applyPlanningAppearance();
+  }
+
+  applyPlanningAppearance() {
+    if (!this.map.isStyleLoaded()) return;
+    const opacityPercent = Math.min(65, Math.max(12, Number(this.opacityControl?.value) || 38));
+    if (this.map.getLayer("network-intelligence-fill")) {
+      this.map.setPaintProperty("network-intelligence-fill", "fill-opacity",
+        ["match", ["get", "analysis"], "planning", opacityPercent / 100, 0.22]);
+    }
+    const displayMarkers = this.markerToggle?.checked !== false;
+    const pointsFilter = displayMarkers
+      ? ["==", ["geometry-type"], "Point"]
+      : ["all", ["==", ["geometry-type"], "Point"],
+         ["!=", ["get", "role"], "facility"]];
+    for (const id of ["network-intelligence-point-halo", "network-intelligence-points"]) {
+      if (this.map.getLayer(id)) this.map.setFilter(id, pointsFilter);
+    }
   }
 
   showMapGuide(title, description, completed = false) {
@@ -339,6 +400,8 @@ export class NetworkIntelligence {
     this.planningAction = action;
     this.mode = "isochrone";
     this.origin = null;
+    this.lastPlanningPolygon = null;
+    if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     this.lastNetworkFeatures = [];
     this.map.getSource("network-intelligence-source")?.setData(featureCollection());
     this.popup?.remove();
@@ -369,6 +432,8 @@ export class NetworkIntelligence {
 
     this.mode = mode;
     this.origin = null;
+    this.lastPlanningPolygon = null;
+    if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     this.lastNetworkFeatures = [];
     this.map.getSource("network-intelligence-source")?.setData(featureCollection());
     for (const name of ["serviceAreaBtn", "coverageBtn"]) {
@@ -460,6 +525,8 @@ export class NetworkIntelligence {
       }
 
       this.origin = origin;
+      this.lastPlanningPolygon = planning ? polygon : null;
+      if (this.focusPlanningButton) this.focusPlanningButton.disabled = !planning;
       this.lastNetworkFeatures = [
         { ...polygon, properties: { ...(polygon.properties || {}), analysis: planning ? "planning" : "network" } },
         { type: "Feature", properties: { role: "origin" },
@@ -695,6 +762,8 @@ export class NetworkIntelligence {
     this.stopMode();
     this.lastNetworkFeatures = [];
     this.origin = null;
+    this.lastPlanningPolygon = null;
+    if (this.focusPlanningButton) this.focusPlanningButton.disabled = true;
     if (this.mapGuide) this.mapGuide.hidden = true;
     for (const name of ["serviceAreaBtn", "coverageBtn"]) {
       document.getElementById(name)?.classList.remove("has-planning-result", "is-planning-active");
