@@ -371,6 +371,9 @@ export class NetworkIntelligence {
     this.origin = null;
     this.lastNetworkFeatures = [];
     this.map.getSource("network-intelligence-source")?.setData(featureCollection());
+    for (const name of ["serviceAreaBtn", "coverageBtn"]) {
+      document.getElementById(name)?.classList.remove("has-planning-result", "is-planning-active");
+    }
     this.map.getCanvas().classList.add("spatial-tool-cursor");
 
     this.driveTimeButton.classList.toggle(
@@ -468,7 +471,10 @@ export class NetworkIntelligence {
       );
       // Re-promote results over all SUO layers and focus the actual contour.
       this.promoteLayers();
-      if (planning) this.fitPlanningArea(polygon);
+      if (planning) {
+        try { this.fitPlanningArea(polygon); }
+        catch (error) { console.warn("Planning map framing:", error); }
+      }
 
       this.popup?.remove();
       this.popup = new mapboxgl.Popup({ closeOnClick: false })
