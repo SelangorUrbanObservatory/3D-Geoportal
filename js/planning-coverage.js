@@ -65,7 +65,15 @@ export async function summarizePlanningCoverage(polygon, selectedType = "all") {
     visibleFacilities: grouped.flatMap(group => group.inside.slice(0,80)
       .map(f => ({
         type: "Feature",
-        properties: { role: "facility", group: group.key },
+        properties: {
+          role: "facility",
+          group: group.key,
+          groupLabel: group.label,
+          name: String(f.properties?.web_name || f.properties?.NAMA ||
+            f.properties?.nama || "Kemudahan tanpa nama").trim(),
+          typeLabel: String(f.properties?.[FACILITY_GROUPS.find(g =>
+            g.key === group.key)?.property] || "Tidak dinyatakan").trim()
+        },
         geometry: f.geometry
       }))),
     markerLimitPerGroup: 80
