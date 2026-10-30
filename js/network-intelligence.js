@@ -564,16 +564,34 @@ export class NetworkIntelligence {
             ' rekod kategori terpilih dalam dataset seluruh Selangor</small></div>'
           : "";
         const groups = coverage
-          ? coverage.groups.map(g =>
-              '<div class="planning-group-row"><span>' + escapeHtml(g.label) +
-              '</span><strong>' + g.insideCount.toLocaleString("ms-MY") + '</strong></div>'
-            ).join("")
+          ? coverage.groups.map(g => {
+              const fraction = coverage.insideCount > 0
+                ? Math.min(100, (100 * g.insideCount / coverage.insideCount))
+                : 0;
+              const categoryDetails = g.categories?.length
+                ? '<details class="planning-breakdown"><summary>Lihat pecahan jenis</summary>' +
+                  g.categories.map(category =>
+                    '<div class="planning-breakdown-row"><span>' +
+                    escapeHtml(category.label) + '</span><b>' +
+                    category.count.toLocaleString("ms-MY") +
+                    '</b></div>').join("") + '</details>'
+                : "";
+              return '<div class="planning-group-block planning-group-' + g.key + '">' +
+                '<div class="planning-group-row"><span>' + escapeHtml(g.label) +
+                '</span><strong>' + g.insideCount.toLocaleString("ms-MY") +
+                '</strong></div>' +
+                '<div class="planning-group-meter" role="img" aria-label="' +
+                escapeHtml(g.label) + ': ' + g.insideCount +
+                ' daripada ' + coverage.insideCount + ' rekod dalam kawasan">' +
+                '<span style="width:' + fraction.toFixed(1) + '%"></span></div>' +
+                categoryDetails + '</div>';
+            }).join("")
           : "";
         const interpretation = coverage
           ? "Bilangan ini ialah lokasi titik kemudahan dalam poligon perjalanan dari satu pusat. Ia bukan liputan penduduk, masa perjalanan ke setiap kemudahan atau tahap kecukupan perkhidmatan."
           : "Poligon menunjukkan anggaran kawasan yang boleh dicapai dari titik pusat melalui rangkaian jalan Mapbox, bukan sempadan perkhidmatan rasmi.";
         const markerNote = coverage
-          ? '<p class="planning-source-note">Sumber: dataset titik SUO. Maksimum 80 penanda dipaparkan bagi setiap kategori; jumlah dikira daripada semua rekod.</p>'
+          ? '<p class="planning-source-note">Sumber: dataset titik SUO. Maksimum 80 penanda bagi setiap kategori dipaparkan, tetapi kiraan menggunakan semua rekod. Klik titik berwarna untuk butiran; gunakan Penampilan Peta untuk menyembunyikannya.</p>'
           : "";
         this.planningResult.innerHTML =
           '<div class="planning-result-heading"><strong>' + heading +
