@@ -480,3 +480,165 @@
     grid-template-columns: minmax(0,1fr);
   }
 }
+
+
+/* P3 Travel-time comparison: three map contours and exclusive bands. */
+.network-intelligence-panel .planning-feature-actions .planning-compare-btn {
+  grid-column: 1 / -1;
+  min-height: 47px;
+  border: 1px solid #A63B42;
+  border-radius: 10px;
+  background: #FBE3A5;
+  color: #713038;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .01em;
+}
+.network-intelligence-panel .planning-feature-actions .planning-compare-btn:is(.is-planning-active,.has-planning-result) {
+  color: #FFFDF9;
+  background: #A63B42;
+  border-color: #7F2931;
+}
+.network-intelligence-panel .planning-feature-actions .planning-compare-btn:hover:not(.is-planning-active) {
+  background: #F4CF74;
+  color: #713038;
+}
+.planning-time-key[hidden] { display: none !important; }
+.planning-time-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 11px;
+  margin-top: 5px;
+  padding-top: 8px;
+  border-top: 1px solid #E6D7C4;
+}
+.planning-time-key > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #4B4039;
+}
+.planning-time-swatch {
+  display: inline-block;
+  width: 17px;
+  height: 11px;
+  border-radius: 3px;
+  border: 1.5px solid rgba(54, 36, 29, .45);
+}
+.planning-time-swatch.five { background: #CB4F55; }
+.planning-time-swatch.ten { background: #F1BF4A; }
+.planning-time-swatch.fifteen { background: #33979D; }
+.network-intelligence-panel .planning-compare-total {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid #ECC87C;
+  border-radius: 10px;
+  background: #FFF0C9;
+}
+.network-intelligence-panel .planning-compare-total span {
+  font-size: 11.5px;
+  font-weight: 750;
+  color: #5B4C41;
+}
+.network-intelligence-panel .planning-compare-total strong {
+  font-size: 27px;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  color: #90313A;
+}
+.network-intelligence-panel .planning-compare-total small {
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: #64564B;
+}
+.network-intelligence-panel .planning-time-cards {
+  display: grid;
+  gap: 8px;
+}
+.network-intelligence-panel .planning-time-card {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #E9DBCC;
+  background: #FFFDF9;
+  display: grid;
+  gap: 9px;
+  min-width: 0;
+}
+.network-intelligence-panel .planning-time-top,
+.network-intelligence-panel .planning-time-additions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+.network-intelligence-panel .planning-time-symbol {
+  display: inline-block;
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #FFF;
+  box-shadow: 0 0 0 1px rgba(40,28,23,.4);
+}
+.network-intelligence-panel .planning-time-top > strong {
+  font-size: 13px;
+  color: #46382F;
+}
+.network-intelligence-panel .planning-time-cumulative {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: #5E5045;
+  font-weight: 750;
+}
+.network-intelligence-panel .planning-time-additions {
+  justify-content: space-between;
+  border-top: 1px solid #EFE3D7;
+  padding-top: 7px;
+}
+.network-intelligence-panel .planning-time-additions span {
+  font-size: 11px;
+  color: #5B4E43;
+}
+.network-intelligence-panel .planning-time-additions strong {
+  font-size: 16px;
+  line-height: 1.2;
+  color: #8E353C;
+  font-variant-numeric: tabular-nums;
+}
+.network-intelligence-panel .planning-time-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.network-intelligence-panel .planning-time-groups > span {
+  display: inline-flex;
+  gap: 3px;
+  padding: 4px 6px;
+  border: 1px solid #EFE1CF;
+  border-radius: 6px;
+  color: #625448;
+  background: #FFF7EB;
+  font-size: 10px;
+}
+.network-intelligence-panel .time-5 { border-left: 4px solid #CB4F55; }
+.network-intelligence-panel .time-10 { border-left: 4px solid #E4AD31; }
+.network-intelligence-panel .time-15 { border-left: 4px solid #33979D; }
+.network-intelligence-panel .time-5 .planning-time-symbol { background: #CB4F55; }
+.network-intelligence-panel .time-10 .planning-time-symbol { background: #F1BF4A; }
+.network-intelligence-panel .time-15 .planning-time-symbol { background: #33979D; }
+@container suo-sidebar (min-width: 430px) {
+  .network-intelligence-panel .planning-time-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .network-intelligence-panel .planning-time-top {
+    align-content: start;
+  }
+  .network-intelligence-panel .planning-time-cumulative {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+}
