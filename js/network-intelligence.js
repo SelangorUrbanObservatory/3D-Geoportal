@@ -254,11 +254,12 @@ export class NetworkIntelligence {
     // Mapbox Standard draws later portal layers above earlier layers unless
     // overlays use the top slot and are promoted after addPortalLayers().
     const polygonFilter = ["==", ["geometry-type"], "Polygon"];
+    const singlePolygonFilter = ["all", polygonFilter, ["!=", ["get", "analysis"], "planning-compare"]];
     const pointFilter = ["==", ["geometry-type"], "Point"];
     const layers = [
       {
         id: "network-intelligence-fill", type: "fill", source: sourceId,
-        slot: "top", filter: polygonFilter,
+        slot: "top", filter: singlePolygonFilter,
         paint: {
           "fill-color": ["match", ["get", "analysis"],
             "planning", "#F3BC3A", "#38BDF8"],
@@ -266,6 +267,17 @@ export class NetworkIntelligence {
             "planning", 0.38, 0.22]
         }
       },
+      ...[15, 10, 5].map(minutes => ({
+        id: "network-intelligence-compare-fill-" + minutes,
+        type: "fill", source: sourceId, slot: "top",
+        filter: ["all", polygonFilter,
+          ["==", ["get", "analysis"], "planning-compare"],
+          ["==", ["get", "minutes"], minutes]],
+        paint: {
+          "fill-color": { 5: "#CB4F55", 10: "#F1BF4A", 15: "#33979D" }[minutes],
+          "fill-opacity": 0.38
+        }
+      })),
       {
         // Dark outer casing guarantees the golden contour remains legible on
         // satellite, green topography, roads and white buildings.
@@ -277,7 +289,7 @@ export class NetworkIntelligence {
       },
       {
         id: "network-intelligence-outline", type: "line",
-        source: sourceId, slot: "top", filter: polygonFilter,
+        source: sourceId, slot: "top", filter: singlePolygonFilter,
         layout: { "line-join": "round", "line-cap": "round" },
         paint: {
           "line-color": ["match", ["get", "analysis"],
@@ -286,6 +298,19 @@ export class NetworkIntelligence {
             "planning", 4.4, 2.4]
         }
       },
+      ...[15, 10, 5].map(minutes => ({
+        id: "network-intelligence-compare-line-" + minutes,
+        type: "line", source: sourceId, slot: "top",
+        filter: ["all", polygonFilter,
+          ["==", ["get", "analysis"], "planning-compare"],
+          ["==", ["get", "minutes"], minutes]],
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": { 5: "#97343A", 10: "#A16C10", 15: "#176E74" }[minutes],
+          "line-width": minutes === 5 ? 4.4 : 3.3,
+          "line-opacity": 0.98
+        }
+      })),
       {
         id: "network-intelligence-point-halo", type: "circle",
         source: sourceId, slot: "top", filter: pointFilter,
@@ -327,8 +352,10 @@ export class NetworkIntelligence {
     // fill -> casing -> outline -> marker halos -> markers.
     for (const id of [
       "network-intelligence-fill",
+      ...[15, 10, 5].map(m => "network-intelligence-compare-fill-" + m),
       "network-intelligence-outline-casing",
       "network-intelligence-outline",
+      ...[15, 10, 5].map(m => "network-intelligence-compare-line-" + m),
       "network-intelligence-point-halo",
       "network-intelligence-points"
     ]) {
@@ -346,6 +373,12 @@ export class NetworkIntelligence {
     if (this.map.getLayer("network-intelligence-fill")) {
       this.map.setPaintProperty("network-intelligence-fill", "fill-opacity",
         ["match", ["get", "analysis"], "planning", opacityPercent / 100, 0.22]);
+    }
+    for (const minutes of PLANNING_COMPARE_MINUTES) {
+      const layerId = "network-intelligence-compare-fill-" + minutes;
+      if (this.map.getLayer(layerId)) {
+        this.map.setPaintProperty(layerId, "fill-opacity", opacityPercent / 100);
+      }
     }
     const displayMarkers = this.markerToggle?.checked !== false;
     const pointsFilter = displayMarkers
