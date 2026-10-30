@@ -165,11 +165,11 @@ export class PlanningSpatialIntegration {
       this.capabilities = planningQueryCapabilities(integration);
       if (this.lotStatus) {
         this.lotStatus.textContent = this.displayReady
-          ? "Sumber peta tersedia" : "Belum tersedia · Vector Tile belum dikonfigurasi";
+          ? "Sumber peta dikonfigurasi · belum diuji" : "Belum tersedia · Vector Tile belum dikonfigurasi";
       }
       if (this.landUseStatus) {
         this.landUseStatus.textContent = this.capabilities.landUse
-          ? "API poligon tersedia" :
+          ? "API poligon dikonfigurasi · belum diuji" :
           "Ringkasan negeri " + (landuse.year || "2024") + " sahaja · belum ada poligon";
       }
       if (this.apiStatus) {
@@ -252,7 +252,7 @@ export class PlanningSpatialIntegration {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: request,
-        credentials: "omit",
+        credentials: base.origin === window.location.origin ? "same-origin" : "omit",
         cache: "no-store"
       });
       if (!response.ok) throw new Error("API spatial HTTP " + response.status);
@@ -277,7 +277,7 @@ export class PlanningSpatialIntegration {
     this.result.replaceChildren();
     if (summary.cadastral) {
       this.result.append(heading("Lot Kadaster · " + summary.cadastral.sourceYear));
-      this.result.append(valueLine("Lot berpotongan (UPI unik)",
+      this.result.append(valueLine("Lot unik berpotongan",
         summary.cadastral.parcelCount.toLocaleString("ms-MY")));
       this.result.append(valueLine("Lot bersilang separa",
         summary.cadastral.partialParcelCount.toLocaleString("ms-MY")));
