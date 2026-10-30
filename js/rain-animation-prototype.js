@@ -72,7 +72,7 @@
       lastUpdated=arr[0]?.current?.time||"masa tidak tersedia";
       status().textContent=wet+" / "+stations.length+" titik hujan · "+lastUpdated;
       projectRain();
-    }catch(e){status().textContent="Data hujan gagal dimuatkan";console.warn("SUO rain animation",e);}
+    }catch(e){points=[];projectRain();status().textContent="Data hujan tidak tersedia · animasi dihentikan";console.warn("SUO rain animation",e);}
     finally{inflight=false;}
   }
   function start(){
