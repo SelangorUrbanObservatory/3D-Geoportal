@@ -21,7 +21,7 @@ import {
 import {
   NetworkIntelligence,
   isNetworkIntelligenceActive
-} from "./network-intelligence.js?v=9.8.0";
+} from "./network-intelligence.js?v=9.8.1";
 import { SpatialAssistant } from "./ai-assistant.js";
 import { SmartSearch } from "./smart-search.js";
 import { createMainMap } from "./core/map-engine.js";
@@ -303,6 +303,8 @@ map.on("style.load", async () => {
   try {
     await addPortalLayers(map);
     applyLayerRenderOrder(map);
+    // P3 contours and markers must remain above newly restored SUO GIS layers.
+    networkIntelligence.promoteLayers();
     sync3DBuildings(map, { enabled: layerState.buildings, mode: viewMode, basemap: document.getElementById("basemapSelect")?.value || "standard" });
 
     if (deepLinkPreset && !deepLinkApplied) {

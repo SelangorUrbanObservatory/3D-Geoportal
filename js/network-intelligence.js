@@ -1,5 +1,6 @@
 import { MAPBOX_TOKEN, DATA_URLS } from "./config.js";
 import { summarizePlanningCoverage } from "./planning-coverage.js?v=1.0";
+import { addLayerCompat } from "./utils.js";
 
 let activeInstance = null;
 
@@ -69,6 +70,7 @@ export class NetworkIntelligence {
     this.nearestButton = document.getElementById("nearestFacilityBtn");
     this.nearestResult = document.getElementById("nearestFacilityResult");
     this.planningResult = document.getElementById("planningResult");
+    this.mapGuide = document.getElementById("planningMapGuide");
     this.planningAction = null;
     this.requestSerial = 0;
     this.lastNetworkFeatures = [];
@@ -195,65 +197,131 @@ export class NetworkIntelligence {
   ensureLayers() {
     if (!this.map.isStyleLoaded()) return;
 
-    if (!this.map.getSource("network-intelligence-source")) {
-      this.map.addSource("network-intelligence-source", {
-        type: "geojson",
-        data: featureCollection()
-      });
+    const sourceId = "network-intelligence-source";
+    if (!this.map.getSource(sourceId)) {
+      this.map.addSource(sourceId, { type: "geojson", data: featureCollection() });
     }
-
-    if (!this.map.getLayer("network-intelligence-fill")) {
-      this.map.addLayer({
-        id: "network-intelligence-fill",
-        type: "fill",
-        source: "network-intelligence-source",
-        filter: ["==", ["geometry-type"], "Polygon"],
+    // Mapbox Standard draws later portal layers above earlier layers unless
+    // overlays use the top slot and are promoted after addPortalLayers().
+    const polygonFilter = ["==", ["geometry-type"], "Polygon"];
+    const pointFilter = ["==", ["geometry-type"], "Point"];
+    const layers = [
+      {
+        id: "network-intelligence-fill", type: "fill", source: sourceId,
+        slot: "top", filter: polygonFilter,
         paint: {
-          "fill-color": ["match", ["get", "analysis"], "planning", "#E1A735", "#38BDF8"],
-          "fill-opacity": 0.22
+          "fill-color": ["match", ["get", "analysis"],
+            "planning", "#F3BC3A", "#38BDF8"],
+          "fill-opacity": ["match", ["get", "analysis"],
+            "planning", 0.38, 0.22]
         }
-      });
-    }
-
-    if (!this.map.getLayer("network-intelligence-outline")) {
-      this.map.addLayer({
-        id: "network-intelligence-outline",
-        type: "line",
-        source: "network-intelligence-source",
-        filter: ["==", ["geometry-type"], "Polygon"],
+      },
+      {
+        // Dark outer casing guarantees the golden contour remains legible on
+        // satellite, green topography, roads and white buildings.
+        id: "network-intelligence-outline-casing", type: "line",
+        source: sourceId, slot: "top",
+        filter: ["all", polygonFilter, ["==", ["get", "analysis"], "planning"]],
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: { "line-color": "#552B2B", "line-width": 8, "line-opacity": 0.92 }
+      },
+      {
+        id: "network-intelligence-outline", type: "line",
+        source: sourceId, slot: "top", filter: polygonFilter,
+        layout: { "line-join": "round", "line-cap": "round" },
         paint: {
-          "line-color": ["match", ["get", "analysis"], "planning", "#A97822", "#38BDF8"],
-          "line-width": 2.4
+          "line-color": ["match", ["get", "analysis"],
+            "planning", "#FFCD48", "#38BDF8"],
+          "line-width": ["match", ["get", "analysis"],
+            "planning", 4.4, 2.4]
         }
-      });
-    }
-
-    if (!this.map.getLayer("network-intelligence-points")) {
-      this.map.addLayer({
-        id: "network-intelligence-points",
-        type: "circle",
-        source: "network-intelligence-source",
-        filter: ["==", ["geometry-type"], "Point"],
+      },
+      {
+        id: "network-intelligence-point-halo", type: "circle",
+        source: sourceId, slot: "top", filter: pointFilter,
         paint: {
-          "circle-radius": [
-            "match",
-            ["get", "role"],
-            "origin", 7,
-            "facility", 8,
-            5
-          ],
+          "circle-radius": ["match", ["get", "role"], "origin", 15, 9],
+          "circle-color": "#FFFFFF",
+          "circle-opacity": 0.95,
+          "circle-stroke-color": "#4A3027",
+          "circle-stroke-width": 1.8
+        }
+      },
+      {
+        id: "network-intelligence-points", type: "circle",
+        source: sourceId, slot: "top", filter: pointFilter,
+        paint: {
+          "circle-radius": ["match", ["get", "role"], "origin", 10, "facility", 5.5, 5],
           "circle-color": [
-            "match",
-            ["get", "role"],
-            "origin", "#FACC15",
-            "facility", "#22C55E",
+            "match", ["get", "role"],
+            "origin", "#B53B43",
+            "facility", ["match", ["get", "group"],
+              "school", "#E5A523", "health", "#D9434B", "safety", "#2866BC",
+              "#1B9B64"],
             "#38BDF8"
           ],
           "circle-stroke-color": "#FFFFFF",
-          "circle-stroke-width": 2
+          "circle-stroke-width": 1.5
         }
-      });
+      }
+    ];
+    for (const layer of layers) {
+      if (!this.map.getLayer(layer.id)) addLayerCompat(this.map, layer);
     }
+  }
+
+  promoteLayers() {
+    if (!this.map.isStyleLoaded()) return;
+    this.ensureLayers();
+    // Only the network overlays are rearranged. Keep the order:
+    // fill -> casing -> outline -> marker halos -> markers.
+    for (const id of [
+      "network-intelligence-fill",
+      "network-intelligence-outline-casing",
+      "network-intelligence-outline",
+      "network-intelligence-point-halo",
+      "network-intelligence-points"
+    ]) {
+      if (this.map.getLayer(id)) {
+        try { this.map.moveLayer(id); }
+        catch (error) { console.info("Network overlay layer order:", id, error); }
+      }
+    }
+  }
+
+  showMapGuide(title, description, completed = false) {
+    if (!this.mapGuide) return;
+    this.mapGuide.hidden = false;
+    this.mapGuide.classList.toggle("complete", completed);
+    const legend = this.mapGuide.querySelector("[data-planning-guide-legend]");
+    if (legend) legend.hidden = !completed || !title.startsWith("Coverage Analysis");
+    const heading = this.mapGuide.querySelector("[data-planning-guide-title]");
+    const body = this.mapGuide.querySelector("[data-planning-guide-body]");
+    if (heading) heading.textContent = title;
+    if (body) body.textContent = description;
+  }
+
+  fitPlanningArea(polygon) {
+    const bounds = [Infinity, Infinity, -Infinity, -Infinity];
+    const visit = coords => {
+      if (!Array.isArray(coords)) return;
+      if (coords.length >= 2 && Number.isFinite(coords[0]) &&
+          Number.isFinite(coords[1])) {
+        bounds[0] = Math.min(bounds[0], coords[0]);
+        bounds[1] = Math.min(bounds[1], coords[1]);
+        bounds[2] = Math.max(bounds[2], coords[0]);
+        bounds[3] = Math.max(bounds[3], coords[1]);
+      } else coords.forEach(visit);
+    };
+    visit(polygon.geometry?.coordinates);
+    if (!bounds.every(Number.isFinite)) return;
+    this.map.fitBounds(
+      [[bounds[0], bounds[1]], [bounds[2], bounds[3]]],
+      {
+        padding: 45, maxZoom: 13.5, duration: 750,
+        pitch: Math.min(this.map.getPitch?.() || 0, 32)
+      }
+    );
   }
 
   activateTab(tab) {
@@ -271,17 +339,28 @@ export class NetworkIntelligence {
     this.planningAction = action;
     this.mode = "isochrone";
     this.origin = null;
+    this.lastNetworkFeatures = [];
+    this.map.getSource("network-intelligence-source")?.setData(featureCollection());
+    this.popup?.remove();
+    this.popup = null;
     this.map.getCanvas().classList.add("spatial-tool-cursor");
     this.driveTimeButton.classList.add("active");
     this.nearestButton.classList.remove("active");
     const label = action === "coverage" ? "Coverage Analysis" : "Service Area";
     this.planningResult.textContent = label + " aktif. Klik pusat analisis pada peta.";
+    this.showMapGuide(label, "Klik satu lokasi pada peta untuk menjana kawasan capaian.", false);
+    for (const name of ["serviceAreaBtn", "coverageBtn"]) {
+      const button = document.getElementById(name);
+      button?.classList.toggle("is-planning-active", name === (action === "service" ? "serviceAreaBtn" : "coverageBtn"));
+      button?.classList.remove("has-planning-result");
+    }
     this.setStatus(label + ": klik lokasi pusat pada peta.");
   }
 
   toggleMode(mode) {
     ++this.requestSerial;
     this.planningAction = null;
+    if (this.mapGuide) this.mapGuide.hidden = true;
     if (this.spatialTools?.mode) this.spatialTools.stopMode();
     if (this.mode === mode) {
       this.stopMode();
@@ -290,6 +369,11 @@ export class NetworkIntelligence {
 
     this.mode = mode;
     this.origin = null;
+    this.lastNetworkFeatures = [];
+    this.map.getSource("network-intelligence-source")?.setData(featureCollection());
+    for (const name of ["serviceAreaBtn", "coverageBtn"]) {
+      document.getElementById(name)?.classList.remove("has-planning-result", "is-planning-active");
+    }
     this.map.getCanvas().classList.add("spatial-tool-cursor");
 
     this.driveTimeButton.classList.toggle(
@@ -316,6 +400,9 @@ export class NetworkIntelligence {
   stopMode() {
     this.mode = null;
     this.planningAction = null;
+    for (const name of ["serviceAreaBtn", "coverageBtn"]) {
+      document.getElementById(name)?.classList.remove("is-planning-active");
+    }
     this.map.getCanvas().classList.remove("spatial-tool-cursor");
     this.driveTimeButton.classList.remove("active");
     this.nearestButton.classList.remove("active");
@@ -382,6 +469,12 @@ export class NetworkIntelligence {
       this.map.getSource("network-intelligence-source")?.setData(
         featureCollection(this.lastNetworkFeatures)
       );
+      // Re-promote results over all SUO layers and focus the actual contour.
+      this.promoteLayers();
+      if (planning) {
+        try { this.fitPlanningArea(polygon); }
+        catch (error) { console.warn("Planning map framing:", error); }
+      }
 
       this.popup?.remove();
       this.popup = new mapboxgl.Popup({ closeOnClick: false })
@@ -422,6 +515,15 @@ export class NetworkIntelligence {
           '<p class="planning-interpretation">' + interpretation + '</p>' + markerNote;
       }
 
+      if (planning) {
+        const label = action === "coverage" ? "Coverage Analysis" : "Service Area";
+        const detail = coverage
+          ? coverage.insideCount.toLocaleString("ms-MY") + " rekod kemudahan dalam kawasan " + minutes + " minit."
+          : "Kawasan perjalanan " + minutes + " minit dipaparkan dengan sempadan kuning.";
+        this.showMapGuide(label + " · " + minutes + " min", detail, true);
+        document.getElementById(action === "coverage" ? "coverageBtn" : "serviceAreaBtn")
+          ?.classList.add("has-planning-result");
+      }
       this.setStatus(
         (planning ? (action === "coverage" ? "Coverage Analysis" : "Service Area") : "Drive-Time") +
         ": kawasan " + minutes + " minit berjaya dijana."
@@ -433,6 +535,7 @@ export class NetworkIntelligence {
       if (planning) {
         this.planningResult.textContent =
           "Analisis tidak dapat disiapkan. Semak sambungan Mapbox dan dataset kemudahan. Tiada keputusan separa dilaporkan.";
+        if (this.mapGuide) this.mapGuide.hidden = true;
       }
       this.setStatus(
         "Isochrone atau data kemudahan gagal dimuatkan. Semak sambungan dan had API."
@@ -592,6 +695,10 @@ export class NetworkIntelligence {
     this.stopMode();
     this.lastNetworkFeatures = [];
     this.origin = null;
+    if (this.mapGuide) this.mapGuide.hidden = true;
+    for (const name of ["serviceAreaBtn", "coverageBtn"]) {
+      document.getElementById(name)?.classList.remove("has-planning-result", "is-planning-active");
+    }
     if (this.planningResult) this.planningResult.textContent = "Pilih fungsi Service Area atau Coverage Analysis, kemudian klik lokasi pusat pada peta.";
     this.popup?.remove();
     this.popup = null;

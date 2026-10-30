@@ -17,7 +17,7 @@
 <link href="css/layer-management-refinement.css?v=1.1" rel="stylesheet"/>
 <link href="css/typography-contrast-audit.css?v=1.0" rel="stylesheet"/>
 <link href="css/compare-engine-refinement.css?v=1.0" rel="stylesheet"/>
-<link href="css/planning-intelligence.css?v=1.0" rel="stylesheet"/>
+<link href="css/planning-intelligence.css?v=1.1" rel="stylesheet"/>
 </head>
 <body>
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
@@ -599,6 +599,18 @@
 </div>
 </div>
 </div>
+<aside id="planningMapGuide" class="planning-map-guide" role="status" aria-live="polite" hidden>
+  <span class="planning-map-guide-symbol" aria-hidden="true">◎</span>
+  <div class="planning-map-guide-copy">
+    <strong data-planning-guide-title>Planning Intelligence</strong>
+    <span data-planning-guide-body>Klik lokasi pada peta untuk analisis.</span>
+    <div class="planning-map-key" data-planning-guide-legend hidden aria-label="Petunjuk simbol kemudahan">
+      <span><i class="planning-map-dot school"></i>Pendidikan</span>
+      <span><i class="planning-map-dot health"></i>Kesihatan</span>
+      <span><i class="planning-map-dot safety"></i>Keselamatan</span>
+    </div>
+  </div>
+</aside>
 <section aria-label="Mod Perbandingan Peta" class="compare-panel enterprise-compare-panel" id="comparePanel">
 <div class="compare-panel-heading">
 <div>
@@ -1463,7 +1475,7 @@ Gap Analysis dan Accessibility Score memerlukan data permintaan penduduk serta p
       return;
     }
 
-    import("./js/app.js?v=9.8.0").catch(function (error) {
+    import("./js/app.js?v=9.8.1").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
