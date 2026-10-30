@@ -569,7 +569,7 @@ export class NetworkIntelligence {
                 ? Math.min(100, (100 * g.insideCount / coverage.insideCount))
                 : 0;
               const categoryDetails = g.categories?.length
-                ? '<details class="planning-breakdown"><summary>Lihat pecahan jenis</summary>' +
+                ? '<details class="planning-breakdown"><summary>Lihat kategori utama</summary>' +
                   g.categories.map(category =>
                     '<div class="planning-breakdown-row"><span>' +
                     escapeHtml(category.label) + '</span><b>' +
