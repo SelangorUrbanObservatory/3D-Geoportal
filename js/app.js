@@ -21,7 +21,7 @@ import {
 import {
   NetworkIntelligence,
   isNetworkIntelligenceActive
-} from "./network-intelligence.js?v=9.8.2";
+} from "./network-intelligence.js?v=9.8.3";
 import { SpatialAssistant } from "./ai-assistant.js";
 import { SmartSearch } from "./smart-search.js";
 import { createMainMap } from "./core/map-engine.js";

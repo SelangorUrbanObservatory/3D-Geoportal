@@ -39,3 +39,16 @@ Data taburan penduduk / grid permintaan dan standard capaian mengikut jenis kemu
 - Penanda visual dihadkan kepada 80 bagi setiap kumpulan, dipilih secara tersebar daripada turutan rekod. Kiraan **tidak** disampel.
 - Kemudahan P3 yang tidak tersedia disampaikan melalui ralat data sedia ada, bukan sifar atau andaian.
 - Pengesahan statik dan simulasi JavaScript dilakukan; ujian interaksi visual pada GitHub Pages desktop/iPhone masih diperlukan.
+
+## P3 Fasa 1.3 — Perbandingan masa perjalanan 5 / 10 / 15 minit (30 Oktober 2026)
+
+- Tambah butang **Perbandingan 5 / 10 / 15 minit** dalam Planning Intelligence. Pengguna memilih mod perjalanan dan kategori kemudahan, kemudian klik titik pusat pada peta.
+- Gunakan **satu** permintaan Mapbox Isochrone API dengan `contours_minutes=5,10,15`. Setiap Feature mesti mempunyai `properties.contour` unik bernilai 5, 10 atau 15. Susunan GeoJSON tidak diandaikan. Kegagalan mana-mana kontur membatalkan keseluruhan keputusan.
+- Tiga poligon bertindih dipaparkan daripada terbesar ke terkecil; 5 minit merah, 10 minit kuning, 15 minit hijau kebiruan. Kontur yang bertindih adalah anggaran rangkaian Mapbox, bukan buffer bulat.
+- Spatial join digunakan kepada rekod titik. **Rekod di dalam poligon 15 minit sahaja** menjadi populasi perbandingan; ia diklasifikasikan kepada julat paling awal antara 0–5, 5–10 dan 10–15 minit. Setiap rekod dikira tepat sekali. Jumlah terkumpul 5, 10 dan 15 minit ialah jumlah berturutan julat tersebut.
+- Data titik kecil yang berada dalam kontur 5 atau 10 minit tetapi di luar kontur 15 minit akibat generalisasi/ketidakserasian kontur tidak dimasukkan. Ini memastikan jumlah 15 minit konsisten dengan poligon 15 minit sebenar.
+- Paparan hasil: **tambahan** dalam setiap julat, **terkumpul** sehingga setiap tempoh, pecahan kategori bagi semua kemudahan, dan jumlah sehingga 15 minit. Penanda dipilih sebagai sampel maksimum 35 bagi setiap kategori dan julat masa, tetapi jumlah rekod sentiasa dikira daripada keseluruhan dataset.
+- Kawalan kelegapan, papar/sembunyi penanda, fokus kawasan dan padam hasil kekal. Fokus automatik menggunakan geometri kontur 15 minit. Layer perbandingan menggunakan slot atas dan dipasang semula selepas perubahan gaya peta.
+- **Batasan:** Kiraan menggambarkan lokasi titik kemudahan dalam kontur masa dari satu origin sahaja. Ia bukan kiraan penduduk mendapat perkhidmatan, indeks kecukupan atau masa sebenar dari pusat ke pintu masuk setiap kemudahan. Generalisasi boleh menyebabkan poligon tidak bersarang sempurna; label julat ialah klasifikasi berasaskan kontur model. Data permintaan penduduk masih diperlukan bagi Gap Analysis dan Accessibility Score.
+- Asas API Mapbox: https://docs.mapbox.com/api/navigation/isochrone/ (sehingga empat kontur berurutan, property `contour` bagi setiap Feature).
+- QA: sintaks modul, perbandingan menggunakan data titik sebenar serta poligon pentadbiran MBSA sebagai geometri 15 minit **ujian sintetik** (bukan claim isochrone sebenar MBSA); 103 pendidikan, 12 kesihatan, 21 keselamatan dalam poligon, total 136; ujian API olok-olok tiga kontur dan Mapbox layer-order lulus. Browser visual sebenar dan live API masih perlu disahkan selepas deployment.

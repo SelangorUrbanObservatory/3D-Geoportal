@@ -88,3 +88,97 @@ export async function summarizePlanningCoverage(polygon, selectedType = "all") {
     markerLimitPerGroup: 80
   };
 }
+
+
+export const PLANNING_COMPARE_MINUTES = Object.freeze([5, 10, 15]);
+
+/**
+ * Three Mapbox time contours from one origin.
+ * Each point belongs to its earliest enclosing polygon, once only.
+ * Cumulative totals sum exclusive bands; not population coverage.
+ */
+export async function summarizeTravelTimeComparison(polygons, selectedType = "all") {
+  if (!["all", "school", "health", "safety"].includes(selectedType)) {
+    throw new Error("Jenis kemudahan tidak dikenali.");
+  }
+  const byMinute = new Map();
+  for (const polygon of polygons || []) {
+    const minutes = Number(polygon?.properties?.contour);
+    if (!PLANNING_COMPARE_MINUTES.includes(minutes) ||
+        !["Polygon", "MultiPolygon"].includes(polygon?.geometry?.type) ||
+        byMinute.has(minutes)) {
+      throw new Error("Kontur 5, 10 dan 15 minit tidak lengkap atau tidak sah.");
+    }
+    byMinute.set(minutes, polygon);
+  }
+  if (byMinute.size !== PLANNING_COMPARE_MINUTES.length) {
+    throw new Error("Mapbox tidak memulangkan semua kontur 5, 10 dan 15 minit.");
+  }
+  const groups = selectedType === "all"
+    ? FACILITY_GROUPS
+    : FACILITY_GROUPS.filter(g => g.key === selectedType);
+  const loaded = await Promise.all(groups.map(async group => {
+    const source = await loadGeoJSON(group.cacheKey, group.url);
+    const records = (source.features || []).filter(validPoint);
+    const inBands = new Map(PLANNING_COMPARE_MINUTES.map(m => [m, []]));
+    for (const facility of records) {
+      const coordinate = facility.geometry.coordinates;
+      // The largest (15-minute) contour sets the comparison population.
+      // Generalized contours sometimes intersect without perfect nesting;
+      // never count a point outside the 15-minute polygon as within 15 minutes.
+      if (!pointInFeature(coordinate, byMinute.get(15))) continue;
+      const earliest = PLANNING_COMPARE_MINUTES.find(minutes =>
+        pointInFeature(coordinate, byMinute.get(minutes))
+      );
+      if (earliest) inBands.get(earliest).push(facility);
+    }
+    return { group, totalRecords: records.length, inBands };
+  }));
+
+  const bands = PLANNING_COMPARE_MINUTES.map((minutes, i) => {
+    const perGroup = loaded.map(({ group, inBands }) => ({
+      key: group.key,
+      label: group.label,
+      count: inBands.get(minutes).length
+    }));
+    return {
+      minutes,
+      bandLabel: i === 0 ? "0–5 min" : PLANNING_COMPARE_MINUTES[i - 1] + "–" + minutes + " min",
+      added: perGroup.reduce((n, g) => n + g.count, 0),
+      perGroup
+    };
+  });
+  let cumulative = 0;
+  for (const band of bands) {
+    cumulative += band.added;
+    band.cumulative = cumulative;
+  }
+  // Display sample only; all records are included in the statistics.
+  const markers = loaded.flatMap(({ group, inBands }) =>
+    PLANNING_COMPARE_MINUTES.flatMap(minutes => sampleForMap(inBands.get(minutes), 35)
+      .map(feature => ({
+        type: "Feature",
+        properties: {
+          role: "facility",
+          analysis: "planning",
+          group: group.key,
+          groupLabel: group.label,
+          bandMinutes: minutes,
+          name: String(feature.properties?.web_name || feature.properties?.NAMA ||
+            feature.properties?.nama || "Kemudahan tanpa nama").trim(),
+          typeLabel: String(feature.properties?.[group.property] ||
+            "Tidak dinyatakan").trim()
+        },
+        geometry: feature.geometry
+      })))
+  );
+  return {
+    selectedType,
+    bands,
+    totalInside15: cumulative,
+    totalRecords: loaded.reduce((n, row) => n + row.totalRecords, 0),
+    markers,
+    markerLimitPerGroupPerBand: 35,
+    polygons: PLANNING_COMPARE_MINUTES.map(m => byMinute.get(m))
+  };
+}
