@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "description": "P3 lot kadaster dan guna tanah: status integrasi dan API analitik (bukan sumber data)",
+  "analysisApi": {
+    "enabled": false,
+    "endpoint": "",
+    "method": "POST",
+    "maxGeometryBytes": 250000
+  },
+  "cadastral": {
+    "queryEnabled": false,
+    "year": 2023,
+    "identifier": "UPI",
+    "displayName": "Lot Kadaster Selangor 2023"
+  },
+  "landUse": {
+    "queryEnabled": false,
+    "year": 2024,
+    "categoryField": "KATEGORI_GT",
+    "displayName": "Guna Tanah Negeri Selangor 2024"
+  },
+  "notes": "Peta lot dirujuk dari config/cadastral-layer.json. Ringkasan negeri config/landuse-intelligence.json bukan poligon. Hidupkan queryEnabled hanya selepas API PostGIS yang mempunyai kawalan akses dan data berlesen disahkan tersedia."
+}
