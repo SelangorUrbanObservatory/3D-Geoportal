@@ -1642,6 +1642,5 @@ overlay.addEventListener("click",event=>{if(event.target===overlay)hide();});
 document.addEventListener("keydown",event=>{if(overlay.hidden)return;if(event.key==="Escape"){event.preventDefault();hide();}else if(event.key==="Tab"){const nodes=[...dialog.querySelectorAll('button,a[href],input,select,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled);if(!nodes.length){event.preventDefault();dialog.focus();return;}const first=nodes[0],last=nodes[nodes.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
 })();
 </script>
-<script defer src="js/rain-animation-prototype.js?v=0.1"></script>
 </body>
 </html>
