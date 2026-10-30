@@ -576,14 +576,16 @@ export class NetworkIntelligence {
                     category.count.toLocaleString("ms-MY") +
                     '</b></div>').join("") + '</details>'
                 : "";
+              const composition = coverage.groups.length > 1
+                ? '<div class="planning-group-meter" role="img" aria-label="' +
+                  escapeHtml(g.label) + ': ' + g.insideCount +
+                  ' daripada ' + coverage.insideCount + ' rekod dalam kawasan">' +
+                  '<span style="width:' + fraction.toFixed(1) + '%"></span></div>'
+                : "";
               return '<div class="planning-group-block planning-group-' + g.key + '">' +
                 '<div class="planning-group-row"><span>' + escapeHtml(g.label) +
                 '</span><strong>' + g.insideCount.toLocaleString("ms-MY") +
-                '</strong></div>' +
-                '<div class="planning-group-meter" role="img" aria-label="' +
-                escapeHtml(g.label) + ': ' + g.insideCount +
-                ' daripada ' + coverage.insideCount + ' rekod dalam kawasan">' +
-                '<span style="width:' + fraction.toFixed(1) + '%"></span></div>' +
+                '</strong></div>' + composition +
                 categoryDetails + '</div>';
             }).join("")
           : "";
@@ -597,6 +599,9 @@ export class NetworkIntelligence {
           '<div class="planning-result-heading"><strong>' + heading +
           '</strong><span>' + minutes + ' min · ' + escapeHtml(modeLabel) +
           '</span></div>' + mainStat + groups +
+          (coverage?.groups.length > 1
+            ? '<p class="planning-composition-note">Bar menunjukkan komposisi rekod dalam poligon, bukan kadar liputan penduduk.</p>'
+            : "") +
           '<p class="planning-interpretation">' + interpretation + '</p>' + markerNote;
       }
 
