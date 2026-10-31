@@ -4,7 +4,11 @@ if(qs.get("tod")==="1"){
   (async()=>{
     try {
       const stations=await getStations("data/transport/rail_stations_final.geojson");
-      const map=window.__SUO_MAIN_MAP__;
+      let map=window.__SUO_MAIN_MAP__;
+      for(let attempt=0;attempt<50&&!map;attempt++){
+        await new Promise(resolve=>setTimeout(resolve,200));
+        map=window.__SUO_MAIN_MAP__;
+      }
       if(!map||!stations.length)return;
       const ctl=document.createElement("section");ctl.id="suoTodMapControl";
       ctl.style.cssText="position:absolute;right:16px;bottom:95px;z-index:11;background:#fffefb;color:#242424;padding:12px;border:1px solid #dedede;border-radius:12px;box-shadow:0 4px 20px #0002;width:min(275px,calc(100% - 34px));font:12px system-ui";
