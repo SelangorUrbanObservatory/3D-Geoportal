@@ -43,12 +43,12 @@ export class ExecutiveLanduseIntelligence {
         this.dashboardLink.href = dashboardUrl;
         this.dashboardLink.dataset.linkType = "direct";
         this.status.textContent =
-          "SISMAPS Executive Dashboard tersedia.";
+          "Pautan SISMAPS tersedia. URL khusus Executive Dashboard belum disahkan.";
         this.status.classList.add("ready");
       } else {
         this.dashboardLink.href =
           applicationsUrl ||
-          "https://faeiruzrusman.github.io/SUOLandingPageTesting/applications.html";
+          "https://selangorurbanobservatory.github.io/SUO.Portal/applications.html";
 
         this.dashboardLink.dataset.linkType = "fallback";
         this.status.textContent =
@@ -59,7 +59,7 @@ export class ExecutiveLanduseIntelligence {
       console.error(error);
 
       this.dashboardLink.href =
-        "https://faeiruzrusman.github.io/SUOLandingPageTesting/applications.html";
+        "https://selangorurbanobservatory.github.io/SUO.Portal/applications.html";
 
       this.status.textContent =
         "Konfigurasi pautan gagal dimuatkan. Menggunakan halaman Applications SUO.";
