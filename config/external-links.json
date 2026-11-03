@@ -1,5 +1,5 @@
 {
-  "sismapsExecutiveDashboard": "",
-  "sismapsApplications": "https://faeiruzrusman.github.io/SUOLandingPageTesting/applications.html",
-  "note": "Masukkan URL terus SISMAPS Executive Dashboard pada sismapsExecutiveDashboard. Jika kosong, butang dashboard akan membuka halaman Applications SUO."
+  "sismapsExecutiveDashboard": "https://sismaps.jpbdselangor.gov.my/index",
+  "sismapsApplications": "https://selangorurbanobservatory.github.io/SUO.Portal/applications.html",
+  "note": "Pautan dashboard khusus belum disahkan. Buat masa ini butang SISMAPS membuka portal rasmi SISMAPS; kemas kini sismapsExecutiveDashboard apabila URL khusus disahkan."
 }
