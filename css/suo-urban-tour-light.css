@@ -1,0 +1,32 @@
+/* Urban Tour · Selangor light palette, scoped to tour only */
+.tour-panel {
+  color: var(--suo-ink, #302b29);
+  background: var(--suo-surface, #fffdf9);
+  border: 1px solid var(--suo-border, #e6d6c3);
+  box-shadow: 0 16px 38px rgba(64,40,28,.18);
+  backdrop-filter: blur(12px);
+}
+.tour-panel .compare-kicker { color: var(--suo-brand-red,#a6373b); letter-spacing:.08em; font-weight:800; }
+.tour-panel #tourCityName { color: var(--suo-ink,#302b29); font-size:1.12rem; }
+.tour-panel .tour-meta,
+.tour-panel .tour-counter { color:var(--suo-ink-muted,#625953); }
+.tour-panel .tour-progress-track { background:#f1e6d7; }
+.tour-panel #tourProgressBar { background:linear-gradient(90deg,#a6373b,#f4bd32); }
+.tour-panel .tour-heading button,
+.tour-panel .tour-actions button {
+  color:var(--suo-ink,#302b29);
+  background:#fff7eb;
+  border:1px solid var(--suo-border,#e6d6c3);
+}
+.tour-panel .tour-heading button:hover,
+.tour-panel .tour-actions button:hover { background:#f9eacb; color:#632a2d; border-color:#d4b680; }
+.tour-panel .tour-actions button:focus-visible,
+.tour-panel select:focus-visible { outline:3px solid var(--suo-brand-yellow,#f4bd32); outline-offset:2px; }
+.tour-panel .tour-actions { flex-wrap:wrap; }
+.tour-panel .tour-speed-row { margin:12px 0; padding:10px; background:#fff5e7; border:1px solid #ead8bf; border-radius:10px; }
+.tour-panel .tour-speed-row > label { display:block; margin-bottom:7px; font-weight:750; font-size:.8rem; color:#47352d; }
+.tour-panel .tour-speed-picker { display:flex; gap:10px; align-items:center; }
+.tour-panel #tourSpeedSelect { min-width:0; flex:1; padding:8px; border-radius:8px; border:1px solid #d9bfa9; background:#fff; color:#302b29; font:inherit; }
+.tour-panel #tourSpeedValue { min-width:46px; text-align:right; font-variant-numeric:tabular-nums; font-weight:800; color:#a6373b; }
+.tour-panel[hidden] { display:none !important; }
+@media(max-width:480px) { .tour-panel { right:8px; top:64px; width:min(350px,calc(100% - 16px)); max-height:calc(100dvh - 88px); overflow:auto; } }
