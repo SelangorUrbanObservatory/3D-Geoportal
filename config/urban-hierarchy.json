@@ -1,20 +1,20 @@
 {
   "metadata": {
-    "title": "Senarai Bandar Selangor – DPN3 (semakan awal)",
+    "title": "Senarai 33 Bandar Selangor — DPN3 rasmi (2026)",
     "policy": "Dasar Perbandaran Negara Ketiga (DPN3)",
-    "status": "pre-publication-crosscheck",
-    "official_only": false,
+    "status": "verified-against-official-dpn3-2026",
+    "official_only": true,
     "total_cities": 33,
     "tier_counts": {
       "Tier 1": 7,
-      "Tier 2": 3,
-      "Tier 3": 23
+      "Tier 2": 5,
+      "Tier 3": 21
     },
     "source_file": "data/hierarki_bandar_selangor_dpn3.geojson",
     "source_page": "https://myplan.planmalaysia.gov.my/portal-main/publication-details?id=72",
-    "hierarchy_reference": "Salinan lampiran Senarai Bandar DPN3 (Scribd, bukan salinan berautentikasi); semakan akhir dengan terbitan rasmi MyPLAN bertarikh 30 Oktober 2026 diperlukan.",
+    "hierarchy_reference": "Dasar Perbandaran Negara Ketiga (DPN3), Laporan DPN3 eISBN, Oktober 2026, Lampiran 1: Senarai 203 Bandar DPN3, Selangor – 33 Bandar, halaman bercetak L-5 (halaman PDF 185). Disemak dengan salinan laporan rasmi yang dibekalkan pengguna.",
     "coordinates_reference": "Titik rujukan DPN2 sedia ada, JUPEM MyGeoName Selangor 2022 dan OSM/Mapcarta; tidak mewakili polygon atau sempadan bandar.",
-    "note": "Data DPN3 digunakan untuk visualisasi awal 33 bandar. Semakan akhir terhadap dokumen rasmi DPN3 masih diperlukan dan tidak mengubah RS Negeri Selangor 2035 (Pengubahan) yang merujuk DPN2."
+    "note": "Senarai dan hierarki 33 bandar Selangor diselaraskan dengan DPN3 rasmi (2026). Koordinat ialah titik rujukan paparan daripada sumber geospatial terdahulu; bukan sempadan rasmi bandar. Klasifikasi bandar DPN3 tidak mengubah hierarki RS Negeri Selangor 2035 (Pengubahan) secara automatik."
   },
   "groups": [
     {
@@ -176,6 +176,36 @@
           "district": "Gombak",
           "aliases": [
             "Rawang"
+          ]
+        },
+        {
+          "key": "cyberjaya",
+          "name": "Cyberjaya",
+          "center": [
+            101.6482,
+            2.9213
+          ],
+          "zoom": 13.2,
+          "pitch": 60,
+          "bearing": 0,
+          "district": "Sepang",
+          "aliases": [
+            "Cyberjaya"
+          ]
+        },
+        {
+          "key": "sepang",
+          "name": "Sepang",
+          "center": [
+            101.7495,
+            2.6931
+          ],
+          "zoom": 13.2,
+          "pitch": 60,
+          "bearing": 0,
+          "district": "Sepang",
+          "aliases": [
+            "Sepang"
           ]
         }
       ]
@@ -477,21 +507,6 @@
           ]
         },
         {
-          "key": "cyberjaya",
-          "name": "Cyberjaya",
-          "center": [
-            101.6482,
-            2.9213
-          ],
-          "zoom": 13.2,
-          "pitch": 60,
-          "bearing": 0,
-          "district": "Sepang",
-          "aliases": [
-            "Cyberjaya"
-          ]
-        },
-        {
           "key": "dengkil",
           "name": "Dengkil",
           "center": [
@@ -504,21 +519,6 @@
           "district": "Sepang",
           "aliases": [
             "Dengkil"
-          ]
-        },
-        {
-          "key": "sepang",
-          "name": "Sepang",
-          "center": [
-            101.7495,
-            2.6931
-          ],
-          "zoom": 13.2,
-          "pitch": 60,
-          "bearing": 0,
-          "district": "Sepang",
-          "aliases": [
-            "Sepang"
           ]
         },
         {
