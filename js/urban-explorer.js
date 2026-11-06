@@ -37,6 +37,6 @@ export async function initUrbanExplorer(onSelect) {
 
   count.textContent = String(cities.length);
   status.className = "policy-status ready";
-  status.textContent = `${cities.length} bandar DPN3 (Tier 1–3) dimuatkan. Senarai semakan awal; pengesahan akhir dokumen DPN3 diperlukan.`;
+  status.textContent = `${cities.length} bandar DPN3 (Tier 1–3) dimuatkan. Hierarki 33 bandar disemak dengan DPN3 rasmi (2026), Lampiran 1, halaman L-5.`;
   return cities;
 }
