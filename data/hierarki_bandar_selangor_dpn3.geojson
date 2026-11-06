@@ -8,21 +8,21 @@
     }
   },
   "metadata": {
-    "title": "Senarai Bandar Selangor – DPN3 (semakan awal)",
+    "title": "Senarai 33 Bandar Selangor — DPN3 rasmi (2026)",
     "policy": "Dasar Perbandaran Negara Ketiga (DPN3)",
-    "status": "pre-publication-crosscheck",
-    "official_only": false,
+    "status": "verified-against-official-dpn3-2026",
+    "official_only": true,
     "total_cities": 33,
     "tier_counts": {
       "Tier 1": 7,
-      "Tier 2": 3,
-      "Tier 3": 23
+      "Tier 2": 5,
+      "Tier 3": 21
     },
     "source_file": "data/hierarki_bandar_selangor_dpn3.geojson",
     "source_page": "https://myplan.planmalaysia.gov.my/portal-main/publication-details?id=72",
-    "hierarchy_reference": "Salinan lampiran Senarai Bandar DPN3 (Scribd, bukan salinan berautentikasi); semakan akhir dengan terbitan rasmi MyPLAN bertarikh 30 Oktober 2026 diperlukan.",
+    "hierarchy_reference": "Dasar Perbandaran Negara Ketiga (DPN3), Laporan DPN3 eISBN, Oktober 2026, Lampiran 1: Senarai 203 Bandar DPN3, Selangor – 33 Bandar, halaman bercetak L-5 (halaman PDF 185). Disemak dengan salinan laporan rasmi yang dibekalkan pengguna.",
     "coordinates_reference": "Titik rujukan DPN2 sedia ada, JUPEM MyGeoName Selangor 2022 dan OSM/Mapcarta; tidak mewakili polygon atau sempadan bandar.",
-    "note": "Data DPN3 digunakan untuk visualisasi awal 33 bandar. Semakan akhir terhadap dokumen rasmi DPN3 masih diperlukan dan tidak mengubah RS Negeri Selangor 2035 (Pengubahan) yang merujuk DPN2."
+    "note": "Senarai dan hierarki 33 bandar Selangor diselaraskan dengan DPN3 rasmi (2026). Koordinat ialah titik rujukan paparan daripada sumber geospatial terdahulu; bukan sempadan rasmi bandar. Klasifikasi bandar DPN3 tidak mengubah hierarki RS Negeri Selangor 2035 (Pengubahan) secara automatik."
   },
   "features": [
     {
@@ -41,7 +41,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -67,7 +67,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -93,7 +93,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -119,7 +119,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -145,7 +145,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -171,7 +171,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -197,7 +197,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -223,7 +223,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -249,7 +249,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -275,7 +275,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -301,7 +301,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -327,7 +327,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "OpenStreetMap/Mapcarta",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -353,7 +353,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "OpenStreetMap/Mapcarta",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -379,7 +379,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "OpenStreetMap/Mapcarta",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -405,7 +405,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -431,7 +431,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "OpenStreetMap/Mapcarta",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -457,7 +457,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -483,7 +483,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "OpenStreetMap/Mapcarta",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -509,7 +509,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -535,7 +535,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -561,7 +561,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "OpenStreetMap/Mapcarta",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -587,7 +587,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -613,7 +613,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -639,7 +639,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -665,7 +665,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -691,7 +691,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -717,7 +717,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "OpenStreetMap/Mapcarta",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -743,7 +743,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -769,7 +769,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -786,16 +786,16 @@
         "id": 30,
         "nama_bandar": "Cyberjaya",
         "label": "Cyberjaya",
-        "hierarki": "Tier 3",
-        "tier": 3,
-        "tier_code": "T3",
+        "hierarki": "Tier 2",
+        "tier": 2,
+        "tier_code": "T2",
         "daerah": "Sepang",
         "pbt": "MPSp",
         "negeri": "Selangor",
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -821,7 +821,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "JUPEM MyGeoName Selangor 2022",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -838,16 +838,16 @@
         "id": 32,
         "nama_bandar": "Sepang",
         "label": "Sepang",
-        "hierarki": "Tier 3",
-        "tier": 3,
-        "tier_code": "T3",
+        "hierarki": "Tier 2",
+        "tier": 2,
+        "tier_code": "T2",
         "daerah": "Sepang",
         "pbt": "MPSp",
         "negeri": "Selangor",
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "Titik GeoPortal DPN2 sedia ada (dikekalkan)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
@@ -873,7 +873,7 @@
         "dasar": "Dasar Perbandaran Negara Ketiga (DPN3)",
         "tahun_dasar": 2026,
         "koordinat_sumber": "JUPEM MyGeoName Selangor 2022 (Kg. Baharu Sungai Pelek)",
-        "status_data": "Titik rujukan paparan, bukan sempadan bandar; pengesahan terhadap keluaran rasmi DPN3 diperlukan."
+        "status_data": "Hierarki bandar disemak terhadap DPN3 rasmi (2026); koordinat ialah titik rujukan paparan, bukan sempadan bandar rasmi."
       },
       "geometry": {
         "type": "Point",
