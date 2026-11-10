@@ -31,3 +31,83 @@
   outline-offset: 3px;
   border-radius: 2px;
 }
+
+
+/*
+ * Kemudahan baharu (Keagamaan / Perkuburan) mesti ikut grid yang sama
+ * seperti Pendidikan & Kesihatan. Kedua-dua panel ini sebelum ini tidak
+ * mempunyai .facility-subitem display:grid lalu ikon, nama dan checkbox
+ * mengalir secara inline dan bertindih pada sidebar sempit.
+ */
+#layerManagementPanel :is(#religiousLegendPanel,#cemeteryLegendPanel) .facility-sublist {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  min-width: 0;
+}
+#layerManagementPanel :is(#religiousLegendPanel,#cemeteryLegendPanel) .facility-subitem {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) 18px;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  margin: 0;
+  padding: 7px 6px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+#layerManagementPanel :is(#religiousLegendPanel,#cemeteryLegendPanel) .facility-subitem > :is(img,.facility-subicon) {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: center;
+  flex: none;
+}
+#layerManagementPanel :is(#religiousLegendPanel,#cemeteryLegendPanel) .facility-subitem > .facility-subname {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  max-width: 100%;
+  line-height: 1.4;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+#layerManagementPanel :is(#religiousLegendPanel,#cemeteryLegendPanel) .facility-subitem > input[type="checkbox"] {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  width: 17px;
+  height: 17px;
+  min-width: 17px;
+  min-height: 17px;
+  margin: 0;
+}
+#layerManagementPanel :is(#religiousLegendPanel,#cemeteryLegendPanel) > small {
+  display: block;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  margin-top: 10px !important;
+}
+#layerManagementPanel .layer-item-expandable > img {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: center;
+  max-width: 22px;
+  flex: none;
+}
+#layerManagementPanel .layer-item-expandable > img + .layer-copy {
+  grid-column: 2;
+  grid-row: 1;
+}
+@container suo-sidebar (max-width: 285px) {
+  #layerManagementPanel :is(#religiousLegendPanel,#cemeteryLegendPanel) .facility-subitem {
+    grid-template-columns: 20px minmax(0, 1fr) 18px;
+    gap: 5px;
+    padding-inline: 4px;
+  }
+  #layerManagementPanel :is(#religiousLegendPanel,#cemeteryLegendPanel) .facility-subitem > .facility-subname {
+    font-size: 10.5px;
+  }
+}
