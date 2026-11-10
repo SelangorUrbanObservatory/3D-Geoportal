@@ -7,13 +7,15 @@ import {
 
 export const facilitySubState = {
   school: {"Sekolah Rendah":true,"Sekolah Menengah":true,"Sekolah Agama":true},
-  health: {"Hospital":true,"Klinik Kesihatan":true,"Klinik Ibu dan Anak":true,"Klinik Desa":true}
+  health: {"Hospital":true,"Klinik Kesihatan":true,"Klinik Ibu dan Anak":true,"Klinik Desa":true},
+  religious: {"Masjid":false,"Surau":false}
 };
 
 export function applyFacilityFilters(map,prefix="") {
   for (const [group,property,ids] of [
     ["school","web_level",["school-symbol","school-label"]],
-    ["health","web_category",["health-symbol","health-label"]]
+    ["health","web_category",["health-symbol","health-label"]],
+    ["religious","web_category",["religious-circle","religious-label"]]
   ]) {
     const selected=Object.entries(facilitySubState[group]).filter(([,v])=>v).map(([name])=>name);
     const filter=["in",["get",property],["literal",selected]];
@@ -27,6 +29,7 @@ export const layerState = {
   districts: true,
   cadastral: false,
   healthFacilities: true,
+  religiousFacilities: false,
   liveTraffic: true,
   police: true,
   civilDefence: true,
@@ -42,6 +45,7 @@ export const layerState = {
 export async function addPortalLayers(map, prefix = "") {
   const citySource = `${prefix}cities`;
   const healthSource = `${prefix}health`;
+  const religiousSource = `${prefix}religious`;
 
   if (!map.getSource(citySource)) {
     map.addSource(citySource, { type: "geojson", data: DATA_URLS.cities });
@@ -151,6 +155,36 @@ export async function addPortalLayers(map, prefix = "") {
 
 
 
+  if (!map.getSource(religiousSource)) {
+    map.addSource(religiousSource, { type: "geojson", data: DATA_URLS.religious });
+  }
+  if (!map.getLayer(`${prefix}religious-circle`)) {
+    addLayerCompat(map, {
+      id: `${prefix}religious-circle`, type: "circle", source: religiousSource, slot: "top", minzoom: 9,
+      paint: {
+        "circle-color": ["match", ["get", "web_category"], "Masjid", "#15803D", "Surau", "#D97706", "#64748B"],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 2.5, 12, 4.3, 16, 7],
+        "circle-stroke-color": "#FFFFFF", "circle-stroke-width": 1.1,
+        "circle-opacity": 0.92
+      }
+    });
+  }
+  if (!map.getLayer(`${prefix}religious-label`)) {
+    addLayerCompat(map, {
+      id: `${prefix}religious-label`, type: "symbol", source: religiousSource, slot: "top", minzoom: 13.5,
+      layout: { "text-field": ["get", "web_name"], "text-size": 10, "text-offset": [0, 1.2], "text-anchor": "top" },
+      paint: { "text-color": "#302B29", "text-halo-color": "#FFFDF9", "text-halo-width": 1.8 }
+    });
+  }
+  if (!map.getSource(`${prefix}religious-selected-site`)) {
+    map.addSource(`${prefix}religious-selected-site`, { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+  }
+  if (!map.getLayer(`${prefix}religious-selected-fill`)) {
+    addLayerCompat(map, { id: `${prefix}religious-selected-fill`, type: "fill", source: `${prefix}religious-selected-site`, slot: "top", paint: { "fill-color": "#F4BD32", "fill-opacity": 0.2 } });
+  }
+  if (!map.getLayer(`${prefix}religious-selected-line`)) {
+    addLayerCompat(map, { id: `${prefix}religious-selected-line`, type: "line", source: `${prefix}religious-selected-site`, slot: "top", paint: { "line-color": "#A6373B", "line-width": 3 } });
+  }
 
   const railSource = `${prefix}rail-transportation`;
   const railCasing = `${prefix}rail-casing`;
@@ -845,6 +879,10 @@ export function applyLayerRenderOrder(map, prefix = "") {
   moveTop(`${prefix}school-label`);
   moveTop(`${prefix}health-symbol`);
   moveTop(`${prefix}health-label`);
+  moveTop(`${prefix}religious-circle`);
+  moveTop(`${prefix}religious-label`);
+  moveTop(`${prefix}religious-selected-fill`);
+  moveTop(`${prefix}religious-selected-line`);
   moveTop(`${prefix}police-symbol`);
   moveTop(`${prefix}police-label`);
   moveTop(`${prefix}fire-station-halo`);
@@ -866,6 +904,10 @@ export function applyLayerVisibility(map, prefix = "") {
     [`${prefix}district-label`, layerState.districts],
     [`${prefix}health-symbol`, layerState.healthFacilities],
     [`${prefix}health-label`, layerState.healthFacilities],
+    [`${prefix}religious-circle`, layerState.religiousFacilities],
+    [`${prefix}religious-label`, layerState.religiousFacilities],
+    [`${prefix}religious-selected-fill`, layerState.religiousFacilities],
+    [`${prefix}religious-selected-line`, layerState.religiousFacilities],
     [`${prefix}traffic-casing`, layerState.liveTraffic],
     [`${prefix}traffic-line`, layerState.liveTraffic],
     [`${prefix}civil-defence-point`, layerState.civilDefence],
