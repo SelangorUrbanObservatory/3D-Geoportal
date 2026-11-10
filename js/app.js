@@ -202,6 +202,7 @@ function syncDeepLinkToggles() {
     cadastral: "cadastralToggle",
     healthFacilities: "healthFacilityToggle",
     religiousFacilities: "religiousFacilityToggle",
+    cemeteryFacilities: "cemeteryFacilityToggle",
     liveTraffic: "trafficToggle",
     police: "policeToggle",
     fireStations: "fireStationToggle",
@@ -389,7 +390,7 @@ map.on("click", async (event) => {
         layers: ["network-intelligence-points"]
       }).some(f => f.properties?.role === "facility" &&
         f.properties?.analysis === "planning")) return;
-  const layerIds = ["cadastral-fill", "religious-symbol", "district-fill", "pbt-fill", "school-symbol", "fire-station-point", "civil-defence-point", "police-symbol", "health-symbol", "city-circle"]
+  const layerIds = ["cadastral-fill", "religious-symbol", "cemetery-symbol", "district-fill", "pbt-fill", "school-symbol", "fire-station-point", "civil-defence-point", "police-symbol", "health-symbol", "city-circle"]
     .filter((id) => map.getLayer(id));
 
   const features = map.queryRenderedFeatures(event.point, {
@@ -451,6 +452,11 @@ map.on("click", async (event) => {
   } else if (["police-symbol","fire-station-point","civil-defence-point"].includes(feature.layer.id)) {
     const escapeHtml = (value) => String(value ?? "-").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
     html = `<strong>${escapeHtml(properties.NAMA)}</strong><br>Agensi: ${escapeHtml(properties.AGENSI)}<br>Kategori: ${escapeHtml(properties.KATEGORI)}<br>Hierarki: ${escapeHtml(properties.HIERARKI)}<br>Induk: ${escapeHtml(properties.INDUK)}<br>Alamat: ${escapeHtml(properties.ALAMAT)}`;
+  } else if (feature.layer.id === "cemetery-symbol") {
+    const escapeHtml = (value) => String(value ?? "-").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+    const area = Number(properties.Luas_Hek);
+    const areaText = Number.isFinite(area) ? area.toLocaleString("ms-MY",{maximumFractionDigits:4}) + " hektar" : "-";
+    html = `<strong>${escapeHtml(properties.Nama)}</strong><br>Kategori: ${escapeHtml(properties.Kategori)}<br>Agama (kumpulan data): ${escapeHtml(properties.Agama)}<br>Daerah: ${escapeHtml(properties.Daerah)}<br>PBT: ${escapeHtml(properties.PBT)}<br>Lokasi: ${escapeHtml(properties.Lokasi)}<br>Alamat: ${escapeHtml(properties.Alamat)}<br>Keluasan: ${areaText}<br><small>Sumber: Dashboard Tapak Perkuburan Negeri Selangor</small>`;
   } else if (feature.layer.id === "religious-symbol") {
     const escapeHtml = (value) => String(value ?? "-").replace(/[&<>"\']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
     const area = Number(properties.luas_ha);
@@ -639,6 +645,12 @@ document.getElementById("districtToggle").addEventListener("change", (event) => 
   updateLayerCount();
 });
 
+document.getElementById("cemeteryFacilityToggle").addEventListener("change", (event) => {
+  layerState.cemeteryFacilities = event.target.checked;
+  for (const key of Object.keys(facilitySubState.cemetery)) facilitySubState.cemetery[key] = event.target.checked;
+  syncFacilityCheckboxes(); applyLayerVisibility(map); compare.refreshLayers(); updateLayerCount();
+});
+
 document.getElementById("religiousFacilityToggle").addEventListener("change", (event) => {
   layerState.religiousFacilities = event.target.checked;
   Object.keys(facilitySubState.religious).forEach(name => { facilitySubState.religious[name] = event.target.checked; });
@@ -668,6 +680,7 @@ document.getElementById("trafficToggle").addEventListener("change", (event) => {
 const facilityControlGroups = {
   school:{parent:"schoolToggle",state:"schools",items:[["schoolPrimaryToggle","Sekolah Rendah"],["schoolSecondaryToggle","Sekolah Menengah"],["schoolReligiousToggle","Sekolah Agama"]]},
   health:{parent:"healthFacilityToggle",state:"healthFacilities",items:[["healthHospitalToggle","Hospital"],["healthClinicToggle","Klinik Kesihatan"],["healthMotherToggle","Klinik Ibu dan Anak"],["healthVillageToggle","Klinik Desa"]]},
+  cemetery:{parent:"cemeteryFacilityToggle",state:"cemeteryFacilities",items:[["cemeteryIslamToggle","Islam"],["cemeteryOtherToggle","Bukan Islam"]]},
   religious:{parent:"religiousFacilityToggle",state:"religiousFacilities",items:[["religiousMosqueToggle","Masjid"],["religiousSurauToggle","Surau"]]}
 };
 function syncFacilityCheckboxes() {
@@ -706,6 +719,7 @@ function syncCommunityFacilitiesToggle() {
     ...Object.values(facilitySubState.school),
     ...Object.values(facilitySubState.health),
     ...Object.values(facilitySubState.religious),
+    ...Object.values(facilitySubState.cemetery),
     layerState.police,
     layerState.fireStations,
     layerState.civilDefence
@@ -721,11 +735,12 @@ document.getElementById("communityFacilitiesToggle").addEventListener("change", 
   layerState.schools = enabled;
   layerState.healthFacilities = enabled;
   layerState.religiousFacilities = enabled;
+  layerState.cemeteryFacilities = enabled;
   layerState.police = enabled;
   layerState.fireStations = enabled;
   layerState.civilDefence = enabled;
 
-  for (const group of ["school", "health", "religious"]) {
+  for (const group of ["school", "health", "religious", "cemetery"]) {
     for (const name of Object.keys(facilitySubState[group])) {
       facilitySubState[group][name] = enabled;
     }
@@ -850,6 +865,7 @@ document.getElementById("toggleAllLayers").addEventListener("click", () => {
   document.getElementById("districtToggle").checked = allOn;
   document.getElementById("healthFacilityToggle").checked = allOn;
   document.getElementById("religiousFacilityToggle").checked = allOn;
+  document.getElementById("cemeteryFacilityToggle").checked = allOn;
   document.getElementById("trafficToggle").checked = allOn;
   document.getElementById("policeToggle").checked = allOn;
   document.getElementById("fireStationToggle").checked = allOn;
@@ -884,6 +900,14 @@ function updateLayerCount() {
   document.getElementById("activeLayerCount").textContent =
     String(Object.values(layerState).filter(Boolean).length);
 }
+
+document.getElementById("cemeteryLegendBtn").addEventListener("click", () => {
+  const button=document.getElementById("cemeteryLegendBtn");
+  const panel=document.getElementById("cemeteryLegendPanel");
+  const expanded=button.getAttribute("aria-expanded")==="true";
+  button.setAttribute("aria-expanded",String(!expanded));
+  button.classList.toggle("open",!expanded);panel.hidden=expanded;
+});
 
 document.getElementById("religiousLegendBtn").addEventListener("click", () => {
   const button = document.getElementById("religiousLegendBtn");
