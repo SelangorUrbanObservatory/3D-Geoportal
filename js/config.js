@@ -60,6 +60,8 @@ export const DATA_URLS = {
   urbanConfig: "config/urban-hierarchy.json",
   health: "data/kesihatan/kemudahan_kesihatan_selangor.geojson",
   religious: "data/keagamaan/kemudahan_keagamaan_islam_selangor.geojson",
+  cemetery: "data/perkuburan/tapak_perkuburan_selangor.geojson",
+  cemeteryIcon: "assets/icons/cemetery-headstone.svg",
   mosqueIcon: "assets/icons/masjid.svg",
   surauIcon: "assets/icons/surau.svg",
   religiousSiteMaster: "data/keagamaan/tapak_keagamaan_islam_master.json",
