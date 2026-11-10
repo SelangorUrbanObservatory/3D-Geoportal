@@ -1,5 +1,5 @@
 import { sync3DBuildings } from "./3d-buildings.js";
-import { BASEMAPS } from "./config.js";
+import { BASEMAPS, DATA_URLS } from "./config.js";
 import {
   addPortalLayers,
   applyLayerVisibility,
@@ -201,6 +201,7 @@ function syncDeepLinkToggles() {
     districts: "districtToggle",
     cadastral: "cadastralToggle",
     healthFacilities: "healthFacilityToggle",
+    religiousFacilities: "religiousFacilityToggle",
     liveTraffic: "trafficToggle",
     police: "policeToggle",
     fireStations: "fireStationToggle",
@@ -353,6 +354,26 @@ map.on("zoom", () => {
     `Zoom: ${map.getZoom().toFixed(1)}`;
 });
 
+// Load the dashboard master snapshot only when a religious site is selected.
+// Geometry stays as a single highlighted polygon, not all 1,587 polygons at once.
+let religiousSiteDataPromise = null;
+async function showReligiousSiteBoundary(properties) {
+  const source = map.getSource("religious-selected-site");
+  if (!source) return;
+  source.setData({type:"FeatureCollection",features:[]});
+  if (!religiousSiteDataPromise) {
+    religiousSiteDataPromise = fetch(DATA_URLS.religiousSiteMaster, {cache:"force-cache"}).then(response => {
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      return response.json();
+    }).catch(error => { religiousSiteDataPromise = null; throw error; });
+  }
+  const records = await religiousSiteDataPromise;
+  const entry = records.find(item => Number(item.id) === Number(properties.id) && item.n === properties.web_name);
+  if (!entry?.geo) return;
+  if (!layerState.religiousFacilities || !map.getSource("religious-selected-site")) return;
+  source.setData({type:"FeatureCollection", features:[{type:"Feature",properties:{id:entry.id,name:entry.n},geometry:entry.geo}]});
+}
+
 map.on("click", async (event) => {
   if (
     isSpatialToolActive() ||
@@ -365,7 +386,7 @@ map.on("click", async (event) => {
         layers: ["network-intelligence-points"]
       }).some(f => f.properties?.role === "facility" &&
         f.properties?.analysis === "planning")) return;
-  const layerIds = ["cadastral-fill", "district-fill", "pbt-fill", "school-symbol", "fire-station-point", "civil-defence-point", "police-symbol", "health-symbol", "city-circle"]
+  const layerIds = ["cadastral-fill", "religious-circle", "district-fill", "pbt-fill", "school-symbol", "fire-station-point", "civil-defence-point", "police-symbol", "health-symbol", "city-circle"]
     .filter((id) => map.getLayer(id));
 
   const features = map.queryRenderedFeatures(event.point, {
@@ -427,6 +448,12 @@ map.on("click", async (event) => {
   } else if (["police-symbol","fire-station-point","civil-defence-point"].includes(feature.layer.id)) {
     const escapeHtml = (value) => String(value ?? "-").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
     html = `<strong>${escapeHtml(properties.NAMA)}</strong><br>Agensi: ${escapeHtml(properties.AGENSI)}<br>Kategori: ${escapeHtml(properties.KATEGORI)}<br>Hierarki: ${escapeHtml(properties.HIERARKI)}<br>Induk: ${escapeHtml(properties.INDUK)}<br>Alamat: ${escapeHtml(properties.ALAMAT)}`;
+  } else if (feature.layer.id === "religious-circle") {
+    const escapeHtml = (value) => String(value ?? "-").replace(/[&<>"\']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+    const area = Number(properties.luas_ha);
+    const areaText = Number.isFinite(area) ? `${area.toLocaleString("ms-MY", {maximumFractionDigits: 4})} hektar` : "-";
+    html = `<strong>${escapeHtml(properties.web_name)}</strong><br>Kategori: ${escapeHtml(properties.web_category)}<br>Daerah: ${escapeHtml(properties.web_district)}<br>PBT: ${escapeHtml(properties.web_pbt)}<br>Keluasan tapak: ${areaText}<br><small>Sumber: Dashboard Kemudahan Keagamaan (Islam) Negeri Selangor</small>`;
+    void showReligiousSiteBoundary(properties).catch(error => console.warn("Sempadan tapak keagamaan tidak dapat dimuatkan:", error));
   } else if (feature.layer.id === "health-symbol") {
     html = `<strong>${properties.web_name || "Kemudahan Kesihatan"}</strong><br>
       Kategori: ${properties.web_category || "-"}<br>
@@ -609,6 +636,16 @@ document.getElementById("districtToggle").addEventListener("change", (event) => 
   updateLayerCount();
 });
 
+document.getElementById("religiousFacilityToggle").addEventListener("change", (event) => {
+  layerState.religiousFacilities = event.target.checked;
+  Object.keys(facilitySubState.religious).forEach(name => { facilitySubState.religious[name] = event.target.checked; });
+  if (!event.target.checked) map.getSource("religious-selected-site")?.setData({type:"FeatureCollection",features:[]});
+  syncFacilityCheckboxes();
+  applyLayerVisibility(map);
+  compare.refreshLayers();
+  updateLayerCount();
+});
+
 document.getElementById("healthFacilityToggle").addEventListener("change", (event) => {
   layerState.healthFacilities = event.target.checked;
   Object.keys(facilitySubState.health).forEach(name=>{facilitySubState.health[name]=event.target.checked;});
@@ -627,7 +664,8 @@ document.getElementById("trafficToggle").addEventListener("change", (event) => {
 
 const facilityControlGroups = {
   school:{parent:"schoolToggle",state:"schools",items:[["schoolPrimaryToggle","Sekolah Rendah"],["schoolSecondaryToggle","Sekolah Menengah"],["schoolReligiousToggle","Sekolah Agama"]]},
-  health:{parent:"healthFacilityToggle",state:"healthFacilities",items:[["healthHospitalToggle","Hospital"],["healthClinicToggle","Klinik Kesihatan"],["healthMotherToggle","Klinik Ibu dan Anak"],["healthVillageToggle","Klinik Desa"]]}
+  health:{parent:"healthFacilityToggle",state:"healthFacilities",items:[["healthHospitalToggle","Hospital"],["healthClinicToggle","Klinik Kesihatan"],["healthMotherToggle","Klinik Ibu dan Anak"],["healthVillageToggle","Klinik Desa"]]},
+  religious:{parent:"religiousFacilityToggle",state:"religiousFacilities",items:[["religiousMosqueToggle","Masjid"],["religiousSurauToggle","Surau"]]}
 };
 function syncFacilityCheckboxes() {
   for(const [group,config] of Object.entries(facilityControlGroups)) {
@@ -663,6 +701,7 @@ function syncCommunityFacilitiesToggle() {
   const values = [
     ...Object.values(facilitySubState.school),
     ...Object.values(facilitySubState.health),
+    ...Object.values(facilitySubState.religious),
     layerState.police,
     layerState.fireStations,
     layerState.civilDefence
@@ -677,11 +716,12 @@ document.getElementById("communityFacilitiesToggle").addEventListener("change", 
   const enabled = event.target.checked;
   layerState.schools = enabled;
   layerState.healthFacilities = enabled;
+  layerState.religiousFacilities = enabled;
   layerState.police = enabled;
   layerState.fireStations = enabled;
   layerState.civilDefence = enabled;
 
-  for (const group of ["school", "health"]) {
+  for (const group of ["school", "health", "religious"]) {
     for (const name of Object.keys(facilitySubState[group])) {
       facilitySubState[group][name] = enabled;
     }
@@ -805,6 +845,7 @@ document.getElementById("toggleAllLayers").addEventListener("click", () => {
   document.getElementById("pbtToggle").checked = allOn;
   document.getElementById("districtToggle").checked = allOn;
   document.getElementById("healthFacilityToggle").checked = allOn;
+  document.getElementById("religiousFacilityToggle").checked = allOn;
   document.getElementById("trafficToggle").checked = allOn;
   document.getElementById("policeToggle").checked = allOn;
   document.getElementById("fireStationToggle").checked = allOn;
@@ -839,6 +880,15 @@ function updateLayerCount() {
   document.getElementById("activeLayerCount").textContent =
     String(Object.values(layerState).filter(Boolean).length);
 }
+
+document.getElementById("religiousLegendBtn").addEventListener("click", () => {
+  const button = document.getElementById("religiousLegendBtn");
+  const panel = document.getElementById("religiousLegendPanel");
+  const expanded = button.getAttribute("aria-expanded") === "true";
+  button.setAttribute("aria-expanded", String(!expanded));
+  button.classList.toggle("open", !expanded);
+  panel.hidden = expanded;
+});
 
 document.getElementById("healthLegendBtn").addEventListener("click", () => {
   const button = document.getElementById("healthLegendBtn");
