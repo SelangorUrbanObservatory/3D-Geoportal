@@ -680,7 +680,7 @@ document.getElementById("trafficToggle").addEventListener("change", (event) => {
 const facilityControlGroups = {
   school:{parent:"schoolToggle",state:"schools",items:[["schoolPrimaryToggle","Sekolah Rendah"],["schoolSecondaryToggle","Sekolah Menengah"],["schoolReligiousToggle","Sekolah Agama"]]},
   health:{parent:"healthFacilityToggle",state:"healthFacilities",items:[["healthHospitalToggle","Hospital"],["healthClinicToggle","Klinik Kesihatan"],["healthMotherToggle","Klinik Ibu dan Anak"],["healthVillageToggle","Klinik Desa"]]},
-  cemetery:{parent:"cemeteryFacilityToggle",state:"cemeteryFacilities",items:[["cemeteryIslamToggle","Islam"],["cemeteryOtherToggle","Bukan Islam"]]},
+  cemetery:{parent:"cemeteryFacilityToggle",state:"cemeteryFacilities",items:[["cemeteryIslamToggle","Perkuburan Islam"],["cemeteryBuddhaToggle","Perkuburan Buddha/Tao"],["cemeteryHinduToggle","Perkuburan Hindu"],["cemeteryChristianToggle","Perkuburan Kristian"],["cemeteryCrematoriumToggle","Krematorium/Dewan Pengurusan Mayat"],["cemeteryOtherToggle","Perkuburan Lain"],["cemeteryIntegratedToggle","Tempat Perkuburan Bersepadu Bukan Islam"],["cemeteryColumbariumToggle","Kolumbarium"]]},
   religious:{parent:"religiousFacilityToggle",state:"religiousFacilities",items:[["religiousMosqueToggle","Masjid"],["religiousSurauToggle","Surau"]]}
 };
 function syncFacilityCheckboxes() {
