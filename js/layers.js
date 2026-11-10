@@ -8,7 +8,7 @@ import {
 export const facilitySubState = {
   school: {"Sekolah Rendah":true,"Sekolah Menengah":true,"Sekolah Agama":true},
   health: {"Hospital":true,"Klinik Kesihatan":true,"Klinik Ibu dan Anak":true,"Klinik Desa":true},
-  religious: {"Masjid":true,"Surau":true}
+  religious: {"Masjid":false,"Surau":false}
 };
 
 export function applyFacilityFilters(map,prefix="") {
