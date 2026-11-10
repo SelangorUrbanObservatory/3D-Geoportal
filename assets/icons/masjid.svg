@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-label="Masjid">
+<path fill="#fff" d="M6 54h52v5H6z M10 34h44v20H10z M16 27h32v12H16z"/>
+<path fill="#fff" d="M16 28c0-12 10-17 16-21 6 4 16 9 16 21z"/>
+<path fill="#fff" d="M3 22h11v32H3z M50 22h11v32H50z M4 18c0-6 3-8 4-12 2 4 5 6 5 12z M51 18c0-6 3-8 5-12 1 4 4 6 4 12z"/>
+<path fill="#fff" d="M32 5a6 6 0 1 1 5-9 5 5 0 1 0-5 9z" transform="translate(0 8)"/>
+<path fill="#000" d="M26 54V41a6 6 0 0 1 12 0v13z M7 32v-5a2 2 0 0 1 4 0v5z M53 32v-5a2 2 0 0 1 4 0v5z M16 50v-7a3 3 0 0 1 6 0v7z M42 50v-7a3 3 0 0 1 6 0v7z"/>
+</svg>
