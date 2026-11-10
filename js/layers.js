@@ -198,8 +198,7 @@ export async function addPortalLayers(map, prefix = "") {
     addLayerCompat(map, { id: `${prefix}religious-selected-line`, type: "line", source: `${prefix}religious-selected-site`, slot: "top", paint: { "line-color": "#A6373B", "line-width": 3 } });
   }
 
-  // Base markers are independent of the SVG asset and show at state-wide zoom.
-  // This guarantees visibility even if the optional headstone icon fails.
+  // Keep the source independent of the icon; the original headstone remains primary.
   if (!map.getSource(cemeterySource)) {
     map.addSource(cemeterySource, { type: "geojson", data: DATA_URLS.cemetery });
   }
@@ -224,7 +223,7 @@ export async function addPortalLayers(map, prefix = "") {
         }
       });
     }
-    }
+  }
   if (cemeteryIconReady && !map.getLayer(`${prefix}cemetery-symbol`)) {
     addLayerCompat(map, {
       id: `${prefix}cemetery-symbol`, type: "symbol", source: cemeterySource, slot: "top", minzoom: 6,
