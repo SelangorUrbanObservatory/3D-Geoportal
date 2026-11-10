@@ -223,15 +223,15 @@
 <div class="layer-group nested-layer-group">
 <div class="layer-item layer-item-expandable">
 <button aria-controls="religiousLegendPanel" aria-expanded="false" class="layer-expand-btn" id="religiousLegendBtn" title="Buka legend keagamaan" type="button">▸</button>
-<span class="legend-symbol" style="color:#15803D">●</span>
+<img src="assets/icons/masjid.svg" alt="" aria-hidden="true" style="width:21px;height:21px;object-fit:contain;background:#15803D;border-radius:4px;padding:3px;box-sizing:border-box;filter:none"/>
 <span class="layer-copy"><strong>Keagamaan Islam</strong><small>1,587 tapak Masjid &amp; Surau</small></span>
 <input id="religiousFacilityToggle" type="checkbox" aria-label="Papar atau sembunyikan kemudahan keagamaan Islam"/>
 </div>
 <div class="layer-legend-panel" hidden id="religiousLegendPanel">
 <div class="legend-heading"><span>Kemudahan Keagamaan Islam</span><small>1,587 rekod</small></div>
 <div class="facility-sublist">
-<label class="facility-subitem"><span class="facility-subicon" style="background:#15803D"></span><span class="facility-subname">Masjid (476)</span><input id="religiousMosqueToggle" type="checkbox" aria-label="Papar masjid"/></label>
-<label class="facility-subitem"><span class="facility-subicon" style="background:#D97706"></span><span class="facility-subname">Surau (1,111)</span><input id="religiousSurauToggle" type="checkbox" aria-label="Papar surau"/></label>
+<label class="facility-subitem"><img src="assets/icons/masjid.svg" alt="" aria-hidden="true" style="width:22px;height:22px;background:#15803D;padding:3px;border-radius:5px;box-sizing:border-box"/><span class="facility-subname">Masjid (476)</span><input id="religiousMosqueToggle" type="checkbox" aria-label="Papar masjid"/></label>
+<label class="facility-subitem"><img src="assets/icons/surau.svg" alt="" aria-hidden="true" style="width:22px;height:22px;background:#D97706;padding:3px;border-radius:5px;box-sizing:border-box"/><span class="facility-subname">Surau (1,111)</span><input id="religiousSurauToggle" type="checkbox" aria-label="Papar surau"/></label>
 </div>
 <small style="display:block;margin:8px 0">Klik titik untuk maklumat dan sempadan tapak. Data ini meliputi Masjid dan Surau sahaja.</small>
 </div>
@@ -1556,7 +1556,7 @@ Gap Analysis dan Accessibility Score memerlukan data permintaan penduduk serta p
       return;
     }
 
-    import("./js/app.js?v=9.9.3").catch(function (error) {
+    import("./js/app.js?v=9.9.4").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +

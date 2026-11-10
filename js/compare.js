@@ -26,7 +26,7 @@ const DEFAULT_LAYERS = {
 const LAYER_IDS = {
   cityHierarchy: ["city-circle", "city-label"],
   healthFacilities: ["health-symbol", "health-label"],
-  religiousFacilities: ["religious-circle", "religious-label", "religious-selected-fill", "religious-selected-line"],
+  religiousFacilities: ["religious-symbol", "religious-label", "religious-selected-fill", "religious-selected-line"],
   schools: ["school-symbol", "school-label"],
   police: ["police-symbol", "police-label"],
   floodRain: ["flood-rain-circle", "flood-rain-label"],
@@ -40,7 +40,7 @@ const SUO_SYMBOL_SUFFIXES = new Set([
   "city-label",
   "health-symbol",
   "health-label",
-  "religious-circle",
+  "religious-symbol",
   "religious-label",
   "school-symbol",
   "school-label",
