@@ -8,14 +8,16 @@ import {
 export const facilitySubState = {
   school: {"Sekolah Rendah":true,"Sekolah Menengah":true,"Sekolah Agama":true},
   health: {"Hospital":true,"Klinik Kesihatan":true,"Klinik Ibu dan Anak":true,"Klinik Desa":true},
-  religious: {"Masjid":false,"Surau":false}
+  religious: {"Masjid":false,"Surau":false},
+  cemetery: {"Islam":false,"Bukan Islam":false}
 };
 
 export function applyFacilityFilters(map,prefix="") {
   for (const [group,property,ids] of [
     ["school","web_level",["school-symbol","school-label"]],
     ["health","web_category",["health-symbol","health-label"]],
-    ["religious","web_category",["religious-symbol","religious-label"]]
+    ["religious","web_category",["religious-symbol","religious-label"]],
+    ["cemetery","web_group",["cemetery-symbol","cemetery-label"]]
   ]) {
     const selected=Object.entries(facilitySubState[group]).filter(([,v])=>v).map(([name])=>name);
     const filter=["in",["get",property],["literal",selected]];
@@ -30,6 +32,7 @@ export const layerState = {
   cadastral: false,
   healthFacilities: true,
   religiousFacilities: false,
+  cemeteryFacilities: false,
   liveTraffic: true,
   police: true,
   civilDefence: true,
@@ -46,6 +49,7 @@ export async function addPortalLayers(map, prefix = "") {
   const citySource = `${prefix}cities`;
   const healthSource = `${prefix}health`;
   const religiousSource = `${prefix}religious`;
+  const cemeterySource = `${prefix}cemetery`;
 
   if (!map.getSource(citySource)) {
     map.addSource(citySource, { type: "geojson", data: DATA_URLS.cities });
@@ -192,6 +196,32 @@ export async function addPortalLayers(map, prefix = "") {
   }
   if (!map.getLayer(`${prefix}religious-selected-line`)) {
     addLayerCompat(map, { id: `${prefix}religious-selected-line`, type: "line", source: `${prefix}religious-selected-site`, slot: "top", paint: { "line-color": "#A6373B", "line-width": 3 } });
+  }
+
+  await loadSvgSdf(map, "suo-cemetery-headstone", DATA_URLS.cemeteryIcon);
+  if (!map.getSource(cemeterySource)) {
+    map.addSource(cemeterySource, { type: "geojson", data: DATA_URLS.cemetery });
+  }
+  if (!map.getLayer(`${prefix}cemetery-symbol`)) {
+    addLayerCompat(map, {
+      id: `${prefix}cemetery-symbol`, type: "symbol", source: cemeterySource, slot: "top", minzoom: 9,
+      layout: {
+        "icon-image": "suo-cemetery-headstone",
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 9, 0.25, 12, 0.38, 16, 0.58],
+        "icon-allow-overlap": true, "icon-ignore-placement": true
+      },
+      paint: {
+        "icon-color": ["match", ["get", "web_group"], "Islam", "#64748B", "Bukan Islam", "#7C3AED", "#64748B"],
+        "icon-halo-color": "#FFFFFF", "icon-halo-width": 1.2
+      }
+    });
+  }
+  if (!map.getLayer(`${prefix}cemetery-label`)) {
+    addLayerCompat(map, {
+      id: `${prefix}cemetery-label`, type: "symbol", source: cemeterySource, slot: "top", minzoom: 13.5,
+      layout: { "text-field": ["get", "web_name"], "text-size": 10, "text-offset": [0, 1.15], "text-anchor": "top" },
+      paint: { "text-color": "#302B29", "text-halo-color": "#FFFDF9", "text-halo-width": 1.7 }
+    });
   }
 
   const railSource = `${prefix}rail-transportation`;
@@ -891,6 +921,8 @@ export function applyLayerRenderOrder(map, prefix = "") {
   moveTop(`${prefix}religious-label`);
   moveTop(`${prefix}religious-selected-fill`);
   moveTop(`${prefix}religious-selected-line`);
+  moveTop(`${prefix}cemetery-symbol`);
+  moveTop(`${prefix}cemetery-label`);
   moveTop(`${prefix}police-symbol`);
   moveTop(`${prefix}police-label`);
   moveTop(`${prefix}fire-station-halo`);
@@ -914,6 +946,8 @@ export function applyLayerVisibility(map, prefix = "") {
     [`${prefix}health-label`, layerState.healthFacilities],
     [`${prefix}religious-symbol`, layerState.religiousFacilities],
     [`${prefix}religious-label`, layerState.religiousFacilities],
+    [`${prefix}cemetery-symbol`, layerState.cemeteryFacilities],
+    [`${prefix}cemetery-label`, layerState.cemeteryFacilities],
     [`${prefix}religious-selected-fill`, layerState.religiousFacilities],
     [`${prefix}religious-selected-line`, layerState.religiousFacilities],
     [`${prefix}traffic-casing`, layerState.liveTraffic],
