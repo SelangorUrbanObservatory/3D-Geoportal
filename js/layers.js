@@ -17,7 +17,7 @@ export function applyFacilityFilters(map,prefix="") {
     ["school","web_level",["school-symbol","school-label"]],
     ["health","web_category",["health-symbol","health-label"]],
     ["religious","web_category",["religious-symbol","religious-label"]],
-    ["cemetery","web_category",["cemetery-symbol","cemetery-label"]]
+    ["cemetery","web_category",["cemetery-circle","cemetery-symbol","cemetery-label"]]
   ]) {
     const selected=Object.entries(facilitySubState[group]).filter(([,v])=>v).map(([name])=>name);
     const filter=["in",["get",property],["literal",selected]];
@@ -198,13 +198,32 @@ export async function addPortalLayers(map, prefix = "") {
     addLayerCompat(map, { id: `${prefix}religious-selected-line`, type: "line", source: `${prefix}religious-selected-site`, slot: "top", paint: { "line-color": "#A6373B", "line-width": 3 } });
   }
 
-  await loadSvgSdf(map, "suo-cemetery-headstone", DATA_URLS.cemeteryIcon);
+  // Base markers are independent of the SVG asset and show at state-wide zoom.
+  // This guarantees visibility even if the optional headstone icon fails.
   if (!map.getSource(cemeterySource)) {
     map.addSource(cemeterySource, { type: "geojson", data: DATA_URLS.cemetery });
   }
-  if (!map.getLayer(`${prefix}cemetery-symbol`)) {
+  if (!map.getLayer(`${prefix}cemetery-circle`)) {
     addLayerCompat(map, {
-      id: `${prefix}cemetery-symbol`, type: "symbol", source: cemeterySource, slot: "top", minzoom: 9,
+      id: `${prefix}cemetery-circle`, type: "circle", source: cemeterySource, slot: "top",
+      paint: {
+        "circle-color": ["match", ["get", "web_category"], "Perkuburan Islam", "#64748B", "Perkuburan Buddha/Tao", "#8B5CF6", "Perkuburan Hindu", "#F97316", "Perkuburan Kristian", "#0EA5E9", "Krematorium/Dewan Pengurusan Mayat", "#D946EF", "Perkuburan Lain", "#A16207", "Tempat Perkuburan Bersepadu Bukan Islam", "#059669", "Kolumbarium", "#E11D48", "#64748B"],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 6, 3.6, 9, 5.3, 12, 8, 16, 12],
+        "circle-stroke-color": "#FFFFFF", "circle-stroke-width": 1.6,
+        "circle-opacity": 0.96
+      }
+    });
+  }
+  let cemeteryIconReady = false;
+  try {
+    await loadSvgSdf(map, "suo-cemetery-headstone", DATA_URLS.cemeteryIcon);
+    cemeteryIconReady = map.hasImage("suo-cemetery-headstone");
+  } catch (error) {
+    console.warn("Ikon perkuburan gagal dimuatkan; simbol titik asas masih tersedia:", error);
+  }
+  if (cemeteryIconReady && !map.getLayer(`${prefix}cemetery-symbol`)) {
+    addLayerCompat(map, {
+      id: `${prefix}cemetery-symbol`, type: "symbol", source: cemeterySource, slot: "top", minzoom: 11,
       layout: {
         "icon-image": "suo-cemetery-headstone",
         "icon-size": ["interpolate", ["linear"], ["zoom"], 9, 0.25, 12, 0.38, 16, 0.58],
@@ -921,6 +940,7 @@ export function applyLayerRenderOrder(map, prefix = "") {
   moveTop(`${prefix}religious-label`);
   moveTop(`${prefix}religious-selected-fill`);
   moveTop(`${prefix}religious-selected-line`);
+  moveTop(`${prefix}cemetery-circle`);
   moveTop(`${prefix}cemetery-symbol`);
   moveTop(`${prefix}cemetery-label`);
   moveTop(`${prefix}police-symbol`);
@@ -946,6 +966,7 @@ export function applyLayerVisibility(map, prefix = "") {
     [`${prefix}health-label`, layerState.healthFacilities],
     [`${prefix}religious-symbol`, layerState.religiousFacilities],
     [`${prefix}religious-label`, layerState.religiousFacilities],
+    [`${prefix}cemetery-circle`, layerState.cemeteryFacilities],
     [`${prefix}cemetery-symbol`, layerState.cemeteryFacilities],
     [`${prefix}cemetery-label`, layerState.cemeteryFacilities],
     [`${prefix}religious-selected-fill`, layerState.religiousFacilities],
