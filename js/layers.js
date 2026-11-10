@@ -15,7 +15,7 @@ export function applyFacilityFilters(map,prefix="") {
   for (const [group,property,ids] of [
     ["school","web_level",["school-symbol","school-label"]],
     ["health","web_category",["health-symbol","health-label"]],
-    ["religious","web_category",["religious-circle","religious-label"]]
+    ["religious","web_category",["religious-symbol","religious-label"]]
   ]) {
     const selected=Object.entries(facilitySubState[group]).filter(([,v])=>v).map(([name])=>name);
     const filter=["in",["get",property],["literal",selected]];
@@ -158,14 +158,22 @@ export async function addPortalLayers(map, prefix = "") {
   if (!map.getSource(religiousSource)) {
     map.addSource(religiousSource, { type: "geojson", data: DATA_URLS.religious });
   }
-  if (!map.getLayer(`${prefix}religious-circle`)) {
+  // Match the two distinct religious glyphs to the dashboard categories.
+  await loadSvgSdf(map, "suo-masjid", DATA_URLS.mosqueIcon);
+  await loadSvgSdf(map, "suo-surau", DATA_URLS.surauIcon);
+  if (!map.getLayer(`${prefix}religious-symbol`)) {
     addLayerCompat(map, {
-      id: `${prefix}religious-circle`, type: "circle", source: religiousSource, slot: "top", minzoom: 9,
+      id: `${prefix}religious-symbol`, type: "symbol", source: religiousSource, slot: "top", minzoom: 9,
+      layout: {
+        "icon-image": ["match", ["get", "web_category"], "Masjid", "suo-masjid", "Surau", "suo-surau", "suo-masjid"],
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 9, 0.24, 12, 0.34, 16, 0.48],
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      },
       paint: {
-        "circle-color": ["match", ["get", "web_category"], "Masjid", "#15803D", "Surau", "#D97706", "#64748B"],
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 2.5, 12, 4.3, 16, 7],
-        "circle-stroke-color": "#FFFFFF", "circle-stroke-width": 1.1,
-        "circle-opacity": 0.92
+        "icon-color": ["match", ["get", "web_category"], "Masjid", "#15803D", "Surau", "#D97706", "#64748B"],
+        "icon-halo-color": "#FFFFFF",
+        "icon-halo-width": 1.1
       }
     });
   }
@@ -879,7 +887,7 @@ export function applyLayerRenderOrder(map, prefix = "") {
   moveTop(`${prefix}school-label`);
   moveTop(`${prefix}health-symbol`);
   moveTop(`${prefix}health-label`);
-  moveTop(`${prefix}religious-circle`);
+  moveTop(`${prefix}religious-symbol`);
   moveTop(`${prefix}religious-label`);
   moveTop(`${prefix}religious-selected-fill`);
   moveTop(`${prefix}religious-selected-line`);
@@ -904,7 +912,7 @@ export function applyLayerVisibility(map, prefix = "") {
     [`${prefix}district-label`, layerState.districts],
     [`${prefix}health-symbol`, layerState.healthFacilities],
     [`${prefix}health-label`, layerState.healthFacilities],
-    [`${prefix}religious-circle`, layerState.religiousFacilities],
+    [`${prefix}religious-symbol`, layerState.religiousFacilities],
     [`${prefix}religious-label`, layerState.religiousFacilities],
     [`${prefix}religious-selected-fill`, layerState.religiousFacilities],
     [`${prefix}religious-selected-line`, layerState.religiousFacilities],
