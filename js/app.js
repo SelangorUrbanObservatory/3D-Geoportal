@@ -357,7 +357,9 @@ map.on("zoom", () => {
 // Load the dashboard master snapshot only when a religious site is selected.
 // Geometry stays as a single highlighted polygon, not all 1,587 polygons at once.
 let religiousSiteDataPromise = null;
+let religiousSiteSelectionId = 0;
 async function showReligiousSiteBoundary(properties) {
+  const selectionId = ++religiousSiteSelectionId;
   const source = map.getSource("religious-selected-site");
   if (!source) return;
   source.setData({type:"FeatureCollection",features:[]});
@@ -370,8 +372,9 @@ async function showReligiousSiteBoundary(properties) {
   const records = await religiousSiteDataPromise;
   const entry = records.find(item => Number(item.id) === Number(properties.id) && item.n === properties.web_name);
   if (!entry?.geo) return;
-  if (!layerState.religiousFacilities || !map.getSource("religious-selected-site")) return;
-  source.setData({type:"FeatureCollection", features:[{type:"Feature",properties:{id:entry.id,name:entry.n},geometry:entry.geo}]});
+  const currentSource = map.getSource("religious-selected-site");
+  if (selectionId !== religiousSiteSelectionId || !layerState.religiousFacilities || !currentSource) return;
+  currentSource.setData({type:"FeatureCollection", features:[{type:"Feature",properties:{id:entry.id,name:entry.n},geometry:entry.geo}]});
 }
 
 map.on("click", async (event) => {
@@ -639,7 +642,7 @@ document.getElementById("districtToggle").addEventListener("change", (event) => 
 document.getElementById("religiousFacilityToggle").addEventListener("change", (event) => {
   layerState.religiousFacilities = event.target.checked;
   Object.keys(facilitySubState.religious).forEach(name => { facilitySubState.religious[name] = event.target.checked; });
-  if (!event.target.checked) map.getSource("religious-selected-site")?.setData({type:"FeatureCollection",features:[]});
+  if (!event.target.checked) { ++religiousSiteSelectionId; map.getSource("religious-selected-site")?.setData({type:"FeatureCollection",features:[]}); }
   syncFacilityCheckboxes();
   applyLayerVisibility(map);
   compare.refreshLayers();
@@ -681,6 +684,7 @@ for(const [group,config] of Object.entries(facilityControlGroups)) {
   for(const [id,name] of config.items) document.getElementById(id).addEventListener("change",event=>{
     facilitySubState[group][name]=event.target.checked;
     layerState[config.state]=Object.values(facilitySubState[group]).some(Boolean);
+    if (group === "religious") { ++religiousSiteSelectionId; map.getSource("religious-selected-site")?.setData({type:"FeatureCollection",features:[]}); }
     syncFacilityCheckboxes();applyLayerVisibility(map);compare.refreshLayers();updateLayerCount();
   });
 }
