@@ -389,7 +389,7 @@ map.on("click", async (event) => {
         layers: ["network-intelligence-points"]
       }).some(f => f.properties?.role === "facility" &&
         f.properties?.analysis === "planning")) return;
-  const layerIds = ["cadastral-fill", "religious-circle", "district-fill", "pbt-fill", "school-symbol", "fire-station-point", "civil-defence-point", "police-symbol", "health-symbol", "city-circle"]
+  const layerIds = ["cadastral-fill", "religious-symbol", "district-fill", "pbt-fill", "school-symbol", "fire-station-point", "civil-defence-point", "police-symbol", "health-symbol", "city-circle"]
     .filter((id) => map.getLayer(id));
 
   const features = map.queryRenderedFeatures(event.point, {
@@ -451,7 +451,7 @@ map.on("click", async (event) => {
   } else if (["police-symbol","fire-station-point","civil-defence-point"].includes(feature.layer.id)) {
     const escapeHtml = (value) => String(value ?? "-").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
     html = `<strong>${escapeHtml(properties.NAMA)}</strong><br>Agensi: ${escapeHtml(properties.AGENSI)}<br>Kategori: ${escapeHtml(properties.KATEGORI)}<br>Hierarki: ${escapeHtml(properties.HIERARKI)}<br>Induk: ${escapeHtml(properties.INDUK)}<br>Alamat: ${escapeHtml(properties.ALAMAT)}`;
-  } else if (feature.layer.id === "religious-circle") {
+  } else if (feature.layer.id === "religious-symbol") {
     const escapeHtml = (value) => String(value ?? "-").replace(/[&<>"\']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
     const area = Number(properties.luas_ha);
     const areaText = Number.isFinite(area) ? `${area.toLocaleString("ms-MY", {maximumFractionDigits: 4})} hektar` : "-";
