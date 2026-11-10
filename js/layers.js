@@ -9,7 +9,7 @@ export const facilitySubState = {
   school: {"Sekolah Rendah":true,"Sekolah Menengah":true,"Sekolah Agama":true},
   health: {"Hospital":true,"Klinik Kesihatan":true,"Klinik Ibu dan Anak":true,"Klinik Desa":true},
   religious: {"Masjid":false,"Surau":false},
-  cemetery: {"Islam":false,"Bukan Islam":false}
+  cemetery: {"Perkuburan Islam":false,"Perkuburan Buddha/Tao":false,"Perkuburan Hindu":false,"Perkuburan Kristian":false,"Krematorium/Dewan Pengurusan Mayat":false,"Perkuburan Lain":false,"Tempat Perkuburan Bersepadu Bukan Islam":false,"Kolumbarium":false}
 };
 
 export function applyFacilityFilters(map,prefix="") {
@@ -17,7 +17,7 @@ export function applyFacilityFilters(map,prefix="") {
     ["school","web_level",["school-symbol","school-label"]],
     ["health","web_category",["health-symbol","health-label"]],
     ["religious","web_category",["religious-symbol","religious-label"]],
-    ["cemetery","web_group",["cemetery-symbol","cemetery-label"]]
+    ["cemetery","web_category",["cemetery-symbol","cemetery-label"]]
   ]) {
     const selected=Object.entries(facilitySubState[group]).filter(([,v])=>v).map(([name])=>name);
     const filter=["in",["get",property],["literal",selected]];
@@ -211,7 +211,7 @@ export async function addPortalLayers(map, prefix = "") {
         "icon-allow-overlap": true, "icon-ignore-placement": true
       },
       paint: {
-        "icon-color": ["match", ["get", "web_group"], "Islam", "#64748B", "Bukan Islam", "#7C3AED", "#64748B"],
+        "icon-color": ["match", ["get", "web_category"], "Perkuburan Islam", "#64748B", "Perkuburan Buddha/Tao", "#8B5CF6", "Perkuburan Hindu", "#F97316", "Perkuburan Kristian", "#0EA5E9", "Krematorium/Dewan Pengurusan Mayat", "#D946EF", "Perkuburan Lain", "#A16207", "Tempat Perkuburan Bersepadu Bukan Islam", "#059669", "Kolumbarium", "#E11D48", "#64748B"],
         "icon-halo-color": "#FFFFFF", "icon-halo-width": 1.2
       }
     });
