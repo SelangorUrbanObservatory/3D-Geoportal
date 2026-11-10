@@ -243,12 +243,18 @@
 <input id="cemeteryFacilityToggle" type="checkbox" aria-label="Papar atau sembunyikan tapak perkuburan"/>
 </div>
 <div class="layer-legend-panel" id="cemeteryLegendPanel" hidden>
-<div class="legend-heading"><span>Kategori Tapak Perkuburan</span><small>220 rekod</small></div>
+<div class="legend-heading"><span>8 Kategori Tapak Perkuburan</span><small>220 rekod</small></div>
 <div class="facility-sublist">
-<label class="facility-subitem"><span class="facility-subicon" style="background:#64748B"></span><span class="facility-subname">Islam (147)</span><input id="cemeteryIslamToggle" type="checkbox" aria-label="Papar perkuburan Islam"/></label>
-<label class="facility-subitem"><span class="facility-subicon" style="background:#7C3AED"></span><span class="facility-subname">Bukan Islam &amp; kemudahan berkaitan (73)</span><input id="cemeteryOtherToggle" type="checkbox" aria-label="Papar perkuburan bukan Islam dan kemudahan berkaitan"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#64748B"></span><span class="facility-subname">Perkuburan Islam (147)</span><input id="cemeteryIslamToggle" type="checkbox" aria-label="Papar Perkuburan Islam"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#8B5CF6"></span><span class="facility-subname">Perkuburan Buddha/Tao (23)</span><input id="cemeteryBuddhaToggle" type="checkbox" aria-label="Papar Perkuburan Buddha/Tao"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#F97316"></span><span class="facility-subname">Perkuburan Hindu (19)</span><input id="cemeteryHinduToggle" type="checkbox" aria-label="Papar Perkuburan Hindu"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#0EA5E9"></span><span class="facility-subname">Perkuburan Kristian (8)</span><input id="cemeteryChristianToggle" type="checkbox" aria-label="Papar Perkuburan Kristian"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#D946EF"></span><span class="facility-subname">Krematorium/Dewan Pengurusan Mayat (6)</span><input id="cemeteryCrematoriumToggle" type="checkbox" aria-label="Papar Krematorium/Dewan Pengurusan Mayat"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#A16207"></span><span class="facility-subname">Perkuburan Lain (10)</span><input id="cemeteryOtherToggle" type="checkbox" aria-label="Papar Perkuburan Lain"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#059669"></span><span class="facility-subname">Tempat Perkuburan Bersepadu Bukan Islam (3)</span><input id="cemeteryIntegratedToggle" type="checkbox" aria-label="Papar Tempat Perkuburan Bersepadu Bukan Islam"/></label>
+<label class="facility-subitem"><span class="facility-subicon" style="background:#E11D48"></span><span class="facility-subname">Kolumbarium (4)</span><input id="cemeteryColumbariumToggle" type="checkbox" aria-label="Papar Kolumbarium"/></label>
 </div>
-<small style="display:block;margin:8px 0">Lapan kategori asal dikekalkan dalam maklumat lokasi. Titik adalah lokasi wakil tapak, bukan sempadan lot.</small>
+<small style="display:block;margin:8px 0">Kategori mengikut Dashboard Tapak Perkuburan. Titik menunjukkan lokasi wakil, bukan sempadan lot.</small>
 </div>
 </div>
 
@@ -1574,7 +1580,7 @@ Gap Analysis dan Accessibility Score memerlukan data permintaan penduduk serta p
       return;
     }
 
-    import("./js/app.js?v=9.9.5").catch(function (error) {
+    import("./js/app.js?v=9.9.6").catch(function (error) {
       console.error("SUO app module gagal:", error);
       showFatal(
         "Modul GeoPortal gagal dimulakan: " +
