@@ -203,17 +203,6 @@ export async function addPortalLayers(map, prefix = "") {
   if (!map.getSource(cemeterySource)) {
     map.addSource(cemeterySource, { type: "geojson", data: DATA_URLS.cemetery });
   }
-  if (!map.getLayer(`${prefix}cemetery-circle`)) {
-    addLayerCompat(map, {
-      id: `${prefix}cemetery-circle`, type: "circle", source: cemeterySource, slot: "top",
-      paint: {
-        "circle-color": ["match", ["get", "web_category"], "Perkuburan Islam", "#64748B", "Perkuburan Buddha/Tao", "#8B5CF6", "Perkuburan Hindu", "#F97316", "Perkuburan Kristian", "#0EA5E9", "Krematorium/Dewan Pengurusan Mayat", "#D946EF", "Perkuburan Lain", "#A16207", "Tempat Perkuburan Bersepadu Bukan Islam", "#059669", "Kolumbarium", "#E11D48", "#64748B"],
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 6, 3.6, 9, 5.3, 12, 8, 16, 12],
-        "circle-stroke-color": "#FFFFFF", "circle-stroke-width": 1.6,
-        "circle-opacity": 0.96
-      }
-    });
-  }
   let cemeteryIconReady = false;
   try {
     await loadSvgSdf(map, "suo-cemetery-headstone", DATA_URLS.cemeteryIcon);
@@ -221,12 +210,27 @@ export async function addPortalLayers(map, prefix = "") {
   } catch (error) {
     console.warn("Ikon perkuburan gagal dimuatkan; simbol titik asas masih tersedia:", error);
   }
+  // The original headstone is the primary marker at every map zoom.
+  // Only use circles when the SVG itself could not be loaded.
+  if (!cemeteryIconReady) {
+    if (!map.getLayer(`${prefix}cemetery-circle`)) {
+      addLayerCompat(map, {
+        id: `${prefix}cemetery-circle`, type: "circle", source: cemeterySource, slot: "top",
+        paint: {
+          "circle-color": ["match", ["get", "web_category"], "Perkuburan Islam", "#64748B", "Perkuburan Buddha/Tao", "#8B5CF6", "Perkuburan Hindu", "#F97316", "Perkuburan Kristian", "#0EA5E9", "Krematorium/Dewan Pengurusan Mayat", "#D946EF", "Perkuburan Lain", "#A16207", "Tempat Perkuburan Bersepadu Bukan Islam", "#059669", "Kolumbarium", "#E11D48", "#64748B"],
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 6, 3.6, 9, 5.3, 12, 8, 16, 12],
+          "circle-stroke-color": "#FFFFFF", "circle-stroke-width": 1.6,
+          "circle-opacity": 0.96
+        }
+      });
+    }
+    }
   if (cemeteryIconReady && !map.getLayer(`${prefix}cemetery-symbol`)) {
     addLayerCompat(map, {
-      id: `${prefix}cemetery-symbol`, type: "symbol", source: cemeterySource, slot: "top", minzoom: 11,
+      id: `${prefix}cemetery-symbol`, type: "symbol", source: cemeterySource, slot: "top", minzoom: 6,
       layout: {
         "icon-image": "suo-cemetery-headstone",
-        "icon-size": ["interpolate", ["linear"], ["zoom"], 9, 0.25, 12, 0.38, 16, 0.58],
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 6, 0.32, 9, 0.4, 12, 0.48, 16, 0.62],
         "icon-allow-overlap": true, "icon-ignore-placement": true
       },
       paint: {
