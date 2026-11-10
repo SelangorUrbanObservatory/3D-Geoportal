@@ -28,7 +28,7 @@ const LAYER_IDS = {
   cityHierarchy: ["city-circle", "city-label"],
   healthFacilities: ["health-symbol", "health-label"],
   religiousFacilities: ["religious-symbol", "religious-label", "religious-selected-fill", "religious-selected-line"],
-  cemeteryFacilities: ["cemetery-symbol", "cemetery-label"],
+  cemeteryFacilities: ["cemetery-circle", "cemetery-symbol", "cemetery-label"],
   schools: ["school-symbol", "school-label"],
   police: ["police-symbol", "police-label"],
   floodRain: ["flood-rain-circle", "flood-rain-label"],
